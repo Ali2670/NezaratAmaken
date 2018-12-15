@@ -56,6 +56,15 @@
     <string name="DoubleBack">برای خروج کلید بازگشت را مجددا فشار دهید</string>
 
     <string name="home_search">جستجو ...</string>
+    <string name="new_trip">تعریف سفر</string>
+    <string name="new_check_list">چک لیست سفر</string>
+
+    <string name="trip_start">مبدا</string>
+    <string name="trip_destination">مقصد</string>
+    <string name="trip_start_date">تاریخ شروع</string>
+    <string name="trip_end_date">تاریخ پایان</string>
+    <string name="trip_transport">نوع وسیله</string>
+    <string name="trip_save">ثبت سفر</string>
 
     <!--adad*************-->
     <string name="sefr">۰</string>
