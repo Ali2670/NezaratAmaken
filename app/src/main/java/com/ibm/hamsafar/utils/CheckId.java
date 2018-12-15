@@ -8,12 +8,12 @@ import com.ibm.hamsafar.Application.AppStart;
 import java.net.ConnectException;
 
 import co.ronash.pushe.Pushe;
+import hamsafar.ws.util.exception.GenericBusinessException;
 import ibm.ws.WsResult;
-import ibm.ws.model.GenericBusinessException;
 
-import static ibm.ws.model.ExceptionConstants.CONNECTION_TIMEOUT_EXCEPTION;
-import static ibm.ws.model.ExceptionConstants.NULL_VALUE_RETURN;
-import static ibm.ws.model.ExceptionConstants.RESULT_IS_OK;
+import static hamsafar.ws.util.exception.ExceptionConstants.CONNECTION_TIMEOUT_EXCEPTION;
+import static hamsafar.ws.util.exception.ExceptionConstants.NULL_VALUE_RETURN;
+import static hamsafar.ws.util.exception.ExceptionConstants.RESULT_IS_OK;
 
 //import com.ibm.hamsafar.object.PushIdReg;
 
