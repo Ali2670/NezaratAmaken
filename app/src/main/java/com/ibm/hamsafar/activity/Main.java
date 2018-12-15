@@ -43,7 +43,7 @@ public class Main extends AppCompatActivity
     private SliderLayout sliderLayout = null;
     private NavigationView navigationView = null;
     private FloatingActionButton addTrip = null;
-    private FloatingActionButton addCheckList = null;
+    private SharedPreferences sharedPreferences;
 
     //recycler view
     private int[] posters;
@@ -59,11 +59,14 @@ public class Main extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences( this );
+
         Toolbar toolbar = findViewById(R.id.mainToolbar);
         mainRefreshLayout = findViewById(R.id.main_swipe_refresh_layout);
         navigationView = findViewById(R.id.nav_view);
         first = findViewById(R.id.firstRecyclerView);
         second = findViewById(R.id.secondRecyclerView);
+        addTrip = findViewById(R.id.home_add_trip);
 
         mainRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
                 getResources().getColor(R.color.colorPrimaryDark),
@@ -110,6 +113,14 @@ public class Main extends AppCompatActivity
         sliderLayout.setIndicatorAnimation(SliderLayout.Animations.THIN_WORM);
         sliderLayout.setScrollTimeInSec(1); //set scroll delay in seconds :
         setSliderViews();
+
+        addTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( Main.this, NewTripActivity.class );
+                startActivity( intent );
+            }
+        });
 
 
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -233,7 +244,11 @@ public class Main extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.main_nav_login:
-                startActivity(new Intent(Main.this, LoginActivity.class));
+                if( sharedPreferences.contains("mobile_number")) {
+                    startActivity(new Intent(Main.this, EnrolActivity.class));
+                } else {
+                    startActivity(new Intent(Main.this, LoginActivity.class));
+                }
                 break;
             case R.id.main_nav_edit:
                 startActivity(new Intent(Main.this, EditProfileActivity.class));
