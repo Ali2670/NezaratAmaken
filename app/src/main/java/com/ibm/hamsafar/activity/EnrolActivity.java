@@ -62,6 +62,9 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
     private ImageView datePicker = null;
     private UserInfo userInfo = new UserInfo();
 
+    private Button toolbarBack = null;
+    private TextView toolbarTitle = null;
+
     //handle image
     File file;
     Uri uri;
@@ -88,6 +91,8 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
         birthDate = findViewById(R.id.enrol_birth_date);
         save = findViewById(R.id.enrol_save_btn);
         datePicker = findViewById(R.id.enrol_date_picker);
+        toolbarBack = findViewById(R.id.toolbar_back);
+        toolbarTitle = findViewById(R.id.toolbar_text);
 
         clearError();
 
@@ -99,6 +104,15 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
                 new GenericTextWatcher(lastNameLayout.getEditText(), lastNameLayout));
         birthDateLayout.getEditText().addTextChangedListener(
                 new GenericTextWatcher(birthDateLayout.getEditText(), birthDateLayout));
+
+        toolbarTitle.setText( getResources().getString(R.string.enrol_title ));
+
+        toolbarBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
 
         save.setOnClickListener(new View.OnClickListener() {
