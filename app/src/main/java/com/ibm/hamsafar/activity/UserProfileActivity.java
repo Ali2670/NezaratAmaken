@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ibm.hamsafar.R;
@@ -23,6 +25,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView fullName = null;
     private CircularImageView photo = null;
     private SharedPreferences sharedPreferences;
+    private Button toolbarBack = null;
+    private TextView toolbarTitle = null;
 
 
     @Override
@@ -38,10 +42,21 @@ public class UserProfileActivity extends AppCompatActivity {
 
          fullName = findViewById(R.id.view_full_name);
          photo = findViewById(R.id.view_profile_photo);
+         toolbarBack = findViewById(R.id.toolbar_back);
+         toolbarTitle = findViewById(R.id.toolbar_text);
 
          if( getIntent().hasExtra("user")) {
              userInfo = (UserInfo) getIntent().getSerializableExtra("user");
          }
+
+         toolbarTitle.setText(getResources().getString(R.string.view_title));
+
+         toolbarBack.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 onBackPressed();
+             }
+         });
 
 
          /*Toolbar toolbar = findViewById(R.id.view_toolbar);
