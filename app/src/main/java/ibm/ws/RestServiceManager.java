@@ -16,15 +16,15 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.Map;
 
-import ibm.ws.model.EmptyRequest;
-import ibm.ws.model.EmptyResponse;
-import ibm.ws.model.ExceptionPayload;
-import ibm.ws.model.JsonCodec;
-import ibm.ws.model.ListResponse;
-import ibm.ws.model.PayloadType;
-import ibm.ws.model.RestAnswer;
-import ibm.ws.model.RestException;
-import ibm.ws.model.RestRequest;
+import hamsafar.ws.model.EmptyRequest;
+import hamsafar.ws.model.EmptyResponse;
+import hamsafar.ws.model.ExceptionPayload;
+import hamsafar.ws.model.JsonCodec;
+import hamsafar.ws.model.ListResponse;
+import hamsafar.ws.model.PayloadType;
+import hamsafar.ws.model.RestAnswer;
+import hamsafar.ws.model.RestException;
+import hamsafar.ws.model.RestRequest;
 
 
 /**

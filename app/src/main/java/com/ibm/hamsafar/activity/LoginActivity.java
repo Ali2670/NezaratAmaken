@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
@@ -30,6 +31,7 @@ import hamsafar.ws.request.LoginRequest;
 import hamsafar.ws.response.ConfirmLoginResponse;
 import hamsafar.ws.response.LoginResponse;
 import hamsafar.ws.util.service.ServiceNames;
+import ibm.ws.WsResult;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class LoginActivity extends Activity {
@@ -203,6 +205,7 @@ public class LoginActivity extends Activity {
 
         TaskCallBack<LoginResponse> loginCallBack = result -> {
             //TODO process result
+            System.out.println("");
         };
 
         new ListHttp(loginCallBack , this, null , ServiceNames.DO_LOGIN , false).execute(request);
@@ -215,9 +218,12 @@ public class LoginActivity extends Activity {
 
         TaskCallBack<ConfirmLoginResponse> confirmLoginCallBack = result -> {
             //TODO process result
+            System.out.println("");
         };
+        AsyncTask<Object, Void, WsResult> list = new ListHttp(confirmLoginCallBack, this, null, ServiceNames.CONFIRM_LOGIN, false);
+        list.execute(request);
 
-        new ListHttp(confirmLoginCallBack ,this, null , ServiceNames.CONFIRM_LOGIN , false).execute(request);
+
     }
 
 

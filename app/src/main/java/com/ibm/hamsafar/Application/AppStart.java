@@ -28,8 +28,8 @@ public class AppStart extends Application {
         super.onCreate();
         String str = "";
 
-        Tools.URL_MEDIA[0] = "http://172.16.160.206:8001/";
-        Tools.URL_MEDIA[1] = "http://172.16.160.206:8003/";
+        Tools.URL_MEDIA[0] = "http://172.16.160.7:9001/";
+        Tools.URL_MEDIA[1] = "http://172.16.160.7:9003/";
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -39,8 +39,8 @@ public class AppStart extends Application {
         });
 
 //        Tools.URL_APK[0] = "http://192.168.1.6:9009/Upload/APK/";
-        Tools.URL_APK[0] = "http://172.16.160.206:8001/" + str + "Upload/APK/";
-        Tools.URL_APK[1] = "http://172.16.160.206:8003/" + str + "Upload/APK/";
+        Tools.URL_APK[0] = "http://172.16.160.7:9001/" + str + "Upload/APK/";
+        Tools.URL_APK[1] = "http://172.16.160.7:9003/" + str + "Upload/APK/";
 //        Tools.URL_APK[2] = "http://89.32.249.190:8005/Upload/APK/";
 
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()

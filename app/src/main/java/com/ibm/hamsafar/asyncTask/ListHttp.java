@@ -9,15 +9,15 @@ import com.ibm.hamsafar.utils.Tools;
 
 import java.net.ConnectException;
 
+import hamsafar.ws.util.exception.ExceptionConstants;
+import hamsafar.ws.util.exception.GenericBusinessException;
 import ibm.ws.RestCaller;
 import ibm.ws.WsResult;
-import ibm.ws.model.ExceptionConstants;
-import ibm.ws.model.GenericBusinessException;
 
-import static ibm.ws.model.ExceptionConstants.CONNECTION_TIMEOUT_EXCEPTION;
-import static ibm.ws.model.ExceptionConstants.NULL_VALUE_RETURN;
-import static ibm.ws.model.ExceptionConstants.RESULT_IS_OK;
-import static ibm.ws.model.ExceptionConstants.UNKNOWN_EXCEPTION;
+import static hamsafar.ws.util.exception.ExceptionConstants.CONNECTION_TIMEOUT_EXCEPTION;
+import static hamsafar.ws.util.exception.ExceptionConstants.NULL_VALUE_RETURN;
+import static hamsafar.ws.util.exception.ExceptionConstants.RESULT_IS_OK;
+import static hamsafar.ws.util.exception.ExceptionConstants.UNKNOWN_EXCEPTION;
 
 public class ListHttp extends AsyncTask<Object, Void, WsResult> {
 

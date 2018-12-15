@@ -7,11 +7,11 @@ import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ibm.ws.model.ExceptionConstants;
-import ibm.ws.model.GenericBusinessException;
-import ibm.ws.model.RestException;
-import ibm.ws.model.RestPayload;
-import ibm.ws.model.RestRequest;
+import hamsafar.ws.model.RestException;
+import hamsafar.ws.model.RestPayload;
+import hamsafar.ws.model.RestRequest;
+import hamsafar.ws.util.exception.ExceptionConstants;
+import hamsafar.ws.util.exception.GenericBusinessException;
 
 
 /**
