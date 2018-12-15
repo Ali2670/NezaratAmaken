@@ -1,0 +1,138 @@
+<resources>
+    <string name="app_name">همسفر</string>
+    <string name="title_activity_intro"></string>
+
+    <string name="navigation_drawer_open">باز</string>
+    <string name="navigation_drawer_close">بسته</string>
+    <string name="ok">باشه</string>
+    <string name="next">بعدی</string>
+    <string name="skip">رد کن</string>
+    <string name="start">شروع برنامه !</string>
+
+    <string name="slide_1_title">شبکه اجتماعی</string>
+    <string name="slide_1_desc">این برنامه کامل ترین شبکه اجتماعی  هست!</string>
+
+    <string name="slide_2_title"> آموزش </string>
+    <string name="slide_2_desc">فرقی نمی کنه مبتدی باشی یا حرفه ای!</string>
+
+    <string name="slide_3_title">تنوع</string>
+    <string name="slide_3_desc">دسته بندی منظم</string>
+
+    <string name="slide_4_title">تبادل نظرات</string>
+    <string name="slide_4_desc">تو این برنامه می تونی از نظرات و تجربه های  دیگران هم استفاده کنی</string>
+
+    <string name="play_again_desc"></string>
+    <string name="play_again">نمایش مجدد</string>
+    <string name="title_activity_login">ورود</string>
+    <string name="title_activity_signUp">ورود به برنامه</string>
+    <string name="title_signUp">ثبت نام</string>
+
+    <string name="nav_menu_item_login">عضویت در برنامه</string>
+    <string name="nav_menu_item_edit">ویرایش اطلاعات کاربری</string>
+    <string name="nav_menu_item_notification">اعلانات</string>
+    <string name="nav_menu_item_map">نقشه</string>
+    <string name="nav_menu_item_friends">دوستان</string>
+    <string name="nav_menu_item_search">جستجو</string>
+    <string name="nav_menu_item_logout">خروج</string>
+
+    <string name="login_mobile">شماره همراه</string>
+    <string name="login_login_btn">ورود</string>
+    <string name="login_activation_code">کد فعالسازی</string>
+    <string name="login_resend_code">ارسال مجدد کد</string>
+    <string name="login_mobile_prefix">09</string>
+    <string name="login_timer">00:02:00</string>
+
+    <string name="enrol_id_code">کد ملی</string>
+    <string name="enrol_first_name">نام</string>
+    <string name="enrol_last_name">نام خانوادگی</string>
+    <string name="enrol_birth_date">تاریخ تولد</string>
+    <string name="enrol_save">ثبت</string>
+
+    <string name="enrol_menu_select">انتخاب تصویر</string>
+    <string name="enrol_menu_delete">حذف تصویر</string>
+    <string name="enrol_menu_camera">دوربین</string>
+    <string name="enrol_menu_gallery">گالری</string>
+
+    <string name="DoubleBack">برای خروج کلید بازگشت را مجددا فشار دهید</string>
+
+    <string name="home_search">جستجو ...</string>
+
+    <!--adad*************-->
+    <string name="sefr">۰</string>
+    <string name="yek">۱</string>
+    <string name="dou">۲</string>
+    <string name="se">۳</string>
+    <string name="chahar">۴</string>
+    <string name="panj">۵</string>
+    <string name="shesh">۶</string>
+    <string name="haft">۷</string>
+    <string name="hasht">۸</string>
+    <string name="noh">۹</string>
+
+
+    <!--***********************************-->
+
+    <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="bottom_sheet_behavior">android.support.design.widget.BottomSheetBehavior</string>
+
+
+    <string name="Exc.3000">خطا در اجرای بروزرسانی . مجددا تلاش نمایید</string>
+    <string name="Exc.100000">متد مورد نظر تعریف نشده ، لطفا با پشتیبانی تماس بگیرید.</string>
+    <string name="Exc.100001">خطای وب سرویس ، لطفا با پشتیبانی تماس بگیرید.</string>
+    <string name="Exc.100010">نام کاربری شما غیرفعال می باشد.</string>
+    <string name="Exc.100011">نام کاربری خود را از طریق پیامک فعال نمایید</string>
+    <string name="Exc.100012">شماره وارد شده نا معتبر است.</string>
+    <string name="Exc.100013">خطا در ارسال پیامک . دقایقی بعد تلاش کنید.</string>
+    <string name="Exc.100009">دستگاه دیگری با نام کاربری شما وارد شده است.مجددا لاگین کنید</string>
+    <string name="Exc.100008">دوباره به سیستم وارد شوید</string>
+    <string name="Exc.100007">برای انجام این کار باید وارد برنامه\nشده باشی ! \n میتونی با لمس دکمه زیر وارد بشی </string>
+    <string name="Exc.100006">نام کاربری یا کلمه عبور اشتباهه</string>
+    <string name="Exc.100002">برنامه با خطای نامشخصی\n روبرو شد!</string>
+    <string name="Exc.100014">این اکانت قبلا فعال شده  . لطفا به سیستم وارد شو</string>
+    <string name="Exc.100015">برای ارسال مجدد پیامک باید 5 دقیقه منتظر بمونید</string>
+    <string name="Exc.100016">شماره تلفن وارد شده در سیستم ثبت نشده .</string>
+
+
+    <string name="Exc.100">برنامه نیاز به روزرسانی دارد . لطفا از برنامه خارج شده و مجددا وارد شوید</string>
+    <string name="Exc.1">ارتباط با موفقیت برقرار شد</string>
+    <string name="Exc.2">نتیجه ای یافت نشد</string>
+    <string name="Exc.200050">خطا در ثبت تصاویر در سرور . مجددا تلاش کنید</string>
+    <string name="Exc.100003">پاسخی از سرور دریافت نشد. مجددا تلاش کنید</string>
+
+    <string name="Exc.200003">شماره تلفن همراه تکراریه! \n میتونی فراموشی کلمه عبور رو بزنی \n و دوباره کلمه عبورت رو بگیری</string>
+    <string name="Exc.300011">خطا در ثبت</string>
+    <string name="Exc.300012">کد وارد شده اشتباه می باشد</string>
+    <string name="Exc.300014">نشست منقضی شده .مجددا به برنامه وارد شوید</string>
+    <string name="Exc.900009">ای وای مثل اینکه اینترنت قطعه ، دوباره تلاش کنید</string>
+    <string name="Exc.900002">اطلاعات دستگاه ناقص است و امکان برقراری ارتباط با مرکز وجود ندارد.</string>
+    <string name="Exc.500001">الان برات یه پیامک ارسال میشه .چیزی که خواسته رو انجام بده دوباره برای عضویت اقدام کن ...</string>
+    <string name="Exc.500002"> الان برات یه پیامک ارسال میشه .چیزی که خواسته رو انجام بده دوباره برای عضویت اقدام کن</string>
+    <string name="Exc.500003">خطای ارتباطی . با پشتیبانی تماس بگیرید .</string>
+    <string name="Exc.500004">خطای ارتباطی . با پشتیبانی تماس بگیرید ...</string>
+    <string name="Exc.500005">کد رو اشتباه زدی</string>
+    <string name="Exc.500006">خطایی رخ داده . دوباره برای عضویت اقدام کن</string>
+    <string name="Exc.500007">برای دریافت پیامک دقایقی دیگر تلاش کنید .</string>
+
+    <string name="Exc.300013">آدرس فیزیکی دستگاه در پایگاه داده ثبت نشده</string>
+    <string name="Exc.111111">این نام کاربری با دستگاه دیگری وارد سامانه شده است.مجددا وارد شوید و کلمه عبور خود را تغییر دهید.</string>
+    <string name="Exc.">نامشخص</string>
+
+    <string name="internet_error">عدم اتصال به اینترنت</string>
+
+    <!-- LoginActivity Exc -->
+    <string name="Exc.600001">شماره همراه را وارد نمایید</string>
+    <string name="Exc.600002">شماره همراه را به صورت صحیح وارد نمایید</string>
+    <string name="Exc.600003">کد نامعتبر</string>
+    <string name="Exc.600004">کد فعالسازی را وارد نمایید</string>
+
+    <!-- EnrolActivity Exc -->
+    <string name="Exc.700001">کد ملی را وارد نمایید</string>
+    <string name="Exc.700002">کد ملی را به صورت صحیح وارد نمایید</string>
+    <string name="Exc.700003">نام خود وارد نمایید</string>
+    <string name="Exc.700004">نام خانوادگی خود را وارد نمایید</string>
+    <string name="Exc.700005">تارخ تولد را وارد نمایید</string>
+    <string name="Exc.700006">جهت ثبت اطلاعات، تأیید این مجوز الزامی است.</string>
+    <string name="Exc.700007">اطلاعات را به صورت صحیح وارد کنید</string>
+
+
+</resources>

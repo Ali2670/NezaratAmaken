@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="photo_menu">
+        <item>دوربین</item>
+        <item>گالری</item>
+    </string-array>
+
+    <string-array name="photo_menu_lc">
+        <item>انتخاب تصویر</item>
+        <item>حذف تصویر</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/customNotifRL"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_color_gray">
+    <!--<View-->
+    <!--android:id="@+id/myRectangleView"-->
+    <!--android:layout_width="70dp"-->
+    <!--android:layout_height="70dp"-->
+    <!--android:layout_marginLeft="-45dp"-->
+    <!--android:layout_marginTop="-45dp"-->
+    <!--android:background="@drawable/rectangle"-->
+    <!--android:rotation="45" />-->
+    <ImageView
+        android:id="@+id/noti_Img"
+        android:layout_width="70.0dip"
+        android:layout_height="70.0dip"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingLeft="3.0dip"
+        android:paddingTop="3.0dip"
+        android:paddingRight="3.0dip"
+        android:paddingBottom="3.0dip"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo" />
+
+    <com.ibm.hamsafar.utils.layouts.CustomFont
+        android:id="@+id/notification_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/noti_Img"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="right"
+        android:paddingTop="3.0dip"
+        android:text="CatTitle"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="@color/black" />
+
+    <com.ibm.hamsafar.utils.layouts.CustomFont
+        android:id="@+id/notification_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notification_title"
+        android:layout_alignLeft="@+id/notification_title"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/noti_Img"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="right"
+        android:paddingTop="3.0dip"
+        android:text="CatText"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/black" />
+</RelativeLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorHeader">
+
+    <TextView
+        android:id="@+id/listAlertDialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:gravity="right|center"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:background="@color/colorHeader"
+        android:paddingRight="@dimen/_15sdp"/>
+
+    <ListView
+        android:id="@+id/dialogList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl"
+        android:background="@drawable/list_view_rounded_border"
+        android:layout_margin="@dimen/_8sdp"
+        />
+
+</LinearLayout>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorBgPages">#F06292</color>
+    <color name="colorPrimaryVDark">#b11553</color>
+    <color name="colorPrimaryLight">#F8BBD0</color>
+    <color name="textColorPrimary">#212121</color>
+    <color name="nav_item_state_list">#212121</color>
+    <color name="textColorSecondary">#727272</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="disable">#B6B6B6</color>
+    <color name="divider">#B6B6B6</color>
+    <color name="navdrawerbg">#fff</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="tabsScrollColor">#EC407A</color>
+
+    <color name="rippelColor">#FFFFFF</color>
+    <color name="gray_2">#AFAFAF</color>
+    <color name="gray_1">#C0C0C0</color>
+    <color name="black">#000000</color>
+    <color name="blackTransparent">#43000000</color>
+    <color name="whiteMainTransparent">#43ffffff</color>
+    <color name="dark_slate_gray">#2F4F4F</color>
+    <color name="see_more">#32ca99</color>
+
+    <color name="cpb_grey">#ffdedede</color>
+    <color name="cpb_blue">#4447ff</color>
+    <color name="cpb_blue_dark">#060a74</color>
+    <color name="blue">#336699</color>
+    <color name="HashtagBlue">#0099ff</color>
+    <color name="cpb_red">#ffff4444</color>
+    <color name="cpb_red_dark">#ffcd3a3a</color>
+    <color name="cpb_green">#ff99cc00</color>
+    <color name="cpb_green_dark">#ff6d9b00</color>
+    <color name="cpb_white">@android:color/transparent</color>
+    <color name="whiteTransparent">#ffffffff</color>
+    <color name="white">#ffffff</color>
+    <!-- Screens background color-->
+    <color name="profileNav">#df4a5e</color>
+    <color name="dialogbg">#28ad82</color>
+    <color name="bg_screen1">#e14960</color>
+    <color name="bg_screen2">#20d2bb</color>
+    <color name="bg_screen3">#357799</color>
+    <color name="bg_screen4">#ff6535</color>
+    <color name="first_row_text_color">#FFFFFF</color>
+    <color name="holidays_text_color">#ff0002</color>
+    <color name="first_row_background_color">#6E97B9</color>
+    <!-- solely used on QiblaCompassView -->
+    <color name="background_color">#a4daff</color>
+    <color name="background_color_gray_dark">#898989</color>
+    <color name="background_color_gray">#c7c7c7</color>
+    <color name="marker_color">#FFFFFF</color>
+    <color name="text_color">#FFFFFF</color>
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#d1395c</color>
+    <color name="dot_dark_screen2">#14a895</color>
+    <color name="dot_dark_screen3">#2278d4</color>
+    <color name="dot_dark_screen4">#a854d4</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#f98da5</color>
+    <color name="dot_light_screen2">#8cf9eb</color>
+    <color name="dot_light_screen3">#93c6fd</color>
+    <color name="dot_light_screen4">#e4b5fc</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+        <item>@color/dot_light_screen3</item>
+        <item>@color/dot_light_screen4</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+        <item>@color/dot_dark_screen3</item>
+        <item>@color/dot_dark_screen4</item>
+    </array>
+
+    <color name="mdtp_white">#ffffff</color>
+    <color name="mdtp_background_color">@color/mdtp_white</color>
+    <color name="mdtp_circle_background">@color/mdtp_background_color</color>
+    <color name="mdtp_circle_color">#f5f5f5</color>
+    <color name="mdtp_line_background">#cccccc</color>
+    <color name="mdtp_ampm_text_color">@color/mdtp_numbers_text_color</color>
+    <color name="mdtp_done_text_color_normal">#ff212121</color>
+    <color name="mdtp_done_text_color_disabled">#cccccc</color>
+    <color name="mdtp_numbers_text_color">#ff212121</color>
+
+    <color name="transparent">#00ffffff</color>
+    <color name="mdtp_transparent_black">#7f000000</color>
+    <color name="mdtp_accent_color">#F06292</color>
+    <color name="mdtp_accent_color_both">#ff71c9</color>
+    <color name="mdtp_accent_color_jalasaat">#ffcdec</color>
+    <color name="mdtp_accent_color_focused">#76ffffff</color>
+    <color name="mdtp_neutral_pressed">#33999999</color>
+    <color name="mdtp_accent_color_dark">#00796b</color>
+    <color name="mdtp_date_picker_text_normal">#ff212121</color>
+    <color name="mdtp_date_picker_text_highlighted">@color/mdtp_date_picker_text_normal</color>
+    <color name="mdtp_date_picker_text_disabled">#ccc</color>
+    <color name="mdtp_date_picker_month_day">#767676</color>
+
+    <!-- DatePicker Dark Theme -->
+    <color name="mdtp_date_picker_view_animator_dark_theme">@color/mdtp_light_gray</color>
+    <color name="mdtp_date_picker_text_normal_dark_theme">@color/mdtp_white</color>
+    <color name="mdtp_date_picker_month_day_dark_theme">#b4b4b4</color>
+    <color name="mdtp_date_picker_text_disabled_dark_theme">#767676</color>
+    <color name="mdtp_date_picker_text_highlighted_dark_theme">
+        @color/mdtp_date_picker_text_normal_dark_theme
+    </color>
+
+    <color name="mdtp_calendar_header">@color/mdtp_accent_color_dark</color>
+    <color name="mdtp_date_picker_view_animator">@android:color/white</color>
+    <color name="mdtp_calendar_selected_date_text">#ffd1d2d4</color>
+
+    <color name="mdtp_button_color">@color/mdtp_accent_color</color>
+    <color name="mdtp_button_selected">#33969696</color>
+
+    <!-- TimePicker Dark Theme -->
+    <color name="mdtp_circle_background_dark_theme">#525252</color>
+
+    <!-- Colors for red theme -->
+    <color name="mdtp_red">@color/mdtp_accent_color</color>
+    <color name="mdtp_red_focused">@color/mdtp_accent_color_dark</color>
+    <color name="mdtp_light_gray">#424242</color>
+    <color name="mdtp_dark_gray">#323232</color>
+    <color name="mdtp_line_dark">#808080</color>
+    <color name="mdtp_done_text_color_dark_normal">#ffffff</color>
+    <color name="mdtp_done_text_color_dark_disabled">#888888</color>
+    <color name="mdtp_done_disabled_dark">#bfbfbf</color>
+    <color name="black_p50">#7f000000</color>
+
+    <color name="black_overlay">#66000000</color>
+
+
+
+
+
+    <color name="colorHeader">#99D9DD</color>
+    <color name="colorPrimary">#698AAB</color>
+    <color name="colorPrimaryDark">#0F2350</color>
+    <color name="colorAccent">#0095D9</color>
+    <color name="dark_text">#1C305C</color>
+    <color name="dark_text_layout">#44617B</color>
+    <color name="light_text">#EAF4FC</color>
+    <color name="light_text_layout">#ABCDE8</color>
+    <color name="border">#4D4C61</color>
+    <color name="colorRipple">#8E8CD8</color>
+    <color name="circle_image_shadow">#507EA4</color>
+    <color name="circle_image_border">#274A78</color>
+    <color name="blur_layout_bg">#88223A70</color>
+
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.UserProfileActivity">
+
+    <RelativeLayout
+        android:id="@+id/profile_view_background"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/profile_view_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_view_background"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="-190dp"
+        android:orientation="horizontal"
+        >
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/view_profile_photo"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:src="@drawable/default_profile"
+            app:civ_border_color="@color/circle_image_border"
+            app:civ_border_width="1dp"
+            app:civ_shadow="true"
+            app:civ_shadow_radius="10"
+            app:civ_shadow_color="@color/circle_image_shadow"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="20dp"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <com.ibm.hamsafar.utils.layouts.CustomTextViewFont
+                android:id="@+id/view_full_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_text"
+                android:textSize="20sp" />
+
+            <com.ibm.hamsafar.utils.layouts.CustomTextViewFont
+                android:id="@+id/bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="biography"
+                android:textColor="@color/dark_text"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
