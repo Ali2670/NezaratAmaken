@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,62 +18,6 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_34sdp"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:background="@drawable/text_rounded_bg"
-                    >
-
-                    <ImageView
-                        android:id="@+id/mainSearchClearButton"
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:background="@drawable/ic_close_gray"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="@dimen/_3sdp"
-                        android:foreground="@drawable/ripple"
-                        />
-
-                    <EditText
-                        android:id="@+id/mainSearchKey"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="@string/home_search"
-                        android:textColor="@color/dark_text"
-                        android:layout_toRightOf="@+id/mainSearchClearButton"
-                        android:layout_toLeftOf="@+id/mainSearchButton"
-                        android:maxLines="1"
-                        android:imeOptions="actionSearch"
-                        android:inputType="textAutoCorrect"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:background="@null"
-                        />
-
-                    <Button
-                        android:id="@+id/mainSearchButton"
-                        android:layout_width="@dimen/_23sdp"
-                        android:layout_height="@dimen/_23sdp"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/ic_search_gray"
-                        android:layout_centerVertical="true"
-                        android:foreground="@drawable/ripple"
-                        />
-
-                </RelativeLayout>
-
-
-            </LinearLayout>
-
         </android.support.v7.widget.Toolbar>
 
 
@@ -81,23 +25,69 @@
 
     <include layout="@layout/content_main" />
 
-    <android.support.design.widget.FloatingActionButton
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/FloatingActionMenuPrayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        fab:menu_animationDelayPerItem="50"
+        fab:menu_backgroundColor="@android:color/transparent"
+        fab:menu_colorNormal="@color/colorAccent"
+        fab:menu_colorPressed="#99FFFFFF"
+        fab:menu_colorRipple="#99FFFFFF"
+        fab:menu_fab_size="normal"
+        fab:menu_icon="@drawable/fab_add"
+        fab:menu_labels_colorNormal="#99FFFFFF"
+        fab:menu_labels_colorPressed="#444444"
+        fab:menu_labels_colorRipple="#66FFFFFF"
+        fab:menu_labels_cornerRadius="@dimen/_12sdp"
+        fab:menu_labels_customFont="fonts/Entezar.v1.00.ttf"
+        fab:menu_labels_ellipsize="none"
+        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_padding="8dp"
+        fab:menu_labels_position="right"
+        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+        fab:menu_labels_showShadow="true"
+        fab:menu_labels_singleLine="false"
+        fab:menu_labels_textColor="#99FFFFFF"
+        fab:menu_labels_textSize="14sp"
+        fab:menu_openDirection="up"
+        fab:menu_shadowColor="#66000000"
+        fab:menu_shadowRadius="4dp"
+        fab:menu_showShadow="true">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/subFloatingMenuAddToFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search"
+            fab:fab_label="افزودن به علاقمندی ها"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/subFloatingMenuRemoveFromFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search"
+            fab:fab_label="حذف از علاقمندی ها"
+            fab:fab_size="mini" />
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_add_box"
-        android:foreground="@drawable/ripple" />
+        android:foreground="@drawable/ripple" />-->
 
 
 </android.support.design.widget.CoordinatorLayout>
-
-
-
-
-
-
 
 
     <!--<?xml version="1.0" encoding="UTF-8"?>
@@ -247,47 +237,37 @@
     </android.support.design.widget.CoordinatorLayout>-->
 
 
-
-
-
-
-
-
-
-
-
-
-<!--
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-
-    <android.support.design.widget.AppBarLayout
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="right"
-            android:background="?attr/colorPrimary"
-            android:gravity="right"
-            android:layoutDirection="rtl"
-            android:theme="@style/ToolbarTheme"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextAppearance="@style/Toolbar.TitleText"
-            app:titleTextColor="@color/white" />
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-    </android.support.design.widget.AppBarLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="right"
+                android:background="?attr/colorPrimary"
+                android:gravity="right"
+                android:layoutDirection="rtl"
+                android:theme="@style/ToolbarTheme"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:titleTextAppearance="@style/Toolbar.TitleText"
+                app:titleTextColor="@color/white" />
 
-    <include layout="@layout/content_main" />
+        </android.support.design.widget.AppBarLayout>
+
+        <include layout="@layout/content_main" />
 
 
-</android.support.design.widget.CoordinatorLayout>
--->
+    </android.support.design.widget.CoordinatorLayout>
+    -->
