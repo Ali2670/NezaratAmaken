@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -41,6 +42,8 @@ public class Main extends AppCompatActivity
     private SwipeRefreshLayout mainRefreshLayout = null;
     private SliderLayout sliderLayout = null;
     private NavigationView navigationView = null;
+    private FloatingActionButton addTrip = null;
+    private FloatingActionButton addCheckList = null;
 
     //recycler view
     private int[] posters;
