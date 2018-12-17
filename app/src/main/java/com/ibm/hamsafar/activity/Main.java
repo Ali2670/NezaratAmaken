@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,11 +38,12 @@ public class Main extends AppCompatActivity
     private static long back_pressed;
     TextView menuText;
     ImageView menuImage;
+    Spinner spinner;
+    Long selectedId = null;
     private Menu menu;
     private SwipeRefreshLayout mainRefreshLayout = null;
     private SliderLayout sliderLayout = null;
     private NavigationView navigationView = null;
-
     //recycler view
     private int[] posters;
     private RecyclerView first;
@@ -49,7 +51,6 @@ public class Main extends AppCompatActivity
     private LinearLayoutManager linearLayoutManager;
     private GridLayoutManager gridLayout2;
     private PosterAdapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class Main extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         first = findViewById(R.id.firstRecyclerView);
         second = findViewById(R.id.secondRecyclerView);
+
 
         mainRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
                 getResources().getColor(R.color.colorPrimaryDark),
@@ -74,8 +76,8 @@ public class Main extends AppCompatActivity
         });
 
         /*
-        * fill recyclre view
-        * */
+         * fill recyclre view
+         * */
 
         posters = new int[6];
         posters[0] = R.drawable.slider_image_1;
@@ -153,6 +155,33 @@ public class Main extends AppCompatActivity
                 String user = Tools.getDefaults(Constants.UserName, Main.this);
             }
         });
+
+
+ /*
+
+         List<ListObjects> list = new ArrayList<>();
+        list.add(new ListObjects(Long.valueOf("10"), "test1"));
+        list.add(new ListObjects(Long.valueOf("20"), "test2"));
+        list.add(new ListObjects(Long.valueOf("30"), "test3"));
+        list.add(new ListObjects(Long.valueOf("40"), "test4"));
+        list.add(new ListObjects(Long.valueOf("50"), "test5"));
+*/
+        // TODO :  Use Spinner ...
+       /* spinner = findViewById(R.id.Spinner);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, list);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedId = spinnerAdapter.getItemId(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                System.out.println("");
+            }
+        });*/
+
 
     }
 
@@ -316,19 +345,17 @@ public class Main extends AppCompatActivity
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Menu nav_Menu = navigationView.getMenu();
         //hide login item
-        if( sharedPreferences.contains("user_id_code") ) {
-            if( !sharedPreferences.getString("user_id_code", "").equals("") ) {
+        if (sharedPreferences.contains("user_id_code")) {
+            if (!sharedPreferences.getString("user_id_code", "").equals("")) {
                 nav_Menu.findItem(R.id.main_nav_login).setVisible(false);
                 nav_Menu.findItem(R.id.main_nav_edit).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_logout).setVisible(true);
-            }
-            else {
+            } else {
                 nav_Menu.findItem(R.id.main_nav_login).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_edit).setVisible(false);
                 nav_Menu.findItem(R.id.main_nav_logout).setVisible(false);
             }
-        }
-        else {
+        } else {
             nav_Menu.findItem(R.id.main_nav_login).setVisible(true);
             nav_Menu.findItem(R.id.main_nav_edit).setVisible(false);
             nav_Menu.findItem(R.id.main_nav_logout).setVisible(false);
