@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +49,6 @@ public class Main extends AppCompatActivity
     private RecyclerView first;
     private RecyclerView second;
     private LinearLayoutManager linearLayoutManager;
-    private GridLayoutManager gridLayout2;
     private PosterAdapter adapter;
 
 
@@ -92,13 +89,13 @@ public class Main extends AppCompatActivity
         posters[4] = R.drawable.slider_image_5;
         posters[5] = R.drawable.slider_image_6;
 
-        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(Main.this, LinearLayoutManager.HORIZONTAL, false);
-        first.setLayoutManager(horizontalLayoutManager);
+        linearLayoutManager = new LinearLayoutManager(Main.this, LinearLayoutManager.HORIZONTAL, true);
+        first.setLayoutManager(linearLayoutManager);
         adapter = new PosterAdapter(this, posters);
         first.setAdapter(adapter);
 
-        gridLayout2 = new GridLayoutManager(this, 1);
-        second.setLayoutManager(gridLayout2);
+        linearLayoutManager = new LinearLayoutManager(Main.this, LinearLayoutManager.HORIZONTAL, true);
+        second.setLayoutManager(linearLayoutManager);
         adapter = new PosterAdapter(this, posters);
         second.setAdapter(adapter);
 
@@ -115,12 +112,9 @@ public class Main extends AppCompatActivity
         sliderLayout.setScrollTimeInSec(1); //set scroll delay in seconds :
         setSliderViews();
 
-        addTrip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent( Main.this, NewTripActivity.class );
-                startActivity( intent );
-            }
+        addTrip.setOnClickListener(view -> {
+            Intent intent = new Intent( Main.this, NewTripActivity.class );
+            startActivity( intent );
         });
 
 
@@ -143,15 +137,11 @@ public class Main extends AppCompatActivity
         };
         drawer.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (drawer.isDrawerOpen(Gravity.RIGHT)) {
-                    drawer.closeDrawer(Gravity.RIGHT);
-                } else {
-                    drawer.openDrawer(Gravity.RIGHT);
-                }
+        toolbar.setNavigationOnClickListener(v -> {
+            if (drawer.isDrawerOpen(Gravity.RIGHT)) {
+                drawer.closeDrawer(Gravity.RIGHT);
+            } else {
+                drawer.openDrawer(Gravity.RIGHT);
             }
         });
 
@@ -162,11 +152,8 @@ public class Main extends AppCompatActivity
         hideItem();
         menuText = navView.findViewById(R.id.loggedInUser);
         menuImage = navView.findViewById(R.id.userImage);
-        menuImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String user = Tools.getDefaults(Constants.UserName, Main.this);
-            }
+        menuImage.setOnClickListener(view -> {
+            String user = Tools.getDefaults(Constants.UserName, Main.this);
         });
 
     }
