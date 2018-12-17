@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/simpleListItemText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:textColor="@color/colorText"
+        android:layout_toRightOf="@+id/groupListIcon"
+        android:layout_toEndOf="@+id/groupListIcon"
+        android:textSize="@dimen/normal_text"
+        android:layout_marginRight="@dimen/_11sdp"
+        android:textStyle="normal"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_8sdp"
+        />
+
+</RelativeLayout>
