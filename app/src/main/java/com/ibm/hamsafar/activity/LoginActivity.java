@@ -25,8 +25,10 @@ import com.ibm.hamsafar.R;
 import com.ibm.hamsafar.asyncTask.ListHttp;
 import com.ibm.hamsafar.asyncTask.TaskCallBack;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import hamsafar.ws.model.JsonCodec;
 import hamsafar.ws.request.LoginRequest;
 import hamsafar.ws.response.ConfirmLoginResponse;
 import hamsafar.ws.response.LoginResponse;
@@ -98,10 +100,7 @@ public class LoginActivity extends Activity {
 //                            sendActivationCode();
                             phoneNum = mobile.getText().toString();
                             login(phoneNum);
-                            codeLayout.setVisibility(View.VISIBLE);
-                            timerLayout.setVisibility(View.VISIBLE);
-                            startTimer();
-                            loggedIn = true;
+
                         }
                         else {
                             Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
@@ -203,9 +202,12 @@ public class LoginActivity extends Activity {
         LoginRequest request = new LoginRequest();
         request.setPhoneNo(phoneNum);
 
-        TaskCallBack<LoginResponse> loginCallBack = result -> {
-            //TODO process result
-            System.out.println("");
+        TaskCallBack<Object> loginCallBack = result -> {
+            LoginResponse ress = JsonCodec.toObject((Map) result, LoginResponse.class);
+            codeLayout.setVisibility(View.VISIBLE);
+            timerLayout.setVisibility(View.VISIBLE);
+            startTimer();
+            loggedIn = true;
         };
 
         new ListHttp(loginCallBack , this, null , ServiceNames.DO_LOGIN , false).execute(request);

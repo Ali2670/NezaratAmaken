@@ -34,12 +34,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog;
+import com.hamsafar.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.ibm.hamsafar.R;
 import com.ibm.hamsafar.object.UserInfo;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.tsongkha.spinnerdatepicker.DatePicker;
-import com.tsongkha.spinnerdatepicker.DatePickerDialog;
-import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -204,17 +203,15 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
         datePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new SpinnerDatePickerDialogBuilder()
-                        .context(EnrolActivity.this)
-                        .callback(EnrolActivity.this)
-                        .spinnerTheme(R.style.NumberPickerStyle)
-                        .showTitle(true)
-                        .showDaySpinner(true)
-                        .defaultDate(2017, 0, 1)
-                        .maxDate(2020, 0, 1)
-                        .minDate(2000, 0, 1)
-                        .build()
-                        .show();
+                PersianCalendar persianCalendar = new PersianCalendar();
+                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                        EnrolActivity.this,
+                        persianCalendar.getPersianYear(),
+                        persianCalendar.getPersianMonth(),
+                        persianCalendar.getPersianDay()
+                );
+                datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
+
             }
         });
 
@@ -256,8 +253,9 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
         birthDateLayout.setError(null);
     }
 
+
     @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+    public void onDateSet(com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         int moth = monthOfYear + 1;
         //check date validation
         birthDate.setText(year + "/" + moth + "/" + dayOfMonth);
