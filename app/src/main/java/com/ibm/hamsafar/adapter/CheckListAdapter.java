@@ -3,6 +3,7 @@ package com.ibm.hamsafar.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,6 @@ import android.widget.TextView;
 
 import com.ibm.hamsafar.R;
 
-import java.util.List;
-
 /**
  * Created by Wizard on 12/11/2017.
  */
@@ -22,9 +21,9 @@ import java.util.List;
 public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> items;
+    private String[] items;
 
-    public CheckListAdapter(Context context, List<String> items) {
+    public CheckListAdapter(Context context, String[] items) {
         this.context = context;
         this.items = items;
     }
@@ -33,7 +32,7 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.check_list_item,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.checklist_item,parent,false);
 
         return new ViewHolder(itemView);
     }
@@ -41,7 +40,7 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        holder.item.setText(items.get(position));
+        holder.item.setText(items[position]);
 
         holder.setItemLongClickListener((v, pos) -> {
             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -50,6 +49,7 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
             View listViewDialog = inflater.inflate(R.layout.alertdialog_with_list, null);
             builder.setView(listViewDialog);
             TextView listTitle = listViewDialog.findViewById(R.id.listAlertDialogTitle);
+            listTitle.setText(items[position]);
             ListView listView = listViewDialog.findViewById(R.id.dialogList);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_expandable_list_item,
                     context.getResources().getStringArray(R.array.checklist_item_menu));
@@ -80,33 +80,20 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     @Override
     public int getItemCount() {
 
-        return items.size();
-    }
-
-
-    public void removeItem(int position) {
-        items.remove(position);
-        // notify the item removed by position
-        // to perform recycler view delete animations
-        // NOTE: don't call notifyDataSetChanged()
-        notifyItemRemoved(position);
-    }
-
-    public void restoreItem(String item, int position) {
-        items.add(position, item);
-        // notify item added by position
-        notifyItemInserted(position);
+        return items.length;
     }
 
 
     public  class ViewHolder extends  RecyclerView.ViewHolder implements View.OnLongClickListener {
 
         public TextView item;
+        public CardView cardView;
         ItemLongClickListener itemLongClickListener;
 
         public ViewHolder(View itemView) {
             super(itemView);
             item = itemView.findViewById(R.id.check_list_item_text);
+            cardView = itemView.findViewById(R.id.check_list_item_card);
 
             itemView.setOnLongClickListener(this);
         }
@@ -122,5 +109,6 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
             return false;
         }
     }
+
 
 }
