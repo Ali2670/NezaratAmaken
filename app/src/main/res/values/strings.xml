@@ -47,6 +47,7 @@
     <string name="enrol_last_name">نام خانوادگی</string>
     <string name="enrol_birth_date">تاریخ تولد</string>
     <string name="enrol_save">ثبت</string>
+    <string name="enrol_title">ثبت اطلاعات کاربری</string>
 
     <string name="enrol_menu_select">انتخاب تصویر</string>
     <string name="enrol_menu_delete">حذف تصویر</string>
@@ -59,12 +60,32 @@
     <string name="new_trip">تعریف سفر</string>
     <string name="new_check_list">چک لیست سفر</string>
 
-    <string name="trip_start">مبدا</string>
+    <string name="view_title">اطلاعات کاربری</string>
+
+    <string name="trip_port">مبدا</string>
     <string name="trip_destination">مقصد</string>
     <string name="trip_start_date">تاریخ شروع</string>
     <string name="trip_end_date">تاریخ پایان</string>
     <string name="trip_transport">نوع وسیله</string>
     <string name="trip_save">ثبت سفر</string>
+    <string name="trip_title">تعریف سفر</string>
+    <string name="trip_trans_title">نوع وسیله</string>
+    <string name="trip_port_title">انتخاب مبدا</string>
+    <string name="trip_des_title">انتخاب مقصد</string>
+    <string name="trip_default_trans">هواپیما</string>
+    <string name="trip_show_check_list">تعریف چک لیست سفر</string>
+    <string name="trip_save_message">سفر شما با موفقیت ثبت شد</string>
+    <string name="trip_start_after_end_exc">زمان شروع نمیتواند پس از زمان پایان باشد</string>
+    <string name="trip_end_before_start_exc">زمان پایان نمیتواند پیش از زمان شروع باشد</string>
+
+    <string name="check_list_title">چک لیست سفر</string>
+
+    <string name="edit_title">ویرایش اطلاعات کاربری</string>
+    
+    <string name="cl_"
+
+    <string name="yes">بله</string>
+    <string name="no">خیر</string>
 
     <!--adad*************-->
     <string name="sefr">۰</string>
@@ -136,12 +157,16 @@
 
     <!-- EnrolActivity Exc -->
     <string name="Exc.700001">کد ملی را وارد نمایید</string>
-    <string name="Exc.700002">کد ملی را به صورت صحیح وارد نمایید</string>
+    <string name="Exc.700002">کد ملی نامعتبر است</string>
     <string name="Exc.700003">نام خود وارد نمایید</string>
     <string name="Exc.700004">نام خانوادگی خود را وارد نمایید</string>
     <string name="Exc.700005">تارخ تولد را وارد نمایید</string>
     <string name="Exc.700006">جهت ثبت اطلاعات، تأیید این مجوز الزامی است.</string>
     <string name="Exc.700007">اطلاعات را به صورت صحیح وارد کنید</string>
+
+    <!-- NewTripActivity Exc -->
+    <string name="Exc.800001">مقصد را وارد نمایید</string>
+    <string name="Exc.800002">تاریخ پایان را وارد نمایید</string>
 
 
 </resources>
