@@ -2,13 +2,18 @@ package com.ibm.hamsafar.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ibm.hamsafar.R;
+
+import java.util.List;
 
 /**
  * Created by Wizard on 12/11/2017.
@@ -17,9 +22,9 @@ import com.ibm.hamsafar.R;
 public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.ViewHolder> {
 
     private Context context;
-    private String[] items;
+    private List<String> items;
 
-    public CheckListAdapter(Context context, String[] items) {
+    public CheckListAdapter(Context context, List<String> items) {
         this.context = context;
         this.items = items;
     }
@@ -36,7 +41,38 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        holder.item.setText(items[position]);
+        holder.item.setText(items.get(position));
+
+        holder.setItemLongClickListener((v, pos) -> {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setCancelable(true);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View listViewDialog = inflater.inflate(R.layout.alertdialog_with_list, null);
+            builder.setView(listViewDialog);
+            TextView listTitle = listViewDialog.findViewById(R.id.listAlertDialogTitle);
+            ListView listView = listViewDialog.findViewById(R.id.dialogList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_expandable_list_item,
+                    context.getResources().getStringArray(R.array.checklist_item_menu));
+            listView.setAdapter(adapter);
+            final AlertDialog dialog = builder.create();
+            dialog.show();
+            listView.setOnItemClickListener((parent, view1, position1, id) -> {
+                String selectedListItem = ((TextView) view1).getText().toString();
+                dialog.dismiss();
+
+                switch ( selectedListItem ) {
+                    case "ویرایش" :
+
+                        break;
+                    case "حذف" :
+
+                        break;
+                    case "آلارم" :
+
+                        break;
+                }
+            });
+        });
     }
 
 
@@ -44,22 +80,46 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     @Override
     public int getItemCount() {
 
-        return items.length;
+        return items.size();
     }
 
-    public  class ViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public CheckBox item;
+    public void removeItem(int position) {
+        items.remove(position);
+        // notify the item removed by position
+        // to perform recycler view delete animations
+        // NOTE: don't call notifyDataSetChanged()
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(String item, int position) {
+        items.add(position, item);
+        // notify item added by position
+        notifyItemInserted(position);
+    }
+
+
+    public  class ViewHolder extends  RecyclerView.ViewHolder implements View.OnLongClickListener {
+
+        public TextView item;
+        ItemLongClickListener itemLongClickListener;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            item = itemView.findViewById(R.id.check_list_item_cb);
-            itemView.setOnClickListener( this );
+            item = itemView.findViewById(R.id.check_list_item_text);
+
+            itemView.setOnLongClickListener(this);
+        }
+
+
+        public void setItemLongClickListener(ItemLongClickListener ic) {
+            this.itemLongClickListener=ic;
         }
 
         @Override
-        public void onClick(View v) {
-
+        public boolean onLongClick(View v) {
+            this.itemLongClickListener.onItemLongClick(v,getLayoutPosition());
+            return false;
         }
     }
 
