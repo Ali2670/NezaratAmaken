@@ -2,15 +2,17 @@ package com.ibm.hamsafar.Application;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.multidex.MultiDex;
 
+import com.ibm.hamsafar.R;
 import com.ibm.hamsafar.utils.Tools;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 
 /**
@@ -26,6 +28,14 @@ public class AppStart extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/entezar.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
+
+
         String str = "";
 
         Tools.URL_MEDIA[0] = "http://172.16.160.7:9001/";
@@ -65,7 +75,7 @@ public class AppStart extends Application {
 //        MultiDex.install(this);
         mContext = this;
 
-        Tools.tf = Typeface.createFromAsset(getContext().getAssets(), "morvarid.ttf");
+        //Tools.tf = Typeface.createFromAsset(getContext().getAssets(), "morvarid.ttf");
     }
 
     @Override
