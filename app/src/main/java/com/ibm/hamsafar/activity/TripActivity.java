@@ -31,6 +31,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class TripActivity extends Activity implements DatePickerDialog.OnDateSetListener {
 
     private Context context = this;
@@ -50,6 +52,12 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
     private Switch checkList = null;
     private String DATE_PICKER_CALLER = "start";
     private TripInfo tripInfo = new TripInfo();
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 
     @Override
