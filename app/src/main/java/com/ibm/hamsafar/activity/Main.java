@@ -78,7 +78,7 @@ public class Main extends AppCompatActivity
         });
 
         /*
-        * fill recyclre view
+        * fill recycler view
         * */
 
         posters = new int[6];
@@ -113,7 +113,7 @@ public class Main extends AppCompatActivity
         setSliderViews();
 
         addTrip.setOnClickListener(view -> {
-            Intent intent = new Intent( Main.this, NewTripActivity.class );
+            Intent intent = new Intent( Main.this, TripActivity.class );
             startActivity( intent );
         });
 
@@ -231,6 +231,12 @@ public class Main extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         switch (id) {
+            case R.id.main_nav_trip:
+                startActivity( new Intent(Main.this, TripActivity.class));
+                break;
+            case R.id.main_nav_checklist:
+                startActivity( new Intent(Main.this, CheckListActivity.class));
+                break;
             case R.id.main_nav_login:
                 if( sharedPreferences.contains("mobile_number")) {
                     startActivity(new Intent(Main.this, EnrolActivity.class));
@@ -321,7 +327,7 @@ public class Main extends AppCompatActivity
     private void hideItem() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Menu nav_Menu = navigationView.getMenu();
-        //hide login item
+        //hide login topic
         if( sharedPreferences.contains("user_id_code") ) {
             if( !sharedPreferences.getString("user_id_code", "").equals("") ) {
                 nav_Menu.findItem(R.id.main_nav_login).setVisible(false);

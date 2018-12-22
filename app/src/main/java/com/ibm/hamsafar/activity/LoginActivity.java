@@ -85,50 +85,44 @@ public class LoginActivity extends Activity {
         resend.setVisibility(View.GONE);
         timerLayout.setVisibility(View.GONE);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!loggedIn) {
-                    String mobileNumber = mobile.getText().toString().trim();
-                    if (mobileNumber.equals("")) {
-                        mobileLayout.setError(getResources().getString(R.string.Exc_600001));
-                    } else if (mobileNumber.length() < 11) {
-                        mobileLayout.setError(getResources().getString(R.string.Exc_600002));
-                    } else {
-                        if( checkInternetConnection() ) {
-                            mobileLayout.setError(null);
-//                            sendActivationCode();
-                            phoneNum = mobile.getText().toString();
-                            login(phoneNum);
-
-                        }
-                        else {
-                            Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                        }
-                    }
+        login.setOnClickListener(view -> {
+            if (!loggedIn) {
+                String mobileNumber = mobile.getText().toString().trim();
+                if (mobileNumber.equals("")) {
+                    mobileLayout.setError(getResources().getString(R.string.Exc_600001));
+                } else if (mobileNumber.length() < 11) {
+                    mobileLayout.setError(getResources().getString(R.string.Exc_600002));
                 } else {
-                    if( code.getText().toString().trim().equals("") ) {
-                        codeLayout.setError(getResources().getString(R.string.Exc_600004));
-                    } else {
-                        if ( checkInternetConnection() ) {
-                            checkActivationCode(Integer.parseInt(code.getText().toString().trim()));
-                        }
-                        else  {
-                            Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                        }
+                    if( checkInternetConnection() ) {
+                        mobileLayout.setError(null);
+//                            sendActivationCode();
+                        phoneNum = mobile.getText().toString();
+                        login(phoneNum);
+
+                    }
+                    else {
+                        Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            } else {
+                if( code.getText().toString().trim().equals("") ) {
+                    codeLayout.setError(getResources().getString(R.string.Exc_600004));
+                } else {
+                    if ( checkInternetConnection() ) {
+                        checkActivationCode(Integer.parseInt(code.getText().toString().trim()));
+                    }
+                    else  {
+                        Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
 
-        resend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                timerLayout.setVisibility(View.VISIBLE);
-                startTimer();
-                resend.setVisibility( View.GONE );
-                sendActivationCode(phoneNum , code.getText().toString());
-            }
+        resend.setOnClickListener(view -> {
+            timerLayout.setVisibility(View.VISIBLE);
+            startTimer();
+            resend.setVisibility( View.GONE );
+            sendActivationCode(phoneNum , code.getText().toString());
         });
 
     }

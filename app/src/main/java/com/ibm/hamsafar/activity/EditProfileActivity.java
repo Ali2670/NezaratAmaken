@@ -30,10 +30,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog;
+import com.hamsafar.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.ibm.hamsafar.R;
 import com.ibm.hamsafar.object.UserInfo;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -43,7 +46,7 @@ import java.io.File;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class EditProfileActivity extends Activity {
+public class EditProfileActivity extends Activity implements DatePickerDialog.OnDateSetListener {
 
     private Context context = this;
     private CircularImageView photo = null;
@@ -56,6 +59,9 @@ public class EditProfileActivity extends Activity {
     private TextInputLayout birthDateLayout = null;
     private EditText birthDate = null;
     private Button save = null;
+    private ImageView datePicker = null;
+    private Button toolbarBack = null;
+    private TextView toolbarTitle = null;
     private UserInfo userInfo = new UserInfo();
     SharedPreferences sharedPreferences;
 
@@ -64,6 +70,7 @@ public class EditProfileActivity extends Activity {
     Uri uri;
     Intent CamIntent, GalIntent, CropIntent ;
     public  static final int RequestPermissionCode  = 1 ;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -86,6 +93,13 @@ public class EditProfileActivity extends Activity {
         birthDateLayout = findViewById(R.id.enrol_birth_date_layout);
         birthDate = findViewById(R.id.enrol_birth_date);
         save = findViewById(R.id.enrol_save_btn);
+        datePicker = findViewById(R.id.enrol_date_picker);
+        toolbarBack = findViewById(R.id.toolbar_back);
+        toolbarTitle = findViewById(R.id.toolbar_text);
+
+        toolbarTitle.setText(getResources().getString(R.string.edit_title));
+
+        toolbarBack.setOnClickListener(view -> onBackPressed());
 
         //load user data into fields
         loadData();
@@ -188,6 +202,21 @@ public class EditProfileActivity extends Activity {
                     }
                 });
                 return true;
+            }
+        });
+
+        datePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PersianCalendar persianCalendar = new PersianCalendar();
+                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                        EditProfileActivity.this,
+                        persianCalendar.getPersianYear(),
+                        persianCalendar.getPersianMonth(),
+                        persianCalendar.getPersianDay()
+                );
+                datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
+
             }
         });
 
@@ -474,6 +503,13 @@ public class EditProfileActivity extends Activity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onDateSet(com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        int moth = monthOfYear + 1;
+        //check date validation
+        birthDate.setText(year + "/" + moth + "/" + dayOfMonth);
     }
 
 

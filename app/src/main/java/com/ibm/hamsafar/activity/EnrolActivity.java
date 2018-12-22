@@ -106,58 +106,55 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
 
         toolbarTitle.setText( getResources().getString(R.string.enrol_title ));
 
-        toolbarBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
+        toolbarBack.setOnClickListener(view -> onBackPressed());
+
+
+        save.setOnClickListener(view -> {
+            setUserInfo();
+            boolean hasError = false;
+            //check id code
+            if (userInfo.getIdCode().equals("")) {
+                idCodeLayout.setError(getResources().getString(R.string.Exc_700001));
+                hasError = true;
             }
-        });
+            else if (ValidateCodeMeli.checkCocdeMeli(userInfo.getIdCode())) {
+                idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
+                hasError = true;
+            }
+            else if (userInfo.getIdCode().length() < 10) {
+                idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
+                hasError = true;
+            }
 
+            //check name
+            if (userInfo.getFirstName().equals("")) {
+                nameLayout.setError(getResources().getString(R.string.Exc_700003));
+                hasError = true;
+            }
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setUserInfo();
-                boolean hasError = false;
-                //check id code
-                if (userInfo.getIdCode().equals("")) {
-                    idCodeLayout.setError(getResources().getString(R.string.Exc_700001));
-                    hasError = true;
-                } else if (userInfo.getIdCode().length() < 10) {
-                    idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
-                    hasError = true;
-                }
+            //check last name
+            if (userInfo.getLastName().equals("")) {
+                lastNameLayout.setError(getResources().getString(R.string.Exc_700004));
+                hasError = true;
+            }
 
-                //check name
-                if (userInfo.getFirstName().equals("")) {
-                    nameLayout.setError(getResources().getString(R.string.Exc_700003));
-                    hasError = true;
-                }
-
-                //check last name
-                if (userInfo.getLastName().equals("")) {
-                    lastNameLayout.setError(getResources().getString(R.string.Exc_700004));
-                    hasError = true;
-                }
-
-                //check birth date
-                if (userInfo.getBirthDate().equals("")) {
-                    birthDateLayout.setError(getResources().getString(R.string.Exc_700005));
-                    hasError = true;
-                }
-                if (hasError) {
-                    Snackbar.make(view, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
+            //check birth date
+            if (userInfo.getBirthDate().equals("")) {
+                birthDateLayout.setError(getResources().getString(R.string.Exc_700005));
+                hasError = true;
+            }
+            if (hasError) {
+                Snackbar.make(view, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
+            } else {
+                if (checkInternetConnection()) {
+                    clearError();
+                    saveUserInfo();
+                    Intent intent = new Intent(EnrolActivity.this, UserProfileActivity.class);
+                    intent.putExtra("user", userInfo);
+                    startActivity(intent);
+                    finish();
                 } else {
-                    if (checkInternetConnection()) {
-                        clearError();
-                        saveUserInfo();
-                        Intent intent = new Intent(EnrolActivity.this, UserProfileActivity.class);
-                        intent.putExtra("user", userInfo);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -184,35 +181,29 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
                 listView.setAdapter(adapter);
                 final AlertDialog dialog = builder.create();
                 dialog.show();
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String selectedListItem = ((TextView) view).getText().toString();
-                        dialog.dismiss();
-                        if (selectedListItem.equals("انتخاب تصویر")) {
-                            imagePicker();
-                        } else if (selectedListItem.equals("حذف تصویر")) {
-                            photo.setImageResource(R.drawable.default_profile);
-                        }
+                listView.setOnItemClickListener((parent, view1, position, id) -> {
+                    String selectedListItem = ((TextView) view1).getText().toString();
+                    dialog.dismiss();
+                    if (selectedListItem.equals("انتخاب تصویر")) {
+                        imagePicker();
+                    } else if (selectedListItem.equals("حذف تصویر")) {
+                        photo.setImageResource(R.drawable.default_profile);
                     }
                 });
                 return true;
             }
         });
 
-        datePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PersianCalendar persianCalendar = new PersianCalendar();
-                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-                        EnrolActivity.this,
-                        persianCalendar.getPersianYear(),
-                        persianCalendar.getPersianMonth(),
-                        persianCalendar.getPersianDay()
-                );
-                datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
+        datePicker.setOnClickListener(view -> {
+            PersianCalendar persianCalendar = new PersianCalendar();
+            DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                    EnrolActivity.this,
+                    persianCalendar.getPersianYear(),
+                    persianCalendar.getPersianMonth(),
+                    persianCalendar.getPersianDay()
+            );
+            datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
 
-            }
         });
 
     }
@@ -262,12 +253,12 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
     }
 
 
-    class GenericTextWatcher implements TextWatcher {
+    static class GenericTextWatcher implements TextWatcher {
 
         private View view;
         private TextInputLayout layout;
 
-        private GenericTextWatcher(View view, TextInputLayout layout) {
+        GenericTextWatcher(View view, TextInputLayout layout) {
             this.view = view;
             this.layout = layout;
         }
