@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <include layout="@layout/default_toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/cl_dialog_topic_layout"
+            android:layout_width="@dimen/_230sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/dark_text_layout"
+            app:errorEnabled="true">
+
+            <com.ibm.hamsafar.utils.layouts.CustomEditTextFont
+                android:id="@+id/cl_dialog_topic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/dark_text_layout"
+                android:hint="@string/cl_topic"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLength="11"
+                android:maxLines="1"
+                android:textColor="@color/dark_text"
+                android:textDirection="rtl" />
+        </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/cl_dialog_date_layout"
+                android:layout_width="@dimen/_230sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/dark_text_layout"
+                app:errorEnabled="true">
+
+                <com.ibm.hamsafar.utils.layouts.CustomEditTextFont
+                    android:id="@+id/cl_dialog_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_text"
+                    android:focusable="false"
+                    android:hint="@string/cl_date"
+                    android:textColor="@color/dark_text"
+                    android:textDirection="rtl"
+                    android:drawableLeft="@drawable/ic_date_picker"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/cl_dialog_cb"
+            android:layout_width="@dimen/_230sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/cl_alarm"
+            android:checked="false"
+            android:layoutDirection="rtl"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/dark_text"
+            />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/cl_dialog_time_layout"
+                android:layout_width="@dimen/_230sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/dark_text_layout"
+                app:errorEnabled="true">
+
+                <com.ibm.hamsafar.utils.layouts.CustomEditTextFont
+                    android:id="@+id/cl_dialog_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_text"
+                    android:focusable="false"
+                    android:hint="@string/cl_time"
+                    android:textColor="@color/dark_text"
+                    android:drawableLeft="@drawable/ic_alarm_dark"
+                    android:textDirection="rtl" />
+            </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_25sdp"
+            >
+
+            <com.ibm.hamsafar.utils.layouts.FontButton
+                android:id="@+id/cl_edit_cancel"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/filled_button_bg"
+                android:text="@string/cl_cancel"
+                android:layout_margin="@dimen/_10sdp"
+                android:textColor="@color/dark_text" />
+
+
+            <com.ibm.hamsafar.utils.layouts.FontButton
+            android:id="@+id/cl_edit_save"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/filled_button_bg"
+            android:text="@string/cl_save"
+            android:layout_margin="@dimen/_10sdp"
+            android:textColor="@color/dark_text" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
