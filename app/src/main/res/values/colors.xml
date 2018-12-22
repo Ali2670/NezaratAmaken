@@ -140,12 +140,12 @@
     <color name="colorHeader">#99D9DD</color>
     <color name="colorPrimary">#698AAB</color>
     <color name="colorPrimaryDark">#0F2350</color>
-    <color name="colorAccent">#0095D9</color>
+    <color name="colorAccent">#19778c</color>
     <color name="dark_text">#1C305C</color>
     <color name="dark_text_layout">#44617B</color>
     <color name="light_text">#EAF4FC</color>
     <color name="light_text_layout">#ABCDE8</color>
-    <color name="border">#4D4C61</color>
+    <color name="border">#6e6c8b</color>
     <color name="colorRipple">#8E8CD8</color>
     <color name="circle_image_shadow">#507EA4</color>
     <color name="circle_image_border">#274A78</color>
