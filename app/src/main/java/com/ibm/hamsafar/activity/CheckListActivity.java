@@ -2,8 +2,10 @@ package com.ibm.hamsafar.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
@@ -24,6 +26,7 @@ public class CheckListActivity extends Activity {
     private Button toolbarBack = null;
     private TextView toolbarTitle = null;
     private RecyclerView recyclerView = null;
+    private FloatingActionButton addItem = null;
     private LinearLayoutManager linearLayoutManager = null;
     private CheckListAdapter adapter = null;
     private List<CheckItem> listData;
@@ -35,12 +38,13 @@ public class CheckListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.check_list);
+        setContentView(R.layout.checklist);
 
         toolbarBack = findViewById(R.id.toolbar_back);
         toolbarTitle = findViewById(R.id.toolbar_text);
         recyclerView = findViewById(R.id.cl_recycler_view);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
+        addItem = findViewById(R.id.cl_add_item);
 
         /*
         * set proper date for check items
@@ -66,6 +70,11 @@ public class CheckListActivity extends Activity {
         adapter = new CheckListAdapter(this, listData);
         recyclerView.setAdapter(adapter);
 
+
+        addItem.setOnClickListener(view -> {
+            Intent intent  = new Intent( CheckListActivity.this, )
+        });
+
     }
 
     //download checklist items
@@ -76,7 +85,6 @@ public class CheckListActivity extends Activity {
             checkItem.setId(i);
             checkItem.setTopic("topic" + i);
 
-            //checkItem.setDate("1397/05/" + i);
             if( has_trip ) {
                 checkItem.setDate( tripInfo.getStart() );
             }
