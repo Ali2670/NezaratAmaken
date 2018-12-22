@@ -7,10 +7,20 @@ import java.io.Serializable;
  */
 public class CheckItem implements Serializable {
 
+    private Integer id;
     private String topic;
     private String date;
     private String time;
+    private boolean checked;
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getTopic() {
         return topic;
@@ -34,5 +44,13 @@ public class CheckItem implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }
