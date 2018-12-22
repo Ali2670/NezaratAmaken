@@ -10,8 +10,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog;
@@ -21,6 +19,8 @@ import com.hamsafar.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.ibm.hamsafar.R;
 import com.ibm.hamsafar.object.CheckItem;
 import com.ibm.hamsafar.utils.DateUtil;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by maryam on 12/19/2018.
@@ -34,9 +34,6 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
     private EditText topic = null;
     private EditText date = null;
     private EditText time = null;
-    private RelativeLayout time_parent = null;
-    private ImageView date_picker = null;
-    private ImageView time_picker = null;
     private CheckBox checkBox = null;
     private Animation animation_appear = null;
     private Animation animation_disappear = null;
@@ -45,15 +42,39 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
     private TextView toolbarTitle = null;
     private Button save = null;
     private Button cancel = null;
+    private static boolean add = false;
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 
     public void onCreate( Bundle bundle ) {
         super.onCreate( bundle );
         setContentView( R.layout.checklist_item_edit);
 
+
+        topic_layout = findViewById(R.id.cl_dialog_topic_layout);
+        date_layout = findViewById(R.id.cl_dialog_date_layout);
+        time_layout = findViewById(R.id.cl_dialog_time_layout);
+        topic = findViewById(R.id.cl_dialog_topic);
+        date = findViewById(R.id.cl_dialog_date);
+        time = findViewById(R.id.cl_dialog_time);
+        checkBox = findViewById(R.id.cl_dialog_cb);
+        toolbarBack = findViewById(R.id.toolbar_back);
+        toolbarTitle = findViewById(R.id.toolbar_text);
+        save = findViewById(R.id.cl_edit_save);
+        cancel = findViewById(R.id.cl_edit_cancel);
+
+        animation_appear = AnimationUtils.loadAnimation(CheckListItemEditActivity.this, R.anim.animation_fade_in);
+        animation_disappear = AnimationUtils.loadAnimation(CheckListItemEditActivity.this, R.anim.animation_fade_out);
+
         //initialise
         checkItem = new CheckItem();
         if( getIntent().hasExtra("check_item")) {
+            add = false;
             checkItem = (CheckItem) getIntent().getSerializableExtra("check_item");
             topic.setText( checkItem.getTopic() );
             date.setText( checkItem.getDate() );
@@ -65,28 +86,10 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
                 checkBox.setChecked( false );
         }
         else {
+            add = true;
             date.setText(DateUtil.getCurrentDate() );
             checkBox.setChecked( false );
         }
-
-
-        topic_layout = findViewById(R.id.cl_dialog_topic_layout);
-        date_layout = findViewById(R.id.cl_dialog_date_layout);
-        time_layout = findViewById(R.id.cl_dialog_time_layout);
-        topic = findViewById(R.id.cl_dialog_topic);
-        date = findViewById(R.id.cl_dialog_date);
-        time = findViewById(R.id.cl_dialog_time);
-        time_parent = findViewById(R.id.cl_dialog_time_parent);
-        date_picker = findViewById(R.id.cl_dialog_date_picker);
-        time_picker = findViewById(R.id.cl_dialog_time_picker);
-        checkBox = findViewById(R.id.cl_dialog_cb);
-        toolbarBack = findViewById(R.id.toolbar_back);
-        toolbarTitle = findViewById(R.id.toolbar_text);
-        save = findViewById(R.id.cl_edit_save);
-        cancel = findViewById(R.id.cl_edit_cancel);
-
-        animation_appear = AnimationUtils.loadAnimation(CheckListItemEditActivity.this, R.anim.animation_fade_in);
-        animation_disappear = AnimationUtils.loadAnimation(CheckListItemEditActivity.this, R.anim.animation_fade_out);
 
 
         clearError();
@@ -99,21 +102,21 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
         toolbarTitle.setText( getResources().getString( R.string.cl_edit_title));
 
         if( !checkBox.isChecked() ) {
-            time_parent.setVisibility( View.GONE );
+            time_layout.setVisibility( View.GONE );
         }
 
         checkBox.setOnClickListener(view -> {
             if( checkBox.isChecked() ) {
-                time_parent.setVisibility(View.VISIBLE);
-                time_parent.startAnimation( animation_appear );
+                time_layout.setVisibility(View.VISIBLE);
+                time_layout.startAnimation( animation_appear );
             }
             else {
-                //time_parent.startAnimation( animation_disappear );
-                time_parent.setVisibility(View.GONE);
+                //time_layout.startAnimation( animation_disappear );
+                time_layout.setVisibility(View.GONE);
             }
         });
 
-        date_picker.setOnClickListener(view -> {
+        date.setOnClickListener(view -> {
             PersianCalendar persianCalendar = new PersianCalendar();
             DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
                     CheckListItemEditActivity.this,
@@ -125,7 +128,7 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
         });
 
 
-        time_picker.setOnClickListener(view -> {
+        time.setOnClickListener(view -> {
             PersianCalendar now = new PersianCalendar();
             TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
                     CheckListItemEditActivity.this,
@@ -139,9 +142,16 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
         cancel.setOnClickListener(view -> finish());
 
 
+        //use add to check whether to update item or add new
         save.setOnClickListener(view -> {
-            //update db info
-            finish();
+            if( !add ) {
+                //update db info
+                finish();
+            }
+            else {
+                //add new check item to db
+                finish();
+            }
         });
     }
 
