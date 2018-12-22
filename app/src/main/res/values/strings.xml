@@ -82,7 +82,18 @@
 
     <string name="edit_title">ویرایش اطلاعات کاربری</string>
     
-    <string name="cl_"
+    <string name="cl_topic">عنوان</string>
+    <string name="cl_date">تاریخ</string>
+    <string name="cl_time">ساعت</string>
+    <string name="cl_alarm">تنظیم آلارم</string>
+    <string name="cl_save">ثبت</string>
+    <string name="cl_cancel">انصراف</string>
+    <string name="cl_edit_title">ویرایش</string>
+
+    <string name="delete_title">حذف</string>
+    <string name="delete_message">مورد انتخابی حذف شود؟</string>
+    <string name="delete_positive">حذف</string>
+    <string name="delete_negative">انصراف</string>
 
     <string name="yes">بله</string>
     <string name="no">خیر</string>
