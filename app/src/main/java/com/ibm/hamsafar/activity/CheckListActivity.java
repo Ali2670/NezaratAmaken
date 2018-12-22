@@ -20,6 +20,8 @@ import com.ibm.hamsafar.utils.DateUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class CheckListActivity extends Activity {
 
     private Context context = this;
@@ -33,6 +35,12 @@ public class CheckListActivity extends Activity {
     private CoordinatorLayout coordinatorLayout = null;
     private TripInfo tripInfo = null;
     private static boolean has_trip = false;
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 
     @Override
@@ -72,7 +80,8 @@ public class CheckListActivity extends Activity {
 
 
         addItem.setOnClickListener(view -> {
-            Intent intent  = new Intent( CheckListActivity.this, )
+            Intent intent  = new Intent( CheckListActivity.this, CheckListItemEditActivity.class);
+            startActivity( intent );
         });
 
     }
