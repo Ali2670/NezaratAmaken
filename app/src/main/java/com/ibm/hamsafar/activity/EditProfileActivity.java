@@ -30,7 +30,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,7 +58,6 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
     private TextInputLayout birthDateLayout = null;
     private EditText birthDate = null;
     private Button save = null;
-    private ImageView datePicker = null;
     private Button toolbarBack = null;
     private TextView toolbarTitle = null;
     private UserInfo userInfo = new UserInfo();
@@ -93,7 +91,6 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
         birthDateLayout = findViewById(R.id.enrol_birth_date_layout);
         birthDate = findViewById(R.id.enrol_birth_date);
         save = findViewById(R.id.enrol_save_btn);
-        datePicker = findViewById(R.id.enrol_date_picker);
         toolbarBack = findViewById(R.id.toolbar_back);
         toolbarTitle = findViewById(R.id.toolbar_text);
 
@@ -205,19 +202,16 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
             }
         });
 
-        datePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PersianCalendar persianCalendar = new PersianCalendar();
-                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-                        EditProfileActivity.this,
-                        persianCalendar.getPersianYear(),
-                        persianCalendar.getPersianMonth(),
-                        persianCalendar.getPersianDay()
-                );
-                datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
+        birthDate.setOnClickListener(view -> {
+            PersianCalendar persianCalendar = new PersianCalendar();
+            DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                    EditProfileActivity.this,
+                    persianCalendar.getPersianYear(),
+                    persianCalendar.getPersianMonth(),
+                    persianCalendar.getPersianDay()
+            );
+            datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
 
-            }
         });
 
     }
