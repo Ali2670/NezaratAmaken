@@ -93,25 +93,23 @@ public class LoginActivity extends Activity {
                 } else if (mobileNumber.length() < 11) {
                     mobileLayout.setError(getResources().getString(R.string.Exc_600002));
                 } else {
-                    if( checkInternetConnection() ) {
+                    if (checkInternetConnection()) {
                         mobileLayout.setError(null);
-//                            sendActivationCode();
                         phoneNum = mobile.getText().toString();
                         login(phoneNum);
 
-                    }
-                    else {
+                    } else {
                         Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
-                if( code.getText().toString().trim().equals("") ) {
+                if (code.getText().toString().trim().equals("")) {
                     codeLayout.setError(getResources().getString(R.string.Exc_600004));
                 } else {
-                    if ( checkInternetConnection() ) {
-                        checkActivationCode(Integer.parseInt(code.getText().toString().trim()));
-                    }
-                    else  {
+                    if (checkInternetConnection()) {
+                        sendActivationCode(phoneNum, code.getText().toString().trim());
+                        //checkActivationCode(Integer.parseInt(code.getText().toString().trim()));
+                    } else {
                         Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -121,8 +119,9 @@ public class LoginActivity extends Activity {
         resend.setOnClickListener(view -> {
             timerLayout.setVisibility(View.VISIBLE);
             startTimer();
-            resend.setVisibility( View.GONE );
-            sendActivationCode(phoneNum , code.getText().toString());
+            resend.setVisibility(View.GONE);
+            phoneNum = mobile.getText().toString().trim();
+            login(phoneNum);
         });
 
     }
@@ -156,8 +155,8 @@ public class LoginActivity extends Activity {
                 textViewTime.setText(hmsTimeFormatter(timeCountInMilliSeconds));
                 progressBarCircle.setMax((int) timeCountInMilliSeconds / 1000);
                 progressBarCircle.setProgress((int) timeCountInMilliSeconds / 1000);
-                timerLayout.setVisibility( View.GONE );
-                resend.setVisibility( View.VISIBLE );
+                timerLayout.setVisibility(View.GONE);
+                resend.setVisibility(View.VISIBLE);
             }
 
         }.start();
@@ -166,13 +165,13 @@ public class LoginActivity extends Activity {
 
     private void saveLoginInfo() {
         /*
-        *
-        * get user id from DB
-        *
-        * */
+         *
+         * get user id from DB
+         *
+         * */
 
         //savePreferences("user_id", id );
-        savePreferences("mobile_number", mobile.getText().toString().trim() );
+        savePreferences("mobile_number", mobile.getText().toString().trim());
 
     }
 
@@ -192,7 +191,7 @@ public class LoginActivity extends Activity {
         return hms;
     }
 
-    private void login(String phoneNum){
+    private void login(String phoneNum) {
         LoginRequest request = new LoginRequest();
         request.setPhoneNo(phoneNum);
 
@@ -204,21 +203,19 @@ public class LoginActivity extends Activity {
             loggedIn = true;
         };
 
-        new ListHttp(loginCallBack , this, null , ServiceNames.DO_LOGIN , false).execute(request);
+        new ListHttp(loginCallBack, this, null, ServiceNames.DO_LOGIN, false).execute(request);
     }
 
-    private void sendActivationCode(String phoneNum , String activationCode) {
+    private void sendActivationCode(String phoneNum, String activationCode) {
         LoginRequest request = new LoginRequest();
         request.setPhoneNo(phoneNum);
         request.setConfirmCode(activationCode);
 
         TaskCallBack<ConfirmLoginResponse> confirmLoginCallBack = result -> {
-            //TODO process result
-            System.out.println("");
+            Toast.makeText(context, "result is " + result.getDoesLoginConfirmed(), Toast.LENGTH_SHORT).show();
         };
         AsyncTask<Object, Void, WsResult> list = new ListHttp(confirmLoginCallBack, this, null, ServiceNames.CONFIRM_LOGIN, false);
         list.execute(request);
-
 
     }
 
