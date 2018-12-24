@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -29,7 +30,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,12 +37,20 @@ import android.widget.Toast;
 import com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.hamsafar.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.ibm.hamsafar.R;
+import com.ibm.hamsafar.asyncTask.ListHttp;
+import com.ibm.hamsafar.asyncTask.TaskCallBack;
 import com.ibm.hamsafar.object.UserInfo;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Map;
 
+import hamsafar.ws.model.JsonCodec;
+import hamsafar.ws.request.SubmitProfileRequest;
+import hamsafar.ws.response.SubmitProfileResponse;
+import hamsafar.ws.util.service.ServiceNames;
+import ibm.ws.WsResult;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class EnrolActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -58,7 +66,6 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
     private TextInputLayout birthDateLayout = null;
     private EditText birthDate = null;
     private Button save = null;
-    private ImageView datePicker = null;
     private UserInfo userInfo = new UserInfo();
 
     private Button toolbarBack = null;
@@ -89,7 +96,6 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
         birthDateLayout = findViewById(R.id.enrol_birth_date_layout);
         birthDate = findViewById(R.id.enrol_birth_date);
         save = findViewById(R.id.enrol_save_btn);
-        datePicker = findViewById(R.id.enrol_date_picker);
         toolbarBack = findViewById(R.id.toolbar_back);
         toolbarTitle = findViewById(R.id.toolbar_text);
 
@@ -149,52 +155,40 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
                 if (checkInternetConnection()) {
                     clearError();
                     saveUserInfo();
-                    Intent intent = new Intent(EnrolActivity.this, UserProfileActivity.class);
-                    intent.putExtra("user", userInfo);
-                    startActivity(intent);
-                    finish();
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imagePicker();
-            }
+        photo.setOnClickListener(view -> imagePicker());
+
+        photo.setOnLongClickListener(view -> {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setCancelable(true);
+            LayoutInflater inflater = getLayoutInflater();
+            View listViewDialog = inflater.inflate(R.layout.alertdialog_with_list, null);
+            builder.setView(listViewDialog);
+            TextView listTitle = listViewDialog.findViewById(R.id.listAlertDialogTitle);
+            ListView listView = listViewDialog.findViewById(R.id.dialogList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_expandable_list_item,
+                    getResources().getStringArray(R.array.photo_menu_lc));
+            listView.setAdapter(adapter);
+            final AlertDialog dialog = builder.create();
+            dialog.show();
+            listView.setOnItemClickListener((parent, view1, position, id) -> {
+                String selectedListItem = ((TextView) view1).getText().toString();
+                dialog.dismiss();
+                if (selectedListItem.equals("انتخاب تصویر")) {
+                    imagePicker();
+                } else if (selectedListItem.equals("حذف تصویر")) {
+                    photo.setImageResource(R.drawable.default_profile);
+                }
+            });
+            return true;
         });
 
-        photo.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setCancelable(true);
-                LayoutInflater inflater = getLayoutInflater();
-                View listViewDialog = inflater.inflate(R.layout.alertdialog_with_list, null);
-                builder.setView(listViewDialog);
-                TextView listTitle = listViewDialog.findViewById(R.id.listAlertDialogTitle);
-                ListView listView = listViewDialog.findViewById(R.id.dialogList);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_expandable_list_item,
-                        getResources().getStringArray(R.array.photo_menu_lc));
-                listView.setAdapter(adapter);
-                final AlertDialog dialog = builder.create();
-                dialog.show();
-                listView.setOnItemClickListener((parent, view1, position, id) -> {
-                    String selectedListItem = ((TextView) view1).getText().toString();
-                    dialog.dismiss();
-                    if (selectedListItem.equals("انتخاب تصویر")) {
-                        imagePicker();
-                    } else if (selectedListItem.equals("حذف تصویر")) {
-                        photo.setImageResource(R.drawable.default_profile);
-                    }
-                });
-                return true;
-            }
-        });
-
-        datePicker.setOnClickListener(view -> {
+        birthDate.setOnClickListener(view -> {
             PersianCalendar persianCalendar = new PersianCalendar();
             DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
                     EnrolActivity.this,
@@ -229,12 +223,46 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
         //save user info as shared preferences
         //savePreferences("user_id", id );
         //savePreferences("user_photo", userInfo.getPhoto());
-        saveProfileImage(photo);
+        /*saveProfileImage(photo);
         savePreferences("user_id_code", userInfo.getIdCode());
         savePreferences("user_first_name", userInfo.getFirstName());
         savePreferences("user_last_name", userInfo.getLastName());
-        savePreferences("user_birth_date", userInfo.getBirthDate());
+        savePreferences("user_birth_date", userInfo.getBirthDate());*/
 
+        //get user id
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences( this );
+        int id = sharedPreferences.getInt("user_id", 0);
+
+        SubmitProfileRequest request = new SubmitProfileRequest();
+        request.setUserId( id );
+        request.setName( name.getText().toString().trim() );
+        request.setSurname( lastName.getText().toString().trim() );
+        request.setBirthDate( birthDate.getText().toString().trim() );
+        request.setNationalCode( idCode.getText().toString().trim() );
+
+        TaskCallBack<Object> submitProfileResponse = result -> {
+            SubmitProfileResponse ress = JsonCodec.toObject((Map) result, SubmitProfileResponse.class);
+
+            boolean submit = ress.getSuccessful();
+            if( submit ) {
+                launchProfileView();
+                Toast.makeText( context, getResources().getString(R.string.welcome), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                //toast error
+                Toast.makeText(context, "result " + ress.getSuccessful(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        AsyncTask<Object, Void, WsResult> list = new ListHttp(submitProfileResponse, this, null, ServiceNames.SUBMIT_PROFILE, false);
+        list.execute(request);
+
+    }
+
+    private void launchProfileView() {
+        Intent intent = new Intent(EnrolActivity.this, UserProfileActivity.class);
+        intent.putExtra("user", userInfo);
+        startActivity(intent);
+        finish();
     }
 
     private void clearError() {
