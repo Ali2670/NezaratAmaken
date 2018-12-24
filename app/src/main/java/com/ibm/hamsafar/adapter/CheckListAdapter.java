@@ -3,6 +3,7 @@ package com.ibm.hamsafar.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -15,7 +16,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hamsafar.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.hamsafar.persianmaterialdatetimepicker.time.TimePickerDialog;
@@ -59,8 +59,13 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
 
         if( items.get(position).isChecked() ) {
             holder.checkBox.setChecked( true );
+            holder.topic.setPaintFlags(holder.topic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.topic.setTextColor(context.getResources().getColor(R.color.checked_item));
         } else {
             holder.checkBox.setChecked( false );
+            holder.topic.setPaintFlags(holder.topic.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.topic.setTextColor(context.getResources().getColor(R.color.dark_text));
+
         }
 
         //long click for whole item
@@ -72,7 +77,14 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
         //on click for checkbox
         holder.checkBox.setOnClickListener(view -> {
             items.get(position).setChecked( holder.checkBox.isChecked() );
-            Toast.makeText(context, items.get(position).isChecked() +"", Toast.LENGTH_SHORT).show();
+            if( holder.checkBox.isChecked() ) {
+                holder.topic.setPaintFlags(holder.topic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.topic.setTextColor(context.getResources().getColor(R.color.checked_item));
+            }
+            else {
+                holder.topic.setPaintFlags(holder.topic.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                holder.topic.setTextColor(context.getResources().getColor(R.color.dark_text));
+            }
         });
 
         if (items.get(position).getTime().equals("")) {
