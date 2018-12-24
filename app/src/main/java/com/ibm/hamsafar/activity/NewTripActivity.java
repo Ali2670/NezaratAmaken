@@ -42,8 +42,8 @@ public class NewTripActivity extends Activity {
 
         toolbarBack = findViewById(R.id.toolbar_back);
         toolbarTitle = findViewById(R.id.toolbar_text);
-        startLayout = findViewById(R.id.trip_start_layout);
-        startText = findViewById(R.id.trip_start);
+        startLayout = findViewById(R.id.trip_port_layout);
+        startText = findViewById(R.id.trip_port);
         desLayout = findViewById(R.id.trip_destination_layout);
         desText = findViewById(R.id.trip_destination);
         startDateLayout = findViewById(R.id.trip_start_date_layout);
