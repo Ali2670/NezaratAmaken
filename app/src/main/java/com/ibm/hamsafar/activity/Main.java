@@ -1,5 +1,6 @@
 package com.ibm.hamsafar.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import com.ibm.hamsafar.utils.Tools;
 import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener/*, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener*/ {
 
@@ -50,6 +53,12 @@ public class Main extends AppCompatActivity
     private RecyclerView second;
     private LinearLayoutManager linearLayoutManager;
     private PosterAdapter adapter;
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 
     @Override
@@ -231,6 +240,12 @@ public class Main extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         switch (id) {
+            case R.id.main_nav_show_trips:
+                startActivity( new Intent(Main.this, TripActivity.class));
+                break;
+            case R.id.main_nav_show_checklists:
+                startActivity( new Intent(Main.this, TripActivity.class));
+                break;
             case R.id.main_nav_trip:
                 startActivity( new Intent(Main.this, TripActivity.class));
                 break;
