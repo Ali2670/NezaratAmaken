@@ -34,6 +34,8 @@
     <string name="nav_menu_item_friends">دوستان</string>
     <string name="nav_menu_item_search">جستجو</string>
     <string name="nav_menu_item_logout">خروج</string>
+    <string name="nav_menu_item_trip">افزودن سفر</string>
+    <string name="nav_menu_item_checklist">افزودن چک لیست</string>
 
     <string name="login_mobile">شماره همراه</string>
     <string name="login_login_btn">ورود</string>
@@ -77,6 +79,12 @@
     <string name="trip_save_message">سفر شما با موفقیت ثبت شد</string>
     <string name="trip_start_after_end_exc">زمان شروع نمیتواند پس از زمان پایان باشد</string>
     <string name="trip_end_before_start_exc">زمان پایان نمیتواند پیش از زمان شروع باشد</string>
+
+    <string name="trip_card_port">مبدا : </string>
+    <string name="trip_card_destination">مقصد : </string>
+    <string name="trip_card_start_date">تاریخ شروع : </string>
+    <string name="trip_card_end_date">تاریخ پایان : </string>
+    <string name="trip_card_transport">نوع وسیله : </string>
 
     <string name="check_list_title">چک لیست سفر</string>
 
@@ -175,7 +183,7 @@
     <string name="Exc.700006">جهت ثبت اطلاعات، تأیید این مجوز الزامی است.</string>
     <string name="Exc.700007">اطلاعات را به صورت صحیح وارد کنید</string>
 
-    <!-- NewTripActivity Exc -->
+    <!-- TripActivity Exc -->
     <string name="Exc.800001">مقصد را وارد نمایید</string>
     <string name="Exc.800002">تاریخ پایان را وارد نمایید</string>
 
