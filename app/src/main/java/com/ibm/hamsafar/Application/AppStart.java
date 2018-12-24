@@ -41,12 +41,7 @@ public class AppStart extends Application {
         Tools.URL_MEDIA[0] = "http://172.16.160.7:9001/";
         Tools.URL_MEDIA[1] = "http://172.16.160.7:9003/";
 
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable e) {
-                handleUncaughtException(thread, e);
-            }
-        });
+        Thread.setDefaultUncaughtExceptionHandler((thread, e) -> handleUncaughtException(thread, e));
 
 //        Tools.URL_APK[0] = "http://192.168.1.6:9009/Upload/APK/";
         Tools.URL_APK[0] = "http://172.16.160.7:9001/" + str + "Upload/APK/";
