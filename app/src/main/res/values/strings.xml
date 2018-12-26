@@ -34,6 +34,8 @@
     <string name="nav_menu_item_friends">دوستان</string>
     <string name="nav_menu_item_search">جستجو</string>
     <string name="nav_menu_item_logout">خروج</string>
+    <string name="nav_menu_item_show_trip">سفر ها</string>
+    <string name="nav_menu_item_show_checklist">چک لیست ها</string>
     <string name="nav_menu_item_trip">افزودن سفر</string>
     <string name="nav_menu_item_checklist">افزودن چک لیست</string>
 
@@ -50,6 +52,8 @@
     <string name="enrol_birth_date">تاریخ تولد</string>
     <string name="enrol_save">ثبت</string>
     <string name="enrol_title">ثبت اطلاعات کاربری</string>
+
+    <string name="welcome">به همسفر خوش آمدید</string>
 
     <string name="enrol_menu_select">انتخاب تصویر</string>
     <string name="enrol_menu_delete">حذف تصویر</string>
@@ -69,13 +73,13 @@
     <string name="trip_start_date">تاریخ شروع</string>
     <string name="trip_end_date">تاریخ پایان</string>
     <string name="trip_transport">نوع وسیله</string>
-    <string name="trip_save">ثبت سفر</string>
+    <string name="trip_save">ثبت</string>
     <string name="trip_title">تعریف سفر</string>
     <string name="trip_trans_title">نوع وسیله</string>
     <string name="trip_port_title">انتخاب مبدا</string>
     <string name="trip_des_title">انتخاب مقصد</string>
     <string name="trip_default_trans">هواپیما</string>
-    <string name="trip_show_check_list">تعریف چک لیست سفر</string>
+    <string name="trip_show_check_list">چک لیست سفر اضافه شود ؟</string>
     <string name="trip_save_message">سفر شما با موفقیت ثبت شد</string>
     <string name="trip_start_after_end_exc">زمان شروع نمیتواند پس از زمان پایان باشد</string>
     <string name="trip_end_before_start_exc">زمان پایان نمیتواند پیش از زمان شروع باشد</string>
@@ -85,6 +89,7 @@
     <string name="trip_card_start_date">تاریخ شروع : </string>
     <string name="trip_card_end_date">تاریخ پایان : </string>
     <string name="trip_card_transport">نوع وسیله : </string>
+    <string name="trip_card_title">اطلاعات سفر</string>
 
     <string name="check_list_title">چک لیست سفر</string>
 
@@ -97,6 +102,11 @@
     <string name="cl_save">ثبت</string>
     <string name="cl_cancel">انصراف</string>
     <string name="cl_edit_title">ویرایش</string>
+
+    <string name="trip_list_title">سفر ها</string>
+
+    <string name="trip_edit_done">ثبت تغییرات</string>
+    <string name="trip_edit_title">ویرایش اطلاعات سفر</string>
 
     <string name="delete_title">حذف</string>
     <string name="delete_message">مورد انتخابی حذف شود؟</string>
