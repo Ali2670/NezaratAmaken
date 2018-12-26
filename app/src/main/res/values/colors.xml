@@ -151,5 +151,7 @@
     <color name="circle_image_shadow">#507EA4</color>
     <color name="circle_image_border">#274A78</color>
     <color name="blur_layout_bg">#88223A70</color>
+    <color name="checked_item">#618787</color>
+    <color name="expired_trip">#be6c4e</color>
 
 </resources>
