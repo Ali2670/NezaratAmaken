@@ -1,42 +1,36 @@
 package com.ibm.hamsafar.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.hamsafar.persianmaterialdatetimepicker.time.RadialPickerLayout;
-import com.hamsafar.persianmaterialdatetimepicker.time.TimePickerDialog;
-import com.hamsafar.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.ibm.hamsafar.R;
-import com.ibm.hamsafar.activity.CheckListItemEditActivity;
-import com.ibm.hamsafar.object.CheckItem;
+import com.ibm.hamsafar.activity.EditTripActivity;
+import com.ibm.hamsafar.object.TripInfo;
+import com.ibm.hamsafar.utils.DateUtil;
 
+import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Wizard on 12/11/2017.
+ * Created by maryam on 12/24/2018.
  */
-
-public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.ViewHolder> implements TimePickerDialog.OnTimeSetListener {
+public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.ViewHolder> {
 
     private Context context;
-    private List<CheckItem> items;
+    private List<TripInfo> items;
     private static Integer current_position = null;
 
-    public CheckListAdapter(Context context, List<CheckItem> items) {
+    public ChecklistAdapter(Context context, List<TripInfo> items) {
         this.context = context;
         this.items = items;
     }
@@ -45,89 +39,60 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.checklist_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.trip_card, parent, false);
 
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.topic.setText(items.get(position).getTopic());
-        holder.date.setText(items.get(position).getDate());
-
-        holder.time.setText(items.get(position).getTime());
-
-        if( items.get(position).isChecked() ) {
-            holder.checkBox.setChecked( true );
-            holder.topic.setPaintFlags(holder.topic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.topic.setTextColor(context.getResources().getColor(R.color.checked_item));
-        } else {
-            holder.checkBox.setChecked( false );
-            holder.topic.setPaintFlags(holder.topic.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-            holder.topic.setTextColor(context.getResources().getColor(R.color.dark_text));
-
+        if( expired(position)) {
+            holder.title.setVisibility( View.VISIBLE );
+            holder.title.setBackgroundColor( context.getResources().getColor(R.color.expired_trip));
+            holder.title.setText(context.getResources().getString(R.string.trip_list_expired));
         }
+        else {
+            holder.title.setVisibility( View.GONE );
+        }
+        holder.port.setText( items.get(position).getPort() );
+        holder.destination.setText( items.get(position).getDes() );
+        holder.start.setText( items.get(position).getStart() );
+        holder.end.setText( items.get(position).getEnd() );
+        holder.trans.setText( items.get(position).getTrans() );
 
         //long click for whole item
         holder.setItemLongClickListener((v, pos) -> {
             current_position = position;
             openLongClickMenu(position);
         });
-
-        //on click for checkbox
-        holder.checkBox.setOnClickListener(view -> {
-            items.get(position).setChecked( holder.checkBox.isChecked() );
-            if( holder.checkBox.isChecked() ) {
-                holder.topic.setPaintFlags(holder.topic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.topic.setTextColor(context.getResources().getColor(R.color.checked_item));
-            }
-            else {
-                holder.topic.setPaintFlags(holder.topic.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                holder.topic.setTextColor(context.getResources().getColor(R.color.dark_text));
-            }
-        });
-
-        if (items.get(position).getTime().equals("")) {
-            holder.time.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-        } else {
-            holder.time.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_alarm_dark, 0, 0, 0);
-        }
     }
 
 
     @Override
     public int getItemCount() {
-
         return items.size();
-    }
-
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        String hourString = hourOfDay < 10 ? "0" + hourOfDay : "" + hourOfDay;
-        String minuteString = minute < 10 ? "0" + minute : "" + minute;
-        String time = hourString + ":" + minuteString;
-        items.get(current_position).setTime(time);
-        //notifyDataSetChanged();
-        notifyItemChanged(current_position);
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
-        public TextView topic;
-        private TextView date;
-        private TextView time;
-        public CardView cardView;
-        public CheckBox checkBox;
+        private TextView title;
+        private TextView port;
+        private TextView destination;
+        private TextView start;
+        private TextView end;
+        private TextView trans;
         ItemLongClickListener itemLongClickListener;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            topic = itemView.findViewById(R.id.check_list_item_text);
-            date = itemView.findViewById(R.id.check_list_item_alarm_date);
-            time = itemView.findViewById(R.id.check_list_item_alarm_time);
-            cardView = itemView.findViewById(R.id.check_list_item_card);
-            checkBox = itemView.findViewById(R.id.check_list_item_check);
+
+            title = itemView.findViewById(R.id.trip_card_title);
+            port = itemView.findViewById(R.id.trip_card_port);
+            destination = itemView.findViewById(R.id.trip_card_destination);
+            start = itemView.findViewById(R.id.trip_card_start_date);
+            end = itemView.findViewById(R.id.trip_card_end_date);
+            trans = itemView.findViewById(R.id.trip_card_transport);
 
             itemView.setOnLongClickListener(this);
         }
@@ -153,10 +118,10 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
         View listViewDialog = inflater.inflate(R.layout.alertdialog_with_list, null);
         builder.setView(listViewDialog);
         TextView listTitle = listViewDialog.findViewById(R.id.listAlertDialogTitle);
-        listTitle.setText(items.get(position).getTopic());
+        listTitle.setText(items.get(position).getDes());
         ListView listView = listViewDialog.findViewById(R.id.dialogList);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_expandable_list_item,
-                context.getResources().getStringArray(R.array.checklist_item_menu));
+                context.getResources().getStringArray(R.array.trip_item_menu));
         listView.setAdapter(adapter);
         final AlertDialog dialog = builder.create();
         dialog.show();
@@ -164,25 +129,23 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
             String selectedListItem = ((TextView) view1).getText().toString();
 
             if (selectedListItem.equals("ویرایش")) {
-                Intent intent = new Intent(context, CheckListItemEditActivity.class);
-                intent.putExtra("check_item", items.get(position));
+                Intent intent = new Intent(context, EditTripActivity.class);
+                intent.putExtra("trip", items.get(position));
                 context.startActivity(intent);
             }
             else if (selectedListItem.equals("حذف")) {
                 delete( position );
             }
-            else if (selectedListItem.equals("آلارم")) {
-                PersianCalendar now = new PersianCalendar();
-                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
-                        this,
-                        now.get(PersianCalendar.HOUR_OF_DAY),
-                        now.get(PersianCalendar.MINUTE),
-                        true
-                );
-                timePickerDialog.show(((Activity) context).getFragmentManager(), "TimePickerDialog");
-            }
             dialog.dismiss();
         });
+    }
+
+    //check trip expiration
+    private  boolean expired( int position ) {
+        Date  end = DateUtil.toDate( items.get(position).getEnd() );
+        Date now = DateUtil.toDate(DateUtil.getCurrentDate());
+        if( now.after(end) ) return true;
+        else return false;
     }
 
 
@@ -214,8 +177,8 @@ public class CheckListAdapter extends RecyclerView.Adapter<CheckListAdapter.View
 
         positive.setOnClickListener(view -> {
             /*
-            * delete item from db too
-            * */
+             * delete item from db too
+             * */
             items.remove( position );
             notifyDataSetChanged();
             dialog.dismiss();
