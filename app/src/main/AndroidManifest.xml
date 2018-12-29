@@ -86,13 +86,32 @@
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity android:name=".activity.EditProfileActivity"
+            android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
-        <!-- <receiver android:name=".utils.Autostart">
-             <intent-filter>
-                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-             </intent-filter>
-         </receiver>-->
+        <activity android:name=".activity.TripActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.CheckListActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.CheckListItemEditActivity"
+            android:screenOrientation="portrait"/>
+
+
+        <activity android:name=".activity.TripListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.EditTripActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.EditChecklistActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.ChecklistListActivity"
+            android:screenOrientation="portrait"/>
+
+
         <receiver android:name="com.ibm.hamsafar.utils.SmsReceiver">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
