@@ -8,11 +8,13 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ibm.hamsafar.R;
-import com.ibm.hamsafar.adapter.CheckListAdapter;
+import com.ibm.hamsafar.adapter.CheckItemAdapter;
 import com.ibm.hamsafar.object.CheckItem;
 import com.ibm.hamsafar.object.TripInfo;
 import com.ibm.hamsafar.utils.DateUtil;
@@ -30,11 +32,19 @@ public class CheckListActivity extends Activity {
     private RecyclerView recyclerView = null;
     private FloatingActionButton addItem = null;
     private LinearLayoutManager linearLayoutManager = null;
-    private CheckListAdapter adapter = null;
+    private CheckItemAdapter adapter = null;
     private List<CheckItem> listData;
     private CoordinatorLayout coordinatorLayout = null;
     private TripInfo tripInfo = null;
     private static boolean has_trip = false;
+
+    //trip card
+    private LinearLayout tripParent = null;
+    private TextView tripCardPort = null;
+    private TextView tripCardDestination = null;
+    private TextView tripCardStart = null;
+    private TextView tripCardEnd = null;
+    private TextView tripCardTrans = null;
 
 
     @Override
@@ -54,6 +64,13 @@ public class CheckListActivity extends Activity {
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         addItem = findViewById(R.id.cl_add_item);
 
+        tripParent = findViewById(R.id.trip_card_parent);
+        tripCardPort = findViewById(R.id.trip_card_port);
+        tripCardDestination = findViewById(R.id.trip_card_destination);
+        tripCardStart = findViewById(R.id.trip_card_start_date);
+        tripCardEnd = findViewById(R.id.trip_card_end_date);
+        tripCardTrans = findViewById(R.id.trip_card_transport);
+
         /*
         * set proper date for check items
         * trip date if related to a trip
@@ -63,9 +80,15 @@ public class CheckListActivity extends Activity {
         if( getIntent().hasExtra("trip_info") ) {
             tripInfo = (TripInfo) getIntent().getSerializableExtra("trip_info");
             has_trip = true;
+            tripCardPort.setText( tripInfo.getPort() );
+            tripCardDestination.setText( tripInfo.getDes() );
+            tripCardStart.setText( tripInfo.getStart() );
+            tripCardEnd.setText( tripInfo.getEnd() );
+            tripCardTrans.setText( tripInfo.getTrans() );
         }
         else {
             has_trip = false;
+            tripParent.setVisibility( View.GONE );
         }
 
         toolbarBack.setOnClickListener(view -> onBackPressed());
@@ -75,7 +98,7 @@ public class CheckListActivity extends Activity {
         linearLayoutManager = new LinearLayoutManager(CheckListActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         getCheckList();
-        adapter = new CheckListAdapter(this, listData);
+        adapter = new CheckItemAdapter(this, listData);
         recyclerView.setAdapter(adapter);
 
 
