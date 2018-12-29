@@ -86,9 +86,15 @@
     <dimen name="header_button">@dimen/_21sdp</dimen>
 
 
-    <dimen name="cl_card_corner_radius">2dp</dimen>
-    <dimen name="cl_card_elevation">2dp</dimen>
-    <dimen name="cl_card_margin">4dp</dimen>
+    <dimen name="cl_card_corner_radius">@dimen/_2sdp</dimen>
+    <dimen name="cl_card_elevation">@dimen/_2sdp</dimen>
+    <dimen name="cl_card_margin">@dimen/_4sdp</dimen>
+
+    <dimen name="trip_card_corner_radius">@dimen/_4sdp</dimen>
+    <dimen name="trip_card_elevation">@dimen/_2sdp</dimen>
+    <dimen name="trip_card_margin">@dimen/_8sdp</dimen>
+
+    <dimen name="two_horizontal_btn_width">@dimen/_100sdp</dimen>
 
     <dimen name="card_width">@dimen/_250sdp</dimen>
     <dimen name="card_padding">@dimen/_25sdp</dimen>
