@@ -8,7 +8,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,6 +44,7 @@ public class EditChecklistActivity extends Activity {
     private TextView tripCardStart = null;
     private TextView tripCardEnd = null;
     private TextView tripCardTrans = null;
+    private Integer cl_id = null;
 
 
     @Override
@@ -71,29 +71,29 @@ public class EditChecklistActivity extends Activity {
         tripCardEnd = findViewById(R.id.trip_card_end_date);
         tripCardTrans = findViewById(R.id.trip_card_transport);
 
-        /*
-        * set proper date for check items
-        * trip date if related to a trip
-        * current date if no trip is assigned
-        * */
-        tripInfo = new TripInfo();
-        if( getIntent().hasExtra("trip_info") ) {
-            tripInfo = (TripInfo) getIntent().getSerializableExtra("trip_info");
-            has_trip = true;
-            tripCardPort.setText( tripInfo.getPort() );
-            tripCardDestination.setText( tripInfo.getDes() );
-            tripCardStart.setText( tripInfo.getStart() );
-            tripCardEnd.setText( tripInfo.getEnd() );
-            tripCardTrans.setText( tripInfo.getTrans() );
+
+        //get checklist id
+        if( getIntent().hasExtra("checklist_id") ) {
+            cl_id = getIntent().getIntExtra("checklist_id", 0 );
         }
-        else {
+
+        //------------------------------------------------------------------------------------------
+        /*
+         * if list is assigned to a trip, getTrip info from db and show in trip parent
+         * else set trip parent GONE
+         */
+        tripInfo = new TripInfo();
+
+        /*else {
             has_trip = false;
             tripParent.setVisibility( View.GONE );
-        }
+        }*/
+
+        //------------------------------------------------------------------------------------------
 
         toolbarBack.setOnClickListener(view -> onBackPressed());
 
-        toolbarTitle.setText( getResources().getString(R.string.check_list_title));
+        toolbarTitle.setText( getResources().getString(R.string.cl_list_edit_title));
 
         linearLayoutManager = new LinearLayoutManager(EditChecklistActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -109,8 +109,14 @@ public class EditChecklistActivity extends Activity {
 
     }
 
+    //----------------------------------------------------------------------------------------------
     //download checklist items
     private void getCheckList() {
+
+        /*
+        * get checklist info from db using its id
+        * */
+
         listData = new ArrayList<>();
         for(int i=0; i<21; i++ ) {
             CheckItem checkItem = new CheckItem();
@@ -137,4 +143,5 @@ public class EditChecklistActivity extends Activity {
             listData.add( checkItem );
         }
     }
+    //----------------------------------------------------------------------------------------------
 }
