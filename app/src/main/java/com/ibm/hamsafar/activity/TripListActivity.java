@@ -2,6 +2,7 @@ package com.ibm.hamsafar.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -59,16 +60,18 @@ public class TripListActivity extends Activity {
         adapter = new TripListAdapter(this, listData);
         recyclerView.setAdapter(adapter);
 
+        add.setOnClickListener(view -> startActivity( new Intent( TripListActivity.this, TripActivity.class )));
+
     }
 
     private void getTripList() {
         listData = new ArrayList<>();
-        for(int i=1; i<21; i++ ) {
+        for(int i=21; i>0; i-- ) {
             TripInfo tripInfo = new TripInfo();
             tripInfo.setPort( "port" + i );
             tripInfo.setDes( "destination" + i );
-            tripInfo.setStart( "1397/10/" + i );
-            tripInfo.setEnd( "1397/11/" + i );
+            tripInfo.setStart( "1397/09/" + i );
+            tripInfo.setEnd( "1397/10/" + i );
             tripInfo.setTrans( "trans" + i );
             listData.add( tripInfo );
         }
