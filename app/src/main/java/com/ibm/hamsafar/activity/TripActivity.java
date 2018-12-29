@@ -63,7 +63,7 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_trip);
+        setContentView(R.layout.trip);
 
         toolbarBack = findViewById(R.id.toolbar_back);
         toolbarTitle = findViewById(R.id.toolbar_text);
@@ -225,6 +225,8 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
 
     /*
     * insert trip info into DB
+    * get its id
+    * pass trip info to checklist activity if needed( contains trip id )
     * */
 
     private void insertTripIntoDB() {
