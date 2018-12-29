@@ -147,13 +147,26 @@
 
 
                     <Switch
-                        android:id="@+id/trip_edit_check_list_switch"
+                        android:id="@+id/trip_edit_check_list_add"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layoutDirection="rtl"
                         android:showText="true"
                         android:text="@string/trip_show_check_list"
+                        android:textColor="@color/dark_text"
+                        android:textOff="@string/no"
+                        android:textOn="@string/yes" />
+
+
+                    <Switch
+                        android:id="@+id/trip_edit_check_list_show"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layoutDirection="rtl"
+                        android:showText="true"
+                        android:text="@string/trip_edit_show_check_list"
                         android:textColor="@color/dark_text"
                         android:textOff="@string/no"
                         android:textOn="@string/yes" />
