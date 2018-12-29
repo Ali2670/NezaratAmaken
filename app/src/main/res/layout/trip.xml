@@ -49,7 +49,7 @@
                             android:focusable="false"
                             android:hint="@string/trip_port"
                             android:inputType="textNoSuggestions"
-                            android:layoutDirection="rtl"
+                            android:textDirection="rtl"
                             android:maxLines="1"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/dark_text" />
@@ -72,7 +72,7 @@
                             android:focusable="false"
                             android:hint="@string/trip_destination"
                             android:inputType="textNoSuggestions"
-                            android:layoutDirection="rtl"
+                            android:textDirection="rtl"
                             android:maxLines="1"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/dark_text" />
@@ -95,7 +95,7 @@
                             android:focusable="false"
                             android:hint="@string/trip_start_date"
                             android:inputType="textNoSuggestions"
-                            android:layoutDirection="rtl"
+                            android:textDirection="rtl"
                             android:maxLines="1"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/dark_text" />
@@ -118,7 +118,7 @@
                             android:focusable="false"
                             android:hint="@string/trip_end_date"
                             android:inputType="textNoSuggestions"
-                            android:layoutDirection="rtl"
+                            android:textDirection="rtl"
                             android:maxLines="1"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/dark_text" />
@@ -141,7 +141,7 @@
                             android:focusable="false"
                             android:hint="@string/trip_transport"
                             android:inputType="textNoSuggestions"
-                            android:layoutDirection="rtl"
+                            android:textDirection="rtl"
                             android:maxLines="1"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/dark_text" />
@@ -154,7 +154,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layoutDirection="rtl"
+                        android:textDirection="rtl"
                         android:showText="true"
                         android:text="@string/trip_show_check_list"
                         android:textColor="@color/dark_text"
