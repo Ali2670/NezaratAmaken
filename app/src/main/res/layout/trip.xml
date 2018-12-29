@@ -154,7 +154,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:textDirection="rtl"
+                        android:layoutDirection="rtl"
                         android:showText="true"
                         android:text="@string/trip_show_check_list"
                         android:textColor="@color/dark_text"
