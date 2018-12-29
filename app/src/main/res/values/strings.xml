@@ -38,6 +38,8 @@
     <string name="nav_menu_item_show_checklist">چک لیست ها</string>
     <string name="nav_menu_item_trip">افزودن سفر</string>
     <string name="nav_menu_item_checklist">افزودن چک لیست</string>
+    <string name="nav_menu_item_share">ارسال برنامه</string>
+    <string name="nav_menu_item_support">تماس با پشتیبانی</string>
 
     <string name="login_mobile">شماره همراه</string>
     <string name="login_login_btn">ورود</string>
@@ -73,7 +75,7 @@
     <string name="trip_start_date">تاریخ شروع</string>
     <string name="trip_end_date">تاریخ پایان</string>
     <string name="trip_transport">نوع وسیله</string>
-    <string name="trip_save">ثبت</string>
+    <string name="trip_save">ثبت سفر</string>
     <string name="trip_title">تعریف سفر</string>
     <string name="trip_trans_title">نوع وسیله</string>
     <string name="trip_port_title">انتخاب مبدا</string>
@@ -93,6 +95,8 @@
 
     <string name="check_list_title">چک لیست سفر</string>
 
+    <string name="cl_list_edit_title">ویرایش چک لیست</string>
+
     <string name="edit_title">ویرایش اطلاعات کاربری</string>
     
     <string name="cl_topic">عنوان</string>
@@ -106,10 +110,17 @@
     <string name="trip_list_title">سفر ها</string>
     <string name="trip_list_expired">به پایان رسیده است</string>
 
+    <string name="cl_list_title">چک لیست ها</string>
+
     <string name="delete_title">حذف</string>
     <string name="delete_message">مورد انتخابی حذف شود؟</string>
     <string name="delete_positive">حذف</string>
     <string name="delete_negative">انصراف</string>
+
+    <string name="trip_edit_title">ویرایش سفر</string>
+    <string name="trip_edit_done">ثبت تغییرات</string>
+    <string name="trip_edit_cancel">انصراف</string>
+    <string name="trip_edit_show_check_list">چک لیست سفر نمایش داده شود ؟</string>
 
     <string name="yes">بله</string>
     <string name="no">خیر</string>
