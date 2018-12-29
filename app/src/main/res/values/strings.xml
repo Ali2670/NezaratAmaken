@@ -104,9 +104,7 @@
     <string name="cl_edit_title">ویرایش</string>
 
     <string name="trip_list_title">سفر ها</string>
-
-    <string name="trip_edit_done">ثبت تغییرات</string>
-    <string name="trip_edit_title">ویرایش اطلاعات سفر</string>
+    <string name="trip_list_expired">به پایان رسیده است</string>
 
     <string name="delete_title">حذف</string>
     <string name="delete_message">مورد انتخابی حذف شود؟</string>
