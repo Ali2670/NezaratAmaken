@@ -2,6 +2,7 @@ package com.ibm.hamsafar.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,11 +27,15 @@ import android.widget.Toast;
 import com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.hamsafar.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.ibm.hamsafar.R;
+import com.ibm.hamsafar.adapter.UnEditableCheckListAdapter;
+import com.ibm.hamsafar.object.CheckItem;
 import com.ibm.hamsafar.object.TripInfo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -56,7 +62,11 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
     private Button done = null;
     private Button cancel = null;
     private CardView clCard = null;
-    private RecyclerView checdkList = null;
+    private RecyclerView checklist = null;
+
+    private LinearLayoutManager linearLayoutManager = null;
+    private List<CheckItem> listData = null;
+    private UnEditableCheckListAdapter adapter = null;
 
     private String DATE_PICKER_CALLER = "start";
     private TripInfo tripInfo = new TripInfo();
@@ -86,14 +96,14 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         transText = findViewById(R.id.trip_edit_transport);
         done = findViewById(R.id.trip_edit_done_btn);
         cancel = findViewById(R.id.trip_edit_cancel_btn);
-        showChecklist = findViewById(R.id.trip_edit_check_list_switch);
+        showChecklist = findViewById(R.id.trip_edit_check_list_add);
+        clCard = findViewById(R.id.trip_edit_checklist_card);
+        checklist = findViewById(R.id.trip_edit_checklist);
 
 
-        toolbarTitle.setText(getResources().getString(R.string.trip_title));
+        toolbarTitle.setText(getResources().getString(R.string.trip_edit_title));
 
         toolbarBack.setOnClickListener(view -> onBackPressed());
-
-        showChecklist.setVisibility( View.GONE );
 
         clearError();
 
@@ -109,14 +119,39 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
                 new EnrolActivity.GenericTextWatcher(transLayout.getEditText(), transLayout));
 
 
-        if( getIntent().hasExtra("trip") ) {
+        if (getIntent().hasExtra("trip")) {
             tripInfo = (TripInfo) getIntent().getSerializableExtra("trip");
-            portText.setText( tripInfo.getPort() );
-            desText.setText( tripInfo.getDes() );
-            startDateText.setText( tripInfo.getStart() );
-            endDateText.setText( tripInfo.getEnd() );
-            transText.setText( tripInfo.getTrans() );
+            portText.setText(tripInfo.getPort());
+            desText.setText(tripInfo.getDes());
+            startDateText.setText(tripInfo.getStart());
+            endDateText.setText(tripInfo.getEnd());
+            transText.setText(tripInfo.getTrans());
         }
+
+
+        /*
+         *
+         * check trip info
+         * if it has checklist then show in recyclerView
+         * else make switch visible to choose whether to define one or not
+         *
+         * have checklist -> show card visible and switch gone
+         *
+         * */
+
+        clCard.setVisibility(View.GONE);
+        showChecklist.setOnClickListener(view -> {
+            if ( showChecklist.isChecked() ) {
+                clCard.setVisibility( View.VISIBLE );
+                fillTripChecklist();
+            }
+            else clCard.setVisibility( View.GONE );
+        });
+
+        /*
+        * ^^^
+        * extra
+        * */
 
         portText.setOnClickListener(view -> {
             if (checkInternetConnection()) {
@@ -175,6 +210,11 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
                 if (checkInternetConnection()) {
                     clearError();
                     insertTripIntoDB();
+                    if (showChecklist.getVisibility() == View.VISIBLE && showChecklist.isChecked()) {
+                        Intent intent = new Intent(EditTripActivity.this, CheckListActivity.class);
+                        intent.putExtra("trip_info", getTripInfo());
+                        startActivity(intent);
+                    }
                     finish();
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
@@ -185,6 +225,38 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         cancel.setOnClickListener(view -> finish());
 
 
+    }
+
+    //get and show checklist info if exists
+    private void fillTripChecklist() {
+        linearLayoutManager = new LinearLayoutManager(EditTripActivity.this, LinearLayoutManager.VERTICAL, false);
+        checklist.setLayoutManager(linearLayoutManager);
+        getCheckList();
+        adapter = new UnEditableCheckListAdapter(this, listData);
+        checklist.setAdapter(adapter);
+    }
+
+    //fill list using checklist info
+    private void getCheckList() {
+        listData = new ArrayList<>();
+        for (int i = 0; i < 21; i++) {
+            CheckItem checkItem = new CheckItem();
+            checkItem.setId(i);
+            checkItem.setTopic("topic" + i);
+            checkItem.setDate(tripInfo.getStart());
+
+            if (i % 3 == 0)
+                checkItem.setTime("10:" + i);
+            else
+                checkItem.setTime("");
+
+            if (i % 4 == 0)
+                checkItem.setChecked(true);
+            else
+                checkItem.setChecked(false);
+
+            listData.add(checkItem);
+        }
     }
 
 
@@ -215,6 +287,7 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
 
     /*
      * insert trip info into DB
+     * also update the check box value of check items if a checklist exists
      * */
 
     private void insertTripIntoDB() {
@@ -266,6 +339,16 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
             return false;
         }
         return true;
+    }
+
+    private TripInfo getTripInfo() {
+        TripInfo trip = new TripInfo();
+        trip.setPort(portText.getText().toString().trim());
+        trip.setDes(desText.getText().toString().trim());
+        trip.setStart(startDateText.getText().toString().trim());
+        trip.setEnd(endDateText.getText().toString().trim());
+        trip.setTrans(transText.getText().toString().trim());
+        return trip;
     }
 
     //open date picker dialog
