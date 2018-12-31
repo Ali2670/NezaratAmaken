@@ -119,11 +119,15 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
                 setUserInfo();
                 boolean hasError = false;
                 //check id code
-                if(userInfo.getIdCode().equals("")) {
+                if (userInfo.getIdCode().equals("")) {
                     idCodeLayout.setError(getResources().getString(R.string.Exc_700001));
                     hasError = true;
                 }
-                else if( userInfo.getIdCode().length() < 10 ) {
+                else if (!ValidateCodeMeli.checkCocdeMeli(userInfo.getIdCode())) {
+                    idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
+                    hasError = true;
+                }
+                else if (userInfo.getIdCode().length() < 10) {
                     idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
                     hasError = true;
                 }
@@ -469,7 +473,7 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
                 Manifest.permission.CAMERA))
         {
 
-            Toast.makeText(EditProfileActivity.this,"CAMERA permission allows us to Access CAMERA app", Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"CAMERA permission allows us to Access CAMERA app", Toast.LENGTH_LONG).show();
 
         } else {
 
@@ -488,11 +492,11 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
 
                 if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    Toast.makeText(EditProfileActivity.this,"Permission Granted, Now your application can access CAMERA.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"Permission Granted, Now your application can access CAMERA.", Toast.LENGTH_LONG).show();
 
                 } else {
 
-                    Toast.makeText(EditProfileActivity.this,"Permission Canceled, Now your application cannot access CAMERA.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"Permission Canceled, Now your application cannot access CAMERA.", Toast.LENGTH_LONG).show();
 
                 }
                 break;
