@@ -3,6 +3,8 @@ package com.ibm.hamsafar.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -30,12 +32,14 @@ import com.ibm.hamsafar.utils.Tools;
 import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.io.File;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener/*, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener*/ {
 
-
+    private Context context = this;
     private static final int TIME_DELAY = 2000;
     private static long back_pressed;
     TextView menuText;
@@ -196,7 +200,7 @@ public class Main extends AppCompatActivity
             if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
                 super.onBackPressed();
             } else {
-                Toast.makeText(getBaseContext(), Tools.getStringByName("DoubleBack"),
+                Toast.makeText(context, Tools.getStringByName("DoubleBack"),
                         Toast.LENGTH_SHORT).show();
             }
             back_pressed = System.currentTimeMillis();
@@ -234,6 +238,7 @@ public class Main extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    //----------------------------------------------------------------------------------------------
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -241,10 +246,10 @@ public class Main extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.main_nav_show_trips:
-                startActivity( new Intent(Main.this, TripActivity.class));
+                startActivity( new Intent(Main.this, TripListActivity.class));
                 break;
             case R.id.main_nav_show_checklists:
-                startActivity( new Intent(Main.this, TripActivity.class));
+                startActivity( new Intent(Main.this, ChecklistListActivity.class));
                 break;
             case R.id.main_nav_trip:
                 startActivity( new Intent(Main.this, TripActivity.class));
@@ -253,7 +258,7 @@ public class Main extends AppCompatActivity
                 startActivity( new Intent(Main.this, CheckListActivity.class));
                 break;
             case R.id.main_nav_login:
-                if( sharedPreferences.contains("mobile_number")) {
+                if( sharedPreferences.contains("user_id")) {
                     startActivity(new Intent(Main.this, EnrolActivity.class));
                 } else {
                     startActivity(new Intent(Main.this, LoginActivity.class));
@@ -281,7 +286,18 @@ public class Main extends AppCompatActivity
                 savePreferences("user_last_name", null);
                 savePreferences("user_birth_date", null);
                 hideItem();
-                Toast.makeText(this, "خروج از حساب کاربری", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "خروج از حساب کاربری", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_nav_share:
+                ApplicationInfo app = getApplicationContext().getApplicationInfo();
+                String filePath = app.sourceDir;
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("*/*");
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+                startActivity(Intent.createChooser(sharingIntent, "share app via"));
+                break;
+            case R.id.main_nav_support:
+
                 break;
         }
 
@@ -289,6 +305,7 @@ public class Main extends AppCompatActivity
         drawer.closeDrawer(Gravity.RIGHT);
         return true;
     }
+    //----------------------------------------------------------------------------------------------
 
     private void setSliderViews() {
 
@@ -330,7 +347,7 @@ public class Main extends AppCompatActivity
             sliderView.setOnSliderClickListener(new SliderView.OnSliderClickListener() {
                 @Override
                 public void onSliderClick(SliderView sliderView) {
-                    Toast.makeText(Main.this, "This is slider " + (finalI + 1), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "This is slider " + (finalI + 1), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -343,8 +360,8 @@ public class Main extends AppCompatActivity
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Menu nav_Menu = navigationView.getMenu();
         //hide login topic
-        if( sharedPreferences.contains("user_id_code") ) {
-            if( !sharedPreferences.getString("user_id_code", "").equals("") ) {
+        if( sharedPreferences.contains("user_id") ) {
+            if( sharedPreferences.getInt("user_id", 0) != 0 ) {
                 nav_Menu.findItem(R.id.main_nav_login).setVisible(false);
                 nav_Menu.findItem(R.id.main_nav_edit).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_logout).setVisible(true);
