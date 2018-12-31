@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
     private EditText transText = null;
     private Button save = null;
     private Switch checkList = null;
+    private LinearLayout parentLayout = null;
     private String DATE_PICKER_CALLER = "start";
     private TripInfo tripInfo = new TripInfo();
 
@@ -79,6 +81,7 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
         transText = findViewById(R.id.trip_transport);
         save = findViewById(R.id.trip_save_btn);
         checkList = findViewById(R.id.trip_check_list_switch);
+        parentLayout = findViewById(R.id.trip_parent);
 
 
 
@@ -100,13 +103,7 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
                 new EnrolActivity.GenericTextWatcher(transLayout.getEditText(), transLayout));
 
 
-        //get user location
-        portText.setText("تهران");
-
-        //set now for start date
-        startDateText.setText(DateUtil.getCurrentDate());
-
-        transText.setText( getResources().getString(R.string.trip_default_trans) );
+        initialise();
 
         portText.setOnClickListener(view -> {
             if ( checkInternetConnection() ) {
@@ -150,42 +147,60 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
 
 
         save.setOnClickListener(view -> {
-            boolean hasError = false;
-
-            if( desText.getText().toString().trim().equals("")) {
-                desLayout.setError(getResources().getString(R.string.Exc_800001));
-                hasError = true;
-            }
-
-            if( endDateText.getText().toString().trim().equals("") ) {
-                endDateLayout.setError(getResources().getString(R.string.Exc_800002));
-                hasError = true;
-            }
-
-            if (hasError) {
-                Snackbar.make(view, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
-            } else {
-                if (checkInternetConnection()) {
-                    clearError();
-                    setTripInfo();
-                    insertTripIntoDB();
-                    Intent intent;
-                    if( checkList.isChecked() ) {
-                        intent = new Intent(TripActivity.this, CheckListActivity.class);
-                        intent.putExtra("trip_info", tripInfo);
-                    } else {
-                        intent = new Intent( TripActivity.this, Main.class );
-                        Toast.makeText( context, getResources().getString(R.string.trip_save_message), Toast.LENGTH_SHORT).show();
-                    }
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                }
-            }
+            saveAction( view );
         });
 
 
+    }
+
+    private void initialise() {
+        //get user location
+        portText.setText("تهران");
+
+        //set now for start date
+        startDateText.setText(DateUtil.getCurrentDate());
+
+        transText.setText( getResources().getString(R.string.trip_default_trans) );
+
+        portText.setText("");
+        endDateText.setText("");
+    }
+
+    //save button action
+    private void saveAction( View view ) {
+        boolean hasError = false;
+
+        if( desText.getText().toString().trim().equals("")) {
+            desLayout.setError(getResources().getString(R.string.Exc_800001));
+            hasError = true;
+        }
+
+        if( endDateText.getText().toString().trim().equals("") ) {
+            endDateLayout.setError(getResources().getString(R.string.Exc_800002));
+            hasError = true;
+        }
+
+        if (hasError) {
+            Snackbar.make(view, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
+        } else {
+            if (checkInternetConnection()) {
+                clearError();
+                setTripInfo();
+                insertTripIntoDB();
+                Intent intent;
+                if( checkList.isChecked() ) {
+                    intent = new Intent(TripActivity.this, CheckListActivity.class);
+                    intent.putExtra("trip_info", tripInfo);
+                } else {
+                    intent = new Intent( TripActivity.this, Main.class );
+                    Toast.makeText( context, getResources().getString(R.string.trip_save_message), Toast.LENGTH_SHORT).show();
+                }
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 
@@ -379,6 +394,28 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
                 dialog.dismiss();
             }
         });
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(TripActivity.this);
+        builder.setMessage(getResources().getString(R.string.exit_message));
+        builder.setPositiveButton(getResources().getString(R.string.exit_save_changes),
+                (dialogInterface, i) -> {
+                    saveAction( parentLayout );
+                });
+        builder.setNegativeButton(getResources().getString(R.string.exit_cancel),
+                (dialogInterface, i) -> {
+                    dialogInterface.cancel();
+                });
+        builder.setNeutralButton(getResources().getString(R.string.exit_discard),
+                (dialogInterface, i) -> {
+                    initialise();
+                    dialogInterface.cancel();
+                });
+        builder.show();
     }
 
 }
