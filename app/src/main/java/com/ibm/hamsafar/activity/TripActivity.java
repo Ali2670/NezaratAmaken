@@ -56,8 +56,12 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
     private EditText desText = null;
     private TextInputLayout startDateLayout = null;
     private EditText startDateText = null;
+    private TextInputLayout startTimeLayout = null;
+    private EditText startTimeText = null;
     private TextInputLayout endDateLayout = null;
     private EditText endDateText = null;
+    private TextInputLayout endTimeLayout = null;
+    private EditText endTimeText = null;
     private TextInputLayout transLayout = null;
     private EditText transText = null;
     private Button save = null;
@@ -86,8 +90,12 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
         desText = findViewById(R.id.trip_destination);
         startDateLayout = findViewById(R.id.trip_start_date_layout);
         startDateText = findViewById(R.id.trip_start_date);
+        startTimeLayout = findViewById(R.id.trip_start_time_layout);
+        startTimeText = findViewById(R.id.trip_start_time);
         endDateLayout = findViewById(R.id.trip_end_date_layout);
         endDateText = findViewById(R.id.trip_end_date);
+        endTimeLayout = findViewById(R.id.trip_end_time_layout);
+        endTimeText = findViewById(R.id.trip_end_time);
         transLayout = findViewById(R.id.trip_transport_layout);
         transText = findViewById(R.id.trip_transport);
         save = findViewById(R.id.trip_save_btn);
@@ -107,7 +115,11 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
                 new EnrolActivity.GenericTextWatcher(desLayout.getEditText(), desLayout));
         startDateLayout.getEditText().addTextChangedListener(
                 new EnrolActivity.GenericTextWatcher(startDateLayout.getEditText(), startDateLayout));
+        startTimeLayout.getEditText().addTextChangedListener(
+                new EnrolActivity.GenericTextWatcher(startDateLayout.getEditText(), startDateLayout));
         endDateLayout.getEditText().addTextChangedListener(
+                new EnrolActivity.GenericTextWatcher(endDateLayout.getEditText(), endDateLayout));
+        endTimeLayout.getEditText().addTextChangedListener(
                 new EnrolActivity.GenericTextWatcher(endDateLayout.getEditText(), endDateLayout));
         transLayout.getEditText().addTextChangedListener(
                 new EnrolActivity.GenericTextWatcher(transLayout.getEditText(), transLayout));
@@ -266,6 +278,7 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
         request.setEndTime( DateUtil.getCurrentTime() );
         request.setTripType((byte) 0);
         request.setTripStatus((byte) 0);
+        request.setTransportId((byte) 0);
 
         TaskCallBack<Object> submitTripResponse = result -> {
             SubmitTripResponse ress = JsonCodec.toObject((Map) result, SubmitTripResponse.class);
