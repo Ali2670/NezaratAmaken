@@ -95,6 +95,7 @@
     <dimen name="trip_card_margin">@dimen/_8sdp</dimen>
 
     <dimen name="two_horizontal_btn_width">@dimen/_100sdp</dimen>
+    <dimen name="two_horizontal_btn_margin">@dimen/_10sdp</dimen>
 
     <dimen name="card_width">@dimen/_250sdp</dimen>
     <dimen name="card_padding">@dimen/_25sdp</dimen>
