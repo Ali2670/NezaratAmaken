@@ -1,6 +1,7 @@
 package com.ibm.hamsafar.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -144,15 +145,20 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
 
         //use add to check whether to update item or add new
         save.setOnClickListener(view -> {
-            if( !add ) {
-                //update db info
-                finish();
-            }
-            else {
-                //add new check item to db
-                finish();
-            }
+            saveChanges();
         });
+    }
+
+    //save button action
+    private void saveChanges() {
+        if( !add ) {
+            //update db info
+            finish();
+        }
+        else {
+            //add new check item to db
+            finish();
+        }
     }
 
 
@@ -176,5 +182,28 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
         String minuteString = minute < 10 ? "0" + minute : "" + minute;
         String time =  hourString + ":" + minuteString;
         this.time.setText(time);
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(CheckListItemEditActivity.this);
+        builder.setMessage(getResources().getString(R.string.exit_message));
+        builder.setPositiveButton(getResources().getString(R.string.exit_save_changes),
+                (dialogInterface, i) -> {
+                    saveChanges();
+                    finish();
+                });
+        builder.setNegativeButton(getResources().getString(R.string.exit_cancel),
+                (dialogInterface, i) -> {
+                    dialogInterface.cancel();
+                });
+        builder.setNeutralButton(getResources().getString(R.string.exit_discard),
+                (dialogInterface, i) -> {
+                    //get check item from DB again
+                    dialogInterface.cancel();
+                });
+        builder.show();
     }
 }
