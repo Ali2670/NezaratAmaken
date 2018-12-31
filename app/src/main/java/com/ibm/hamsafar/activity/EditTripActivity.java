@@ -58,6 +58,7 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
     private EditText endDateText = null;
     private TextInputLayout transLayout = null;
     private EditText transText = null;
+    private Switch addChecklist = null;
     private Switch showChecklist = null;
     private Button done = null;
     private Button cancel = null;
@@ -70,6 +71,7 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
 
     private String DATE_PICKER_CALLER = "start";
     private TripInfo tripInfo = new TripInfo();
+    private static  Integer trip_id = 0;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -96,7 +98,8 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         transText = findViewById(R.id.trip_edit_transport);
         done = findViewById(R.id.trip_edit_done_btn);
         cancel = findViewById(R.id.trip_edit_cancel_btn);
-        showChecklist = findViewById(R.id.trip_edit_check_list_add);
+        addChecklist = findViewById(R.id.trip_edit_check_list_add);
+        showChecklist = findViewById(R.id.trip_edit_check_list_show);
         clCard = findViewById(R.id.trip_edit_checklist_card);
         checklist = findViewById(R.id.trip_edit_checklist);
 
@@ -121,6 +124,7 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
 
         if (getIntent().hasExtra("trip")) {
             tripInfo = (TripInfo) getIntent().getSerializableExtra("trip");
+            trip_id = tripInfo.getId();
             portText.setText(tripInfo.getPort());
             desText.setText(tripInfo.getDes());
             startDateText.setText(tripInfo.getStart());
@@ -132,8 +136,8 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         /*
          *
          * check trip info
-         * if it has checklist then show in recyclerView
-         * else make switch visible to choose whether to define one or not
+         * if it has checklist then show in recyclerView and make showChecklist visible
+         * else make addChecklist visible to choose whether to define one or not
          *
          * have checklist -> show card visible and switch gone
          *
@@ -210,7 +214,7 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
                 if (checkInternetConnection()) {
                     clearError();
                     insertTripIntoDB();
-                    if (showChecklist.getVisibility() == View.VISIBLE && showChecklist.isChecked()) {
+                    if (addChecklist.getVisibility() == View.VISIBLE && addChecklist.isChecked()) {
                         Intent intent = new Intent(EditTripActivity.this, CheckListActivity.class);
                         intent.putExtra("trip_info", getTripInfo());
                         startActivity(intent);
@@ -448,6 +452,29 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
                 dialog.dismiss();
             }
         });
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(EditTripActivity.this);
+        builder.setMessage(getResources().getString(R.string.exit_message));
+        builder.setPositiveButton(getResources().getString(R.string.exit_save_changes),
+                (dialogInterface, i) -> {
+                    insertTripIntoDB();
+                    finish();
+                });
+        builder.setNegativeButton(getResources().getString(R.string.exit_cancel),
+                (dialogInterface, i) -> {
+                    dialogInterface.cancel();
+                });
+        builder.setNeutralButton(getResources().getString(R.string.exit_discard),
+                (dialogInterface, i) -> {
+                    //get trip from DB again
+                    dialogInterface.cancel();
+                });
+        builder.show();
     }
 
 }
