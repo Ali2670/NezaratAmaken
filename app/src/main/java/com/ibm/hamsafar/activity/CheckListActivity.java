@@ -1,6 +1,7 @@
 package com.ibm.hamsafar.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ public class CheckListActivity extends Activity {
     private CoordinatorLayout coordinatorLayout = null;
     private Button done = null;
     private Button cancel = null;
+    private EditText title = null;
     private TripInfo tripInfo = null;
     private static boolean has_trip = false;
 
@@ -69,6 +72,7 @@ public class CheckListActivity extends Activity {
         addItem = findViewById(R.id.cl_add_item);
         done = findViewById(R.id.cl_done_btn);
         cancel = findViewById(R.id.cl_cancel_btn);
+        title = findViewById(R.id.cl_title );
 
 
         tripParent = findViewById(R.id.trip_card_parent);
@@ -163,5 +167,11 @@ public class CheckListActivity extends Activity {
 
             listData.add( checkItem );
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder( CheckListActivity.this );
+        builder.setMessage()
     }
 }
