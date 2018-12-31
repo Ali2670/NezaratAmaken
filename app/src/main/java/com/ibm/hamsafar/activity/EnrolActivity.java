@@ -123,7 +123,7 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
                 idCodeLayout.setError(getResources().getString(R.string.Exc_700001));
                 hasError = true;
             }
-            else if (ValidateCodeMeli.checkCocdeMeli(userInfo.getIdCode())) {
+            else if (!ValidateCodeMeli.checkCocdeMeli(userInfo.getIdCode())) {
                 idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
                 hasError = true;
             }
