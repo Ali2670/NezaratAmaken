@@ -35,6 +35,8 @@ public class CheckListActivity extends Activity {
     private CheckItemAdapter adapter = null;
     private List<CheckItem> listData;
     private CoordinatorLayout coordinatorLayout = null;
+    private Button done = null;
+    private Button cancel = null;
     private TripInfo tripInfo = null;
     private static boolean has_trip = false;
 
@@ -45,6 +47,8 @@ public class CheckListActivity extends Activity {
     private TextView tripCardStart = null;
     private TextView tripCardEnd = null;
     private TextView tripCardTrans = null;
+
+    private static Integer trip_id = 0;
 
 
     @Override
@@ -63,6 +67,9 @@ public class CheckListActivity extends Activity {
         recyclerView = findViewById(R.id.cl_recycler_view);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         addItem = findViewById(R.id.cl_add_item);
+        done = findViewById(R.id.cl_done_btn);
+        cancel = findViewById(R.id.cl_cancel_btn);
+
 
         tripParent = findViewById(R.id.trip_card_parent);
         tripCardPort = findViewById(R.id.trip_card_port);
@@ -85,6 +92,7 @@ public class CheckListActivity extends Activity {
             tripCardStart.setText( tripInfo.getStart() );
             tripCardEnd.setText( tripInfo.getEnd() );
             tripCardTrans.setText( tripInfo.getTrans() );
+            trip_id = tripInfo.getId();
         }
         else {
             has_trip = false;
@@ -107,6 +115,25 @@ public class CheckListActivity extends Activity {
             startActivity( intent );
         });
 
+        cancel.setOnClickListener(view -> {
+            finish();
+        });
+
+        done.setOnClickListener(view -> {
+            saveChecklistIntoDB();
+            finish();
+        });
+
+    }
+
+    //save checklist info into DB
+    private void saveChecklistIntoDB() {
+        if( trip_id == 0 ) {
+            //save without trip id
+        }
+        else {
+            //save using trip id
+        }
     }
 
     //download checklist items
