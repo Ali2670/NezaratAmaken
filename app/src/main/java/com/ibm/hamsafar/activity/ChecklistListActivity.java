@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.ibm.hamsafar.R;
@@ -31,6 +32,8 @@ public class ChecklistListActivity extends Activity {
     private FloatingActionButton add = null;
     private LinearLayoutManager linearLayoutManager = null;
     private ChecklistAdapter adapter;
+    private CheckBox publicCB = null;
+    private CheckBox tripCB = null;
     private List<Checklist> listData;
 
 
@@ -49,6 +52,8 @@ public class ChecklistListActivity extends Activity {
         toolbarTitle = findViewById(R.id.toolbar_text);
         recyclerView = findViewById(R.id.cl_list_recycler_view);
         add = findViewById(R.id.cl_list_add);
+        publicCB = findViewById(R.id.cl_list_public_box );
+        tripCB = findViewById(R.id.cl_list_trip_box );
 
         toolbarBack.setOnClickListener(view -> onBackPressed());
 
@@ -62,6 +67,8 @@ public class ChecklistListActivity extends Activity {
 
         add.setOnClickListener(view -> startActivity(new Intent(ChecklistListActivity.this, CheckListActivity.class)));
 
+
+
     }
 
     private void getChecklistList() {
@@ -69,11 +76,18 @@ public class ChecklistListActivity extends Activity {
         for (int i = 21; i > 0; i--) {
             Checklist checklist = new Checklist();
             checklist.setId(i);
+            checklist.setTitle("title" + i );
             checklist.setItem_one("1st item " + i);
             checklist.setItem_two("2nd item " + i);
             checklist.setItem_three("3rd item " + i);
             listData.add(checklist);
         }
+    }
+
+
+    //show proper list according to checked check boxes
+    private void showList() {
+
     }
 
 
