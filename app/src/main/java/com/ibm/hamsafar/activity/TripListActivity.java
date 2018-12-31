@@ -3,7 +3,10 @@ package com.ibm.hamsafar.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +15,18 @@ import android.widget.TextView;
 
 import com.ibm.hamsafar.R;
 import com.ibm.hamsafar.adapter.TripListAdapter;
+import com.ibm.hamsafar.asyncTask.ListHttp;
+import com.ibm.hamsafar.asyncTask.TaskCallBack;
 import com.ibm.hamsafar.object.TripInfo;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import hamsafar.ws.common.TripDto;
+import hamsafar.ws.model.JsonCodec;
+import hamsafar.ws.request.GetUserTripsRequest;
+import hamsafar.ws.util.service.ServiceNames;
+import ibm.ws.WsResult;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -65,7 +75,24 @@ public class TripListActivity extends Activity {
     }
 
     private void getTripList() {
-        listData = new ArrayList<>();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences( this );
+        Integer user_id = sharedPreferences.getInt("user_id", 0 );
+
+        GetUserTripsRequest request = new GetUserTripsRequest();
+        request.setUserId( user_id );
+
+        TaskCallBack<Object> submitTripResponse = result -> {
+            List<TripDto> ress = JsonCodec.toObject((Map) result, List.class);
+
+
+
+        };
+        AsyncTask<Object, Void, WsResult> list = new ListHttp(submitTripResponse, this, null, ServiceNames.SUBMIT_TRIP, false);
+        list.execute(request);
+
+
+
+        /*listData = new ArrayList<>();
         for(int i=21; i>0; i-- ) {
             TripInfo tripInfo = new TripInfo();
             tripInfo.setId( i );
@@ -75,7 +102,7 @@ public class TripListActivity extends Activity {
             tripInfo.setEnd( "1397/10/" + i );
             tripInfo.setTrans( "trans" + i );
             listData.add( tripInfo );
-        }
+        }*/
     }
 
 
