@@ -1,6 +1,7 @@
 package com.ibm.hamsafar.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ public class EditChecklistActivity extends Activity {
     private CheckItemAdapter adapter = null;
     private List<CheckItem> listData;
     private CoordinatorLayout coordinatorLayout = null;
+    private Button save = null;
+    private Button cancel = null;
     private TripInfo tripInfo = null;
     private static boolean has_trip = false;
 
@@ -63,6 +66,8 @@ public class EditChecklistActivity extends Activity {
         recyclerView = findViewById(R.id.cl_recycler_view);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         addItem = findViewById(R.id.cl_add_item);
+        save = findViewById(R.id.cl_done_btn);
+        cancel = findViewById(R.id.cl_cancel_btn);
 
         tripParent = findViewById(R.id.trip_card_parent);
         tripCardPort = findViewById(R.id.trip_card_port);
@@ -107,6 +112,19 @@ public class EditChecklistActivity extends Activity {
             startActivity( intent );
         });
 
+        cancel.setOnClickListener(view -> finish());
+
+        save.setOnClickListener(view -> {
+            updateChecklist();
+            finish();
+        });
+
+    }
+
+
+    //update checklist info into DB
+    private void updateChecklist() {
+
     }
 
     //----------------------------------------------------------------------------------------------
@@ -144,4 +162,27 @@ public class EditChecklistActivity extends Activity {
         }
     }
     //----------------------------------------------------------------------------------------------
+
+
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditChecklistActivity.this);
+        builder.setMessage(getResources().getString(R.string.cl_exit_message));
+        builder.setPositiveButton(getResources().getString(R.string.cl_save_changes),
+                (dialogInterface, i) -> {
+                    updateChecklist();
+                    finish();
+                });
+        builder.setNegativeButton(getResources().getString(R.string.cl_cancel),
+                (dialogInterface, i) -> {
+                    dialogInterface.cancel();
+                });
+        builder.setNeutralButton(getResources().getString(R.string.cl_discard),
+                (dialogInterface, i) -> {
+                    //get checklist from DB again
+                    dialogInterface.cancel();
+                });
+        builder.show();
+    }
 }
