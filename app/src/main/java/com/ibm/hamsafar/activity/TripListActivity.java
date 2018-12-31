@@ -68,6 +68,7 @@ public class TripListActivity extends Activity {
         listData = new ArrayList<>();
         for(int i=21; i>0; i-- ) {
             TripInfo tripInfo = new TripInfo();
+            tripInfo.setId( i );
             tripInfo.setPort( "port" + i );
             tripInfo.setDes( "destination" + i );
             tripInfo.setStart( "1397/09/" + i );
