@@ -14,11 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibm.hamsafar.R;
-import com.ibm.hamsafar.activity.EditTripActivity;
-import com.ibm.hamsafar.object.TripInfo;
-import com.ibm.hamsafar.utils.DateUtil;
+import com.ibm.hamsafar.activity.EditChecklistActivity;
+import com.ibm.hamsafar.object.Checklist;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,10 +25,10 @@ import java.util.List;
 public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.ViewHolder> {
 
     private Context context;
-    private List<TripInfo> items;
+    private List<Checklist> items;
     private static Integer current_position = null;
 
-    public ChecklistAdapter(Context context, List<TripInfo> items) {
+    public ChecklistAdapter(Context context, List<Checklist> items) {
         this.context = context;
         this.items = items;
     }
@@ -39,26 +37,18 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.trip_card, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.checklist_card, parent, false);
 
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        if( expired(position)) {
-            holder.title.setVisibility( View.VISIBLE );
-            holder.title.setBackgroundColor( context.getResources().getColor(R.color.expired_trip));
-            holder.title.setText(context.getResources().getString(R.string.trip_list_expired));
-        }
-        else {
-            holder.title.setVisibility( View.GONE );
-        }
-        holder.port.setText( items.get(position).getPort() );
-        holder.destination.setText( items.get(position).getDes() );
-        holder.start.setText( items.get(position).getStart() );
-        holder.end.setText( items.get(position).getEnd() );
-        holder.trans.setText( items.get(position).getTrans() );
+        holder.title.setText( items.get(position));
+        holder.item_one.setText( items.get(position).getItem_one());
+        holder.item_two.setText( items.get(position).getItem_two());
+        holder.item_three.setText( items.get(position).getItem_three());
+        holder.id.setText( items.get(position).getId().toString());
 
         //long click for whole item
         holder.setItemLongClickListener((v, pos) -> {
@@ -74,27 +64,26 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
 
         private TextView title;
-        private TextView port;
-        private TextView destination;
-        private TextView start;
-        private TextView end;
-        private TextView trans;
+        private TextView item_one;
+        private TextView item_two;
+        private TextView item_three;
+        private TextView id;
         ItemLongClickListener itemLongClickListener;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            title = itemView.findViewById(R.id.trip_card_title);
-            port = itemView.findViewById(R.id.trip_card_port);
-            destination = itemView.findViewById(R.id.trip_card_destination);
-            start = itemView.findViewById(R.id.trip_card_start_date);
-            end = itemView.findViewById(R.id.trip_card_end_date);
-            trans = itemView.findViewById(R.id.trip_card_transport);
+            title = itemView.findViewById(R.id.cl_card_title);
+            item_one = itemView.findViewById( R.id.cl_card_item_one );
+            item_two = itemView.findViewById( R.id.cl_card_item_two );
+            item_three = itemView.findViewById( R.id.cl_card_item_three );
+            id = itemView.findViewById( R.id.cl_card_id );
 
             itemView.setOnLongClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
 
@@ -107,6 +96,13 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
             this.itemLongClickListener.onItemLongClick(v, getLayoutPosition());
             return false;
         }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(context, EditChecklistActivity.class);
+            intent.putExtra("checklist_id", id.getText().toString().trim());
+            context.startActivity(intent);
+        }
     }
 
 
@@ -117,11 +113,11 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View listViewDialog = inflater.inflate(R.layout.alertdialog_with_list, null);
         builder.setView(listViewDialog);
-        TextView listTitle = listViewDialog.findViewById(R.id.listAlertDialogTitle);
-        listTitle.setText(items.get(position).getDes());
+        /*TextView listTitle = listViewDialog.findViewById(R.id.listAlertDialogTitle);
+        listTitle.setText(items.get(position).getDes());*/
         ListView listView = listViewDialog.findViewById(R.id.dialogList);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_expandable_list_item,
-                context.getResources().getStringArray(R.array.trip_item_menu));
+                context.getResources().getStringArray(R.array.checklist_menu));
         listView.setAdapter(adapter);
         final AlertDialog dialog = builder.create();
         dialog.show();
@@ -129,8 +125,8 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
             String selectedListItem = ((TextView) view1).getText().toString();
 
             if (selectedListItem.equals("ویرایش")) {
-                Intent intent = new Intent(context, EditTripActivity.class);
-                intent.putExtra("trip", items.get(position));
+                Intent intent = new Intent(context, EditChecklistActivity.class);
+                intent.putExtra("checklist_id", items.get(position));
                 context.startActivity(intent);
             }
             else if (selectedListItem.equals("حذف")) {
@@ -138,14 +134,6 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
             }
             dialog.dismiss();
         });
-    }
-
-    //check trip expiration
-    private  boolean expired( int position ) {
-        Date  end = DateUtil.toDate( items.get(position).getEnd() );
-        Date now = DateUtil.toDate(DateUtil.getCurrentDate());
-        if( now.after(end) ) return true;
-        else return false;
     }
 
 
@@ -186,3 +174,4 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
     }
 
 }
+
