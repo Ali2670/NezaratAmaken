@@ -10,8 +10,10 @@ public class TripInfo implements Serializable {
     private Integer id;
     private String port;
     private String des;
-    private String start;
-    private String end;
+    private String startDate;
+    private String startTime;
+    private String endDate;
+    private String endTime;
     private String trans;
 
     public Integer getId() {
@@ -38,20 +40,20 @@ public class TripInfo implements Serializable {
         this.des = des;
     }
 
-    public String getStart() {
-        return start;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getEnd() {
-        return end;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setEnd(String end) {
-        this.end = end;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public String getTrans() {
@@ -60,5 +62,21 @@ public class TripInfo implements Serializable {
 
     public void setTrans(String trans) {
         this.trans = trans;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

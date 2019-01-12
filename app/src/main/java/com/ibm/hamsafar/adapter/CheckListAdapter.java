@@ -44,7 +44,7 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.title.setText( items.get(position));
+        holder.title.setText( items.get(position).getTitle() );
         holder.item_one.setText( items.get(position).getItem_one());
         holder.item_two.setText( items.get(position).getItem_two());
         holder.item_three.setText( items.get(position).getItem_three());

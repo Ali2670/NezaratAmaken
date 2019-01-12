@@ -19,6 +19,7 @@ import static hamsafar.ws.util.exception.ExceptionConstants.NULL_VALUE_RETURN;
 import static hamsafar.ws.util.exception.ExceptionConstants.RESULT_IS_OK;
 import static hamsafar.ws.util.exception.ExceptionConstants.UNKNOWN_EXCEPTION;
 
+
 public class ListHttp extends AsyncTask<Object, Void, WsResult> {
 
 
@@ -27,6 +28,7 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
     String loadMore;
     String methodName;
     Boolean refresh;
+    /*Boolean isResultList = false;*/
 
     Toast toast;
 
@@ -38,6 +40,16 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
         this.refresh = refresh;
     }
 
+    /*public ListHttp(TaskCallBack taskCallBack , Context context, String loadMore, String methodName, Boolean refresh , Boolean isResultList) {
+        this.isResultList = isResultList;
+        this.taskCallBack = taskCallBack;
+        this.context = context;
+        this.loadMore = loadMore;
+        this.methodName = methodName;
+        this.refresh = refresh;
+    }*/
+
+
     public ListHttp() {
     }
 
@@ -47,7 +59,11 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
         WsResult result;
 
         try {
-            Object obj = RestCaller.SingleObjectReturn(methodName, (Object[]) params);
+            Object obj ;
+            /*if(isResultList)*/
+                obj = RestCaller.SingleObjectReturn(methodName, (Object[]) params);/*
+            else
+                obj = RestCaller.SingleObjectReturn(methodName, (Object[]) params);*/
 
             if (obj == null/* || obj.getAllPosts() == null || obj.getAllPosts().size() == 0*/) {
                 result = new WsResult(null, NULL_VALUE_RETURN);
@@ -62,9 +78,11 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
 
             }
         } catch (GenericBusinessException e) {
+            e.printStackTrace();
             result = new WsResult(null, e.getErrCode());
 
         } catch (ConnectException e) {
+            e.printStackTrace();
             result = new WsResult(null, CONNECTION_TIMEOUT_EXCEPTION);
         }
         return result;
@@ -91,6 +109,7 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             Err(UNKNOWN_EXCEPTION);
 
         }

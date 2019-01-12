@@ -57,6 +57,19 @@ public class UnEditableCheckListAdapter extends RecyclerView.Adapter<UnEditableC
 
         }
 
+        //on click for checkbox
+        holder.checkBox.setOnClickListener(view -> {
+            items.get(position).setChecked( holder.checkBox.isChecked() );
+            if( holder.checkBox.isChecked() ) {
+                holder.topic.setPaintFlags(holder.topic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.topic.setTextColor(context.getResources().getColor(R.color.checked_item));
+            }
+            else {
+                holder.topic.setPaintFlags(holder.topic.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                holder.topic.setTextColor(context.getResources().getColor(R.color.dark_text));
+            }
+        });
+
         if (items.get(position).getTime().equals("")) {
             holder.time.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         } else {

@@ -89,8 +89,16 @@ public class CheckItemAdapter extends RecyclerView.Adapter<CheckItemAdapter.View
 
         if (items.get(position).getTime().equals("")) {
             holder.time.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-        } else {
+        }
+        if (!items.get(position).getTime().equals("")) {
             holder.time.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_alarm_dark, 0, 0, 0);
+        }
+
+        if (items.get(position).getDate().equals("")) {
+            holder.date.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        }
+        if (!items.get(position).getDate().equals("")) {
+            holder.date.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_date_dark, 0);
         }
     }
 
@@ -156,7 +164,7 @@ public class CheckItemAdapter extends RecyclerView.Adapter<CheckItemAdapter.View
         listTitle.setText(items.get(position).getTopic());
         ListView listView = listViewDialog.findViewById(R.id.dialogList);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_expandable_list_item,
-                context.getResources().getStringArray(R.array.checklist_item_menu));
+                context.getResources().getStringArray(R.array.check_item_menu));
         listView.setAdapter(adapter);
         final AlertDialog dialog = builder.create();
         dialog.show();
@@ -166,6 +174,7 @@ public class CheckItemAdapter extends RecyclerView.Adapter<CheckItemAdapter.View
             if (selectedListItem.equals("ویرایش")) {
                 Intent intent = new Intent(context, CheckListItemEditActivity.class);
                 intent.putExtra("check_item", items.get(position));
+                intent.putExtra("from", "list");
                 context.startActivity(intent);
             }
             else if (selectedListItem.equals("حذف")) {
