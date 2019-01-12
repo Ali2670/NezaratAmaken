@@ -14,8 +14,54 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/trip_list_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
 
-        <include layout="@layout/default_toolbar" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/trip_list_toolbar_back"
+                    android:layout_width="@dimen/header_button"
+                    android:layout_height="@dimen/header_button"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/ic_arrow_forward_white"
+                    android:foreground="@drawable/ripple" />
+
+                <TextView
+                    android:id="@+id/trip_list_toolbar_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_toLeftOf="@+id/toolbar_back"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    />
+
+                <Button
+                    android:id="@+id/trip_list_toolbar_filter"
+                    android:layout_width="@dimen/header_button"
+                    android:layout_height="@dimen/header_button"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/ic_filter_list_white"
+                    android:foreground="@drawable/ripple" />
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.Toolbar>
 
 
         <android.support.v7.widget.RecyclerView
