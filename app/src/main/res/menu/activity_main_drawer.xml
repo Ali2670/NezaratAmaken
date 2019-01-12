@@ -60,6 +60,22 @@
         android:checkableBehavior="single">
 
         <item
+            android:id="@+id/main_nav_no_exit"
+            android:icon="@drawable/map"
+            android:title="@string/nav_menu_item_map" />
+
+        <item
+            android:id="@+id/main_nav_toll"
+            android:icon="@drawable/map"
+            android:title="@string/nav_menu_item_map" />
+
+    </group>
+
+    <group
+        android:id="@+id/group4"
+        android:checkableBehavior="single">
+
+        <item
             android:id="@+id/main_nav_map"
             android:icon="@drawable/map"
             android:title="@string/nav_menu_item_map" />
@@ -77,7 +93,7 @@
     </group>
 
     <group
-        android:id="@+id/group4"
+        android:id="@+id/group5"
         android:checkableBehavior="single">
 
         <item
