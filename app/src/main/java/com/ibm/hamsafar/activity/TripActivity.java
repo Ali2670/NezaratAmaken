@@ -130,19 +130,19 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
         clearError();
 
         portLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(portLayout.getEditText(), portLayout));
+                new TripActivity.GenericTextWatcher(portLayout.getEditText(), portLayout));
         desLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(desLayout.getEditText(), desLayout));
+                new TripActivity.GenericTextWatcher(desLayout.getEditText(), desLayout));
         startDateLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(startDateLayout.getEditText(), startDateLayout));
+                new TripActivity.GenericTextWatcher(startDateLayout.getEditText(), startDateLayout));
         startTimeLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(startDateLayout.getEditText(), startDateLayout));
+                new TripActivity.GenericTextWatcher(startDateLayout.getEditText(), startDateLayout));
         endDateLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(endDateLayout.getEditText(), endDateLayout));
+                new TripActivity.GenericTextWatcher(endDateLayout.getEditText(), endDateLayout));
         endTimeLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(endDateLayout.getEditText(), endDateLayout));
+                new TripActivity.GenericTextWatcher(endDateLayout.getEditText(), endDateLayout));
         transLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(transLayout.getEditText(), transLayout));
+                new TripActivity.GenericTextWatcher(transLayout.getEditText(), transLayout));
 
 
         initialise();
