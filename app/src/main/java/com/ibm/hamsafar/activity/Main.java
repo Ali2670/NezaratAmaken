@@ -83,12 +83,7 @@ public class Main extends AppCompatActivity
                 getResources().getColor(R.color.colorPrimaryDark),
                 getResources().getColor(R.color.colorPrimaryLight),
                 getResources().getColor(R.color.colorPrimaryVDark));
-        mainRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mainRefreshLayout.setRefreshing(false);
-            }
-        });
+        mainRefreshLayout.setOnRefreshListener(() -> mainRefreshLayout.setRefreshing(false));
 
         /*
         * fill recycler view
@@ -283,6 +278,12 @@ public class Main extends AppCompatActivity
                 savePreferences("user_id", 0);
                 hideItem();
                 Toast.makeText(context, "خروج از حساب کاربری", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_nav_toll:
+
+                break;
+            case R.id.main_nav_no_exit:
+
                 break;
             case R.id.main_nav_share:
                 ApplicationInfo app = getApplicationContext().getApplicationInfo();
