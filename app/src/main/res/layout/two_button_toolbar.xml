@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="@dimen/_2sdp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/toolbar_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancel_button"
+            android:background="@null"
+            android:layout_margin="@dimen/_10sdp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|center_horizontal"
+            android:foreground="@drawable/ripple" />
+
+        <Button
+            android:id="@+id/toolbar_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/save"
+            android:background="@null"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_margin="@dimen/_10sdp"
+            android:textColor="@color/white"
+            android:foreground="@drawable/ripple" />
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.Toolbar>

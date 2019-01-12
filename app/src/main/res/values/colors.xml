@@ -153,5 +153,6 @@
     <color name="blur_layout_bg">#88223A70</color>
     <color name="checked_item">#618787</color>
     <color name="expired_trip">#be6c4e</color>
+    <color name="color_bg">#b2d2d2</color>
 
 </resources>

@@ -120,7 +120,7 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/dark_text_layout"
                             android:focusable="false"
-                            android:hint="@string/trip_start_date"
+                            android:hint="@string/trip_start_time"
                             android:inputType="textNoSuggestions"
                             android:textDirection="rtl"
                             android:maxLines="1"
@@ -144,6 +144,29 @@
                             android:backgroundTint="@color/dark_text_layout"
                             android:focusable="false"
                             android:hint="@string/trip_end_date"
+                            android:inputType="textNoSuggestions"
+                            android:textDirection="rtl"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/dark_text" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/trip_end_time_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColorHint="@color/dark_text_layout">
+
+                        <EditText
+                            android:id="@+id/trip_end_time"
+                            style="@android:style/Widget.Holo.Light.Spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/dark_text_layout"
+                            android:focusable="false"
+                            android:hint="@string/trip_end_time"
                             android:inputType="textNoSuggestions"
                             android:textDirection="rtl"
                             android:maxLines="1"

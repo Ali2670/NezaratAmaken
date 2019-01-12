@@ -7,7 +7,7 @@
     <string name="ok">باشه</string>
     <string name="next">بعدی</string>
     <string name="skip">رد کن</string>
-    <string name="start">شروع برنامه !</string>
+    <string name="startDate">شروع برنامه !</string>
 
     <string name="slide_1_title">شبکه اجتماعی</string>
     <string name="slide_1_desc">این برنامه کامل ترین شبکه اجتماعی  هست!</string>
@@ -73,7 +73,9 @@
     <string name="trip_port">مبدا</string>
     <string name="trip_destination">مقصد</string>
     <string name="trip_start_date">تاریخ شروع</string>
+    <string name="trip_start_time">زمان شروع</string>
     <string name="trip_end_date">تاریخ پایان</string>
+    <string name="trip_end_time">زمان پایان</string>
     <string name="trip_transport">نوع وسیله</string>
     <string name="trip_save">ثبت سفر</string>
     <string name="trip_title">تعریف سفر</string>
@@ -89,7 +91,9 @@
     <string name="trip_card_port">مبدا : </string>
     <string name="trip_card_destination">مقصد : </string>
     <string name="trip_card_start_date">تاریخ شروع : </string>
+    <string name="trip_card_start_time">زمان شروع : </string>
     <string name="trip_card_end_date">تاریخ پایان : </string>
+    <string name="trip_card_end_time">زمان پایان : </string>
     <string name="trip_card_transport">نوع وسیله : </string>
     <string name="trip_card_title">اطلاعات سفر</string>
 
@@ -111,6 +115,8 @@
     <string name="trip_list_expired">به پایان رسیده است</string>
 
     <string name="cl_list_title">چک لیست ها</string>
+    <string name="cl_list_public">عمومی</string>
+    <string name="cl_list_trip">سفرها</string>
 
     <string name="delete_title">حذف</string>
     <string name="delete_message">مورد انتخابی حذف شود؟</string>
@@ -118,12 +124,22 @@
     <string name="delete_negative">انصراف</string>
 
     <string name="trip_edit_title">ویرایش سفر</string>
-    <string name="trip_edit_done">ثبت تغییرات</string>
+    <string name="trip_edit_done">ثبت</string>
     <string name="trip_edit_cancel">انصراف</string>
     <string name="trip_edit_show_check_list">چک لیست سفر نمایش داده شود ؟</string>
 
     <string name="yes">بله</string>
     <string name="no">خیر</string>
+    <string name="save">ثبت</string>
+    <string name="cancel_button">انصراف</string>
+
+    <string name="exit_message">آیا مایل به ثبت تغییرات هستید ؟</string>
+    <string name="exit_save_changes">ثبت تغییرات</string>
+    <string name="exit_discard">حذف تغیبرات</string>
+    <string name="exit_cancel">انصراف</string>
+
+    <string name="save_success_message">ثبت با موفقیت انجام شد</string>
+    <string name="save_failure_message">خطا در برقراری ارتباط با سرور</string>
 
     <!--adad*************-->
     <string name="sefr">۰</string>
@@ -201,10 +217,13 @@
     <string name="Exc.700005">تارخ تولد را وارد نمایید</string>
     <string name="Exc.700006">جهت ثبت اطلاعات، تأیید این مجوز الزامی است.</string>
     <string name="Exc.700007">اطلاعات را به صورت صحیح وارد کنید</string>
+    <string name="Exc.700008">تاریخ تولد را به صورت صحیح وارد کنید</string>
 
     <!-- TripActivity Exc -->
     <string name="Exc.800001">مقصد را وارد نمایید</string>
     <string name="Exc.800002">تاریخ پایان را وارد نمایید</string>
+    <string name="Exc.800003">زمان پایان را وارد نمایید</string>
+    <string name="Exc.800004">زمان شروع را وارد نمایید</string>
 
 
 </resources>

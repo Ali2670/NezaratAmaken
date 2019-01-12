@@ -23,6 +23,7 @@
         android:layoutDirection="rtl"
         android:background="@drawable/list_view_rounded_border"
         android:layout_margin="@dimen/_8sdp"
+        android:padding="@dimen/_8sdp"
         />
 
 </LinearLayout>

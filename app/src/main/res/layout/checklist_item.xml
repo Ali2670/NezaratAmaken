@@ -12,6 +12,7 @@
         android:layout_gravity="center"
         android:elevation="@dimen/cl_card_elevation"
         android:padding="@dimen/cl_card_margin"
+        android:layout_margin="@dimen/cl_card_margin"
         card_view:cardCornerRadius="@dimen/cl_card_corner_radius"
         card_view:cardElevation="@dimen/cl_card_elevation"
         card_view:cardUseCompatPadding="true">
@@ -19,29 +20,68 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/check_list_item_text"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foregroundGravity="center_vertical"
-                android:layoutDirection="rtl"
-                android:textColor="@color/dark_text" />
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp"
+                >
 
-            <CheckBox
-                android:id="@+id/check_list_item_select"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/check_list_item_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foregroundGravity="center_vertical"
+                    android:layoutDirection="rtl"
+                    android:textColor="@color/dark_text" />
 
-            <TextView
-                android:layout_width="@dimen/_2sdp"
-                android:layout_height="match_parent"
-                android:background="@color/dark_text"
-                />
+                <CheckBox
+                    android:id="@+id/check_list_item_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider"/>
+
+            <LinearLayout
+                android:id="@+id/check_list_item_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:padding="@dimen/_3sdp"
+                >
+
+                <TextView
+                    android:id="@+id/check_list_item_alarm_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_alarm_dark"
+                    android:text="10:00"
+                    />
+
+                <TextView
+                    android:id="@+id/check_list_item_alarm_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:drawableRight="@drawable/ic_date_dark"
+                    android:text="یکشنبه 18 آذر 97"
+                    android:textDirection="rtl"
+                    />
+
+            </LinearLayout>
 
         </LinearLayout>
+
 
     </android.support.v7.widget.CardView>
 

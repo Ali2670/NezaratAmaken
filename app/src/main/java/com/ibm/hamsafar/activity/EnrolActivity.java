@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,10 +41,12 @@ import com.ibm.hamsafar.R;
 import com.ibm.hamsafar.asyncTask.ListHttp;
 import com.ibm.hamsafar.asyncTask.TaskCallBack;
 import com.ibm.hamsafar.object.UserInfo;
+import com.ibm.hamsafar.utils.DateUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Date;
 import java.util.Map;
 
 import hamsafar.ws.model.JsonCodec;
@@ -67,6 +70,7 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
     private EditText birthDate = null;
     private Button save = null;
     private UserInfo userInfo = new UserInfo();
+    private LinearLayout parent_layout = null;
 
     private Button toolbarBack = null;
     private TextView toolbarTitle = null;
@@ -98,6 +102,7 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
         save = findViewById(R.id.enrol_save_btn);
         toolbarBack = findViewById(R.id.toolbar_back);
         toolbarTitle = findViewById(R.id.toolbar_text);
+        parent_layout = findViewById(R.id.enrol_parent);
 
         clearError();
 
@@ -149,8 +154,13 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
                 birthDateLayout.setError(getResources().getString(R.string.Exc_700005));
                 hasError = true;
             }
+            if( invalidBirthDate() ) {
+                birthDateLayout.setError(getResources().getString(R.string.Exc_700008));
+                hasError = true;
+            }
+
             if (hasError) {
-                Snackbar.make(view, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(parent_layout, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
             } else {
                 if (checkInternetConnection()) {
                     clearError();
@@ -202,6 +212,14 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
 
     }
 
+
+    //check birth date
+    private boolean invalidBirthDate() {
+        Date now = DateUtil.toDate( DateUtil.getCurrentDate() );
+        Date birth = DateUtil.toDate( birthDate.getText().toString().trim() );
+        return birth.after(now);
+    }
+
     private void setUserInfo() {
         final Bitmap photoBitmap = ((BitmapDrawable) photo.getDrawable()).getBitmap();
         Drawable myDrawable = getResources().getDrawable(R.drawable.default_profile);
@@ -239,6 +257,7 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
         request.setSurname( lastName.getText().toString().trim() );
         request.setBirthDate( birthDate.getText().toString().trim() );
         request.setNationalCode( idCode.getText().toString().trim() );
+        request.setImage( convertProfileImage( photo ));
 
         TaskCallBack<Object> submitProfileResponse = result -> {
             SubmitProfileResponse ress = JsonCodec.toObject((Map) result, SubmitProfileResponse.class);
@@ -260,7 +279,6 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
 
     private void launchProfileView() {
         Intent intent = new Intent(EnrolActivity.this, UserProfileActivity.class);
-        intent.putExtra("user", userInfo);
         startActivity(intent);
         finish();
     }
@@ -326,23 +344,26 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
         editor.commit();
     }
 
-    public void saveProfileImage(View view) {
-        //code image to string
-        photo.buildDrawingCache();
-        Bitmap bitmap = photo.getDrawingCache();
+
+    //convert image into string for saving into DB
+    public String convertProfileImage(CircularImageView view) {
+        /*photo.buildDrawingCache();
+        Bitmap bitmap = photo.getDrawingCache();*/
+        Bitmap bitmap = ((BitmapDrawable)view.getDrawable()).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
         byte[] image = stream.toByteArray();
-        String img_str = Base64.encodeToString(image, 0);
+        String img_str = Base64.encodeToString(image, Base64.NO_WRAP);
+        return img_str;
         //decode string to image
         /*String base=img_str;
         byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
         photo.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes,0, imageAsBytes.length) );*/
         //save in sharedpreferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        /*SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("user_photo", img_str);
-        editor.commit();
+        editor.commit();*/
     }
 
 
@@ -448,8 +469,8 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
             CropIntent.setDataAndType(uri, "image/*");
 
             CropIntent.putExtra("crop", "true");
-            CropIntent.putExtra("outputX", 180);
-            CropIntent.putExtra("outputY", 180);
+            /*CropIntent.putExtra("outputX", 180);
+            CropIntent.putExtra("outputY", 180);*/
             CropIntent.putExtra("aspectX", 4);
             CropIntent.putExtra("aspectY", 4);
             CropIntent.putExtra("scaleUpIfNeeded", true);
@@ -497,6 +518,12 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
                 }
                 break;
         }
+    }
+
+    public void onBackPressed() {
+        Intent intent = new Intent( EnrolActivity.this, Main.class);
+        startActivity( intent );
+        finish();
     }
 
 

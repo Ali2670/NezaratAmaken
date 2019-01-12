@@ -99,11 +99,11 @@
         <item name="android:color">@color/HashtagBlue</item>
     </style>
 
-    <style name="NavigationViewTextAppearance">
+    <!--<style name="NavigationViewTextAppearance">
         <item name="android:textColor">@color/black</item>
-        <item name="android:ellipsize">end</item>
+        <item name="android:ellipsize">endDate</item>
         <item name="android:fontFamily">@fonts/morvarid</item>
-    </style>
+    </style>-->
 
     <style name="NavigationText" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/black</item>
@@ -135,11 +135,11 @@
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<topic name="android:windowNoTitle">true</topic>-->
         <!--We will be using the toolbar so no need to show ActionBar-->
-        <!--<item name="android:windowActionBar">false</item>-->
-        <!--        <item name="windowNoTitle">false</item>
-        <item name="windowActionBar">true</item>-->
+        <!--<topic name="android:windowActionBar">false</topic>-->
+        <!--        <topic name="windowNoTitle">false</topic>
+        <topic name="windowActionBar">true</topic>-->
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

@@ -111,6 +111,14 @@
         <activity android:name=".activity.ChecklistListActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.ShowImageActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.Test"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.WebPageActivity"/>
+
 
         <receiver android:name="com.ibm.hamsafar.utils.SmsReceiver">
             <intent-filter>

@@ -100,4 +100,5 @@
     <dimen name="card_width">@dimen/_250sdp</dimen>
     <dimen name="card_padding">@dimen/_25sdp</dimen>
 
+    <dimen name="checkbox_text_size">15sp</dimen>
 </resources>

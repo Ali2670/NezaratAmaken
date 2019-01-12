@@ -7,7 +7,7 @@ android {
         applicationId "com.ibm.hamsafar"
         multiDexEnabled true
 
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "0.1.0"
@@ -84,6 +84,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     testImplementation 'junit:junit:4.12'
-    implementation project(':dto')
-    implementation project(path: ':persianmaterialdatetimepicker')
+    implementation project(path: ':DateTimePick')
+    implementation project(path: ':dtoHamsafar')
 }

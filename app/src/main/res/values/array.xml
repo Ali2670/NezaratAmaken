@@ -11,4 +11,80 @@
         <item>حذف تصویر</item>
     </string-array>
 
+    <string-array name="trip_transpose">
+        <item>هواپیما</item>
+        <item>قطار</item>
+        <item>اتوبوس</item>
+        <item>سواری</item>
+    </string-array>
+
+    <string-array name="check_item_menu">
+        <item>ویرایش</item>
+        <item>حذف</item>
+        <!--<item>آلارم</item>-->
+    </string-array>
+
+    <string-array name="trip_item_menu">
+        <item>ویرایش</item>
+        <item>حذف</item>
+    </string-array>
+
+    <string-array name="checklist_menu">
+        <item>ویرایش</item>
+        <item>حذف</item>
+    </string-array>
+
+
+    <string-array name="province_array">
+        <item>آذربایجان شرقی</item>
+        <item>آذربایجان غربی</item>
+        <item>اردبیل</item>
+        <item>اصفهان</item>
+        <item>البرز</item>
+        <item>ایلام</item>
+        <item>بوشهر</item>
+        <item>تهران</item>
+        <item>چهارمحال بختیاری</item>
+        <item>خراسان جنوبی</item>
+        <item>خراسان رضوی</item>
+        <item>خراسان شمالی</item>
+        <item>خوزستان</item>
+        <item>زنجان</item>
+        <item>سمنان</item>
+        <item>سیستان و بلوچستان</item>
+        <item>فارس</item>
+        <item>قزوین</item>
+        <item>قم</item>
+        <item>کردستان</item>
+        <item>کرمان</item>
+        <item>کرمانشاه</item>
+        <item>کهگیلویه و بویراحمد</item>
+        <item>گلستان</item>
+        <item>گیلان</item>
+        <item>لرستان</item>
+        <item>مازندران</item>
+        <item>مرکزی</item>
+        <item>هرمزگان</item>
+        <item>همدان</item>
+        <item>یزد</item>
+    </string-array>
+
+    <string-array name="country_array">
+        <item>انگلیس</item>
+        <item>کانادا</item>
+        <item>آمریکا</item>
+        <item>عربستان</item>
+        <item>روسیه</item>
+        <item>اسپانیا</item>
+        <item>پرتغال</item>
+        <item>بلغارستان</item>
+        <item>مراکش</item>
+        <item>تونست</item>
+        <item>هند</item>
+        <item>ترکیه</item>
+        <item>لبنان</item>
+        <item>مکزیک</item>
+        <item>هلند</item>
+    </string-array>
+
 </resources>

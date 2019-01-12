@@ -18,43 +18,8 @@
         <include layout="@layout/default_toolbar" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:padding="@dimen/_10sdp"
-            >
-
-            <CheckBox
-                android:id="@+id/cl_list_public_box"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layoutDirection="rtl"
-                android:checked="true"
-                android:textColor="@color/dark_text"
-                android:text="@string/cl_list_public"
-                android:textSize="@dimen/checkbox_text_size"
-                />
-
-            <CheckBox
-                android:id="@+id/cl_list_trip_box"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layoutDirection="rtl"
-                android:checked="true"
-                android:textColor="@color/dark_text"
-                android:text="@string/cl_list_trip"
-                android:textSize="@dimen/checkbox_text_size"
-                />
-
-        </LinearLayout>
-
-
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/cl_list_recycler_view"
+            android:id="@+id/trip_list_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="@dimen/card_corner_radios"
@@ -67,7 +32,7 @@
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/cl_list_add"
+        android:id="@+id/trip_list_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"

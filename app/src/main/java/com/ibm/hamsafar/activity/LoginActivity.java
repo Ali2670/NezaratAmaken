@@ -126,17 +126,6 @@ public class LoginActivity extends Activity {
 
     }
 
-    private void checkActivationCode(int act_code) {
-        int default_code = 1234;
-        if (act_code == default_code) {
-            codeLayout.setError(null);
-            saveLoginInfo();
-            launchEnrolScreen();
-        } else {
-            codeLayout.setError(getResources().getString(R.string.Exc_600003));
-        }
-    }
-
     private void startTimer() {
 
         int time = 1;
@@ -163,18 +152,6 @@ public class LoginActivity extends Activity {
         countDownTimer.start();
     }
 
-    private void saveLoginInfo() {
-        /*
-         *
-         * get user id from DB
-         *
-         * */
-
-        //savePreferences("user_id", id );
-        savePreferences("mobile_number", mobile.getText().toString().trim());
-
-    }
-
     /**
      * method to convert millisecond to time format
      *
@@ -191,6 +168,7 @@ public class LoginActivity extends Activity {
         return hms;
     }
 
+    //send mobile to get activation code
     private void login(String phoneNum) {
         LoginRequest request = new LoginRequest();
         request.setPhoneNo(phoneNum);
@@ -206,13 +184,20 @@ public class LoginActivity extends Activity {
         new ListHttp(loginCallBack, this, null, ServiceNames.DO_LOGIN, false).execute(request);
     }
 
+
+    //check activation code
     private void sendActivationCode(String phoneNum, String activationCode) {
         LoginRequest request = new LoginRequest();
         request.setPhoneNo(phoneNum);
         request.setConfirmCode(activationCode);
 
-        TaskCallBack<ConfirmLoginResponse> confirmLoginCallBack = result -> {
-            Toast.makeText(context, "result is " + result.getDoesLoginConfirmed(), Toast.LENGTH_SHORT).show();
+        TaskCallBack<Object> confirmLoginCallBack = result -> {
+            ConfirmLoginResponse ress = JsonCodec.toObject((Map) result, ConfirmLoginResponse.class);
+
+            //do if there is no exc
+            codeLayout.setError(null);
+            savePreferences("user_id", ress.getUserId() );
+            launchEnrolScreen();
         };
         AsyncTask<Object, Void, WsResult> list = new ListHttp(confirmLoginCallBack, this, null, ServiceNames.CONFIRM_LOGIN, false);
         list.execute(request);
@@ -236,10 +221,10 @@ public class LoginActivity extends Activity {
         return true;
     }
 
-    private void savePreferences(String key, String value) {
+    private void savePreferences(String key, Integer value) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, value);
+        editor.putInt(key, value);
         editor.commit();
     }
 

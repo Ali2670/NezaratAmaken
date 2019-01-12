@@ -255,10 +255,10 @@ public class Main extends AppCompatActivity
                 startActivity( new Intent(Main.this, TripActivity.class));
                 break;
             case R.id.main_nav_checklist:
-                startActivity( new Intent(Main.this, CheckListActivity.class));
+                startActivity( new Intent(Main.this, CheckListItemEditActivity.class));
                 break;
             case R.id.main_nav_login:
-                if( sharedPreferences.contains("user_id")) {
+                if( sharedPreferences.contains("user_id") && sharedPreferences.getInt("user_id", 0) != 0) {
                     startActivity(new Intent(Main.this, EnrolActivity.class));
                 } else {
                     startActivity(new Intent(Main.this, LoginActivity.class));
@@ -280,11 +280,7 @@ public class Main extends AppCompatActivity
 
                 break;
             case R.id.main_nav_logout:
-                savePreferences("user_photo", null);
-                savePreferences("user_id_code", null);
-                savePreferences("user_first_name", null);
-                savePreferences("user_last_name", null);
-                savePreferences("user_birth_date", null);
+                savePreferences("user_id", 0);
                 hideItem();
                 Toast.makeText(context, "خروج از حساب کاربری", Toast.LENGTH_SHORT).show();
                 break;
@@ -344,12 +340,7 @@ public class Main extends AppCompatActivity
             sliderView.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
             //sliderView.setDescription("setDescription " + (i + 1));
             final int finalI = i;
-            sliderView.setOnSliderClickListener(new SliderView.OnSliderClickListener() {
-                @Override
-                public void onSliderClick(SliderView sliderView) {
-                    Toast.makeText(context, "This is slider " + (finalI + 1), Toast.LENGTH_SHORT).show();
-                }
-            });
+            sliderView.setOnSliderClickListener(sliderView1 -> Toast.makeText(context, "This is slider " + (finalI + 1), Toast.LENGTH_SHORT).show());
 
             //at last add this view in your layout :
             sliderLayout.addSliderView(sliderView);
@@ -365,17 +356,20 @@ public class Main extends AppCompatActivity
                 nav_Menu.findItem(R.id.main_nav_login).setVisible(false);
                 nav_Menu.findItem(R.id.main_nav_edit).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_logout).setVisible(true);
+                nav_Menu.findItem(R.id.main_nav_friends).setVisible(true);
             }
             else {
                 nav_Menu.findItem(R.id.main_nav_login).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_edit).setVisible(false);
                 nav_Menu.findItem(R.id.main_nav_logout).setVisible(false);
+                nav_Menu.findItem(R.id.main_nav_friends).setVisible(false);
             }
         }
         else {
             nav_Menu.findItem(R.id.main_nav_login).setVisible(true);
             nav_Menu.findItem(R.id.main_nav_edit).setVisible(false);
             nav_Menu.findItem(R.id.main_nav_logout).setVisible(false);
+            nav_Menu.findItem(R.id.main_nav_friends).setVisible(false);
         }
     }
 
@@ -383,6 +377,13 @@ public class Main extends AppCompatActivity
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
+        editor.commit();
+    }
+
+    private void savePreferences(String key, Integer value) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
         editor.commit();
     }
 

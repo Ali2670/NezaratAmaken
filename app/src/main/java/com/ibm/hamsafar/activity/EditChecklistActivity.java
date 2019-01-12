@@ -66,8 +66,8 @@ public class EditChecklistActivity extends Activity {
         recyclerView = findViewById(R.id.cl_recycler_view);
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         addItem = findViewById(R.id.cl_add_item);
-        save = findViewById(R.id.cl_done_btn);
-        cancel = findViewById(R.id.cl_cancel_btn);
+        save = findViewById(R.id.toolbar_save);
+        cancel = findViewById(R.id.toolbar_cancel);
 
         tripParent = findViewById(R.id.trip_card_parent);
         tripCardPort = findViewById(R.id.trip_card_port);
@@ -142,7 +142,7 @@ public class EditChecklistActivity extends Activity {
             checkItem.setTopic("topic" + i);
 
             if( has_trip ) {
-                checkItem.setDate( tripInfo.getStart() );
+                checkItem.setDate( tripInfo.getStartDate() );
             }
             else {
                 checkItem.setDate(DateUtil.getCurrentDate() );
@@ -168,20 +168,19 @@ public class EditChecklistActivity extends Activity {
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(EditChecklistActivity.this);
-        builder.setMessage(getResources().getString(R.string.cl_exit_message));
-        builder.setPositiveButton(getResources().getString(R.string.cl_save_changes),
+        builder.setMessage(getResources().getString(R.string.exit_message));
+        builder.setPositiveButton(getResources().getString(R.string.exit_save_changes),
                 (dialogInterface, i) -> {
                     updateChecklist();
                     finish();
                 });
-        builder.setNegativeButton(getResources().getString(R.string.cl_cancel),
+        builder.setNeutralButton(getResources().getString(R.string.exit_cancel),
                 (dialogInterface, i) -> {
                     dialogInterface.cancel();
                 });
-        builder.setNeutralButton(getResources().getString(R.string.cl_discard),
+        builder.setNegativeButton(getResources().getString(R.string.exit_discard),
                 (dialogInterface, i) -> {
-                    //get checklist from DB again
-                    dialogInterface.cancel();
+                    finish();
                 });
         builder.show();
     }

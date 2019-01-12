@@ -3,7 +3,10 @@ package com.ibm.hamsafar.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.animation.Animation;
@@ -12,15 +15,29 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.hamsafar.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.hamsafar.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.hamsafar.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.ibm.hamsafar.R;
+import com.ibm.hamsafar.asyncTask.ListHttp;
+import com.ibm.hamsafar.asyncTask.TaskCallBack;
 import com.ibm.hamsafar.object.CheckItem;
 import com.ibm.hamsafar.utils.DateUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import hamsafar.ws.common.ChecklistItemDto;
+import hamsafar.ws.common.ReminderDto;
+import hamsafar.ws.model.JsonCodec;
+import hamsafar.ws.request.SubmitTripChecklistRequest;
+import hamsafar.ws.response.SubmitChecklistResponse;
+import hamsafar.ws.util.service.ServiceNames;
+import ibm.ws.WsResult;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -43,7 +60,9 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
     private TextView toolbarTitle = null;
     private Button save = null;
     private Button cancel = null;
-    private static boolean add = false;
+    private Integer item_id = 0;
+    private Integer trip_id = 0;
+    //private static boolean add = false;
 
 
     @Override
@@ -52,9 +71,9 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
     }
 
 
-    public void onCreate( Bundle bundle ) {
-        super.onCreate( bundle );
-        setContentView( R.layout.checklist_item_edit);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        setContentView(R.layout.checklist_item_edit);
 
 
         topic_layout = findViewById(R.id.cl_dialog_topic_layout);
@@ -72,24 +91,34 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
         animation_appear = AnimationUtils.loadAnimation(CheckListItemEditActivity.this, R.anim.animation_fade_in);
         animation_disappear = AnimationUtils.loadAnimation(CheckListItemEditActivity.this, R.anim.animation_fade_out);
 
+
         //initialise
         checkItem = new CheckItem();
-        if( getIntent().hasExtra("check_item")) {
-            add = false;
+        if (getIntent().hasExtra("check_item")) {
+            //add = false;
             checkItem = (CheckItem) getIntent().getSerializableExtra("check_item");
-            topic.setText( checkItem.getTopic() );
-            date.setText( checkItem.getDate() );
-            if( !checkItem.getTime().equals("") ) {
-                time.setText(checkItem.getTime());
-                checkBox.setChecked( true );
+            if( checkItem.getId() != null )
+                item_id = checkItem.getId();
+            if (checkItem.getTripId() == null) {
+                trip_id = 0;
+            } else {
+                trip_id = checkItem.getTripId();
             }
-            else
-                checkBox.setChecked( false );
+
+            topic.setText(checkItem.getTopic());
+            date.setText(checkItem.getDate());
+            if (!checkItem.getTime().equals("")) {
+                time.setText(checkItem.getTime());
+                checkBox.setChecked(true);
+            } else
+                checkBox.setChecked(false);
+        } else {
+            //add = true;
+            date.setText(DateUtil.getCurrentDate());
+            checkBox.setChecked(false);
         }
-        else {
-            add = true;
-            date.setText(DateUtil.getCurrentDate() );
-            checkBox.setChecked( false );
+        if( getIntent().hasExtra("trip_id") ) {
+            trip_id = getIntent().getIntExtra( "trip_id", 0);
         }
 
 
@@ -100,20 +129,23 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
             onBackPressed();
         });
 
-        toolbarTitle.setText( getResources().getString( R.string.cl_edit_title));
+        toolbarTitle.setText(getResources().getString(R.string.cl_edit_title));
 
-        if( !checkBox.isChecked() ) {
-            time_layout.setVisibility( View.GONE );
+        if (!checkBox.isChecked()) {
+            time_layout.setVisibility(View.GONE);
+            date_layout.setVisibility( View.GONE );
         }
 
         checkBox.setOnClickListener(view -> {
-            if( checkBox.isChecked() ) {
+            if (checkBox.isChecked()) {
                 time_layout.setVisibility(View.VISIBLE);
-                time_layout.startAnimation( animation_appear );
-            }
-            else {
+                time_layout.startAnimation(animation_appear);
+                date_layout.setVisibility(View.VISIBLE);
+                date_layout.startAnimation(animation_appear);
+            } else {
                 //time_layout.startAnimation( animation_disappear );
                 time_layout.setVisibility(View.GONE);
+                date_layout.setVisibility( View.GONE );
             }
         });
 
@@ -151,14 +183,76 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
 
     //save button action
     private void saveChanges() {
-        if( !add ) {
-            //update db info
-            finish();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Integer user_id = sharedPreferences.getInt("user_id", 0);
+
+        SubmitTripChecklistRequest request = new SubmitTripChecklistRequest();
+        request.setUserId(user_id);
+
+        //fill items
+        List<ChecklistItemDto> listDB = new ArrayList<>();
+        ChecklistItemDto checklistItemDto = new ChecklistItemDto();
+        checklistItemDto.setUserId(user_id);
+        if (trip_id != 0) {
+            checklistItemDto.setTripId(trip_id);
+        }
+        if (item_id != 0) {
+            checklistItemDto.setId(item_id);
+        }
+        checklistItemDto.setTitle(topic.getText().toString().trim());
+        checklistItemDto.setFixedTitle(topic.getText().toString().trim());
+
+        if (checkItem.isChecked())
+            checklistItemDto.setStatus((byte) 1);
+        if (!checkItem.isChecked())
+            checklistItemDto.setStatus((byte) 0);
+
+        String date_st = date.getText().toString().trim();
+        String time_st = time.getText().toString().trim();
+        if( !date_st.equals("") && !time_st.equals("") ) {
+
+            checklistItemDto.setReminderFlag((byte) 1);
+
+            //create reminder
+            ReminderDto reminderDto = new ReminderDto();
+            reminderDto.setStartDate(date.getText().toString().trim());
+            reminderDto.setStartTime(time.getText().toString().trim());
+            reminderDto.setReminderType((byte) 0);
+            reminderDto.setRemindDate(date.getText().toString().trim());
+            reminderDto.setRemindTime(time.getText().toString().trim());
+            reminderDto.setStatus((byte) 0);
+
+            checklistItemDto.setReminderDto(reminderDto);
         }
         else {
-            //add new check item to db
-            finish();
+            checklistItemDto.setReminderFlag((byte) 0);
         }
+
+        listDB.add(checklistItemDto);
+        request.setChecklistDtoList(listDB);
+
+        TaskCallBack<Object> submitChecklistResponse = result -> {
+            SubmitChecklistResponse ress = JsonCodec.toObject((Map) result, SubmitChecklistResponse.class);
+
+            if (ress.getSuccessful()) {
+                Toast.makeText(context, getResources().getString(R.string.save_success_message), Toast.LENGTH_SHORT).show();
+                /*Intent intent = null;
+                if( from.equals("edit_trip")) {
+                    intent = new Intent(this, EditTripActivity.class);
+                    startActivity( intent );
+                }
+                if( from.equals("checklist_list")) {
+                    intent = new Intent(this, ChecklistListActivity.class);
+                    startActivity( intent );
+                }*/
+                finish();
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.save_failure_message), Toast.LENGTH_SHORT).show();
+            }
+
+        };
+        AsyncTask<Object, Void, WsResult> list = new ListHttp(submitChecklistResponse, this, null, ServiceNames.SUBMIT_CHECKLIST, false);
+        list.execute(request);
     }
 
 
@@ -180,10 +274,9 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
         String hourString = hourOfDay < 10 ? "0" + hourOfDay : "" + hourOfDay;
         String minuteString = minute < 10 ? "0" + minute : "" + minute;
-        String time =  hourString + ":" + minuteString;
+        String time = hourString + ":" + minuteString;
         this.time.setText(time);
     }
-
 
 
     @Override
@@ -195,14 +288,13 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
                     saveChanges();
                     finish();
                 });
-        builder.setNegativeButton(getResources().getString(R.string.exit_cancel),
+        builder.setNeutralButton(getResources().getString(R.string.exit_cancel),
                 (dialogInterface, i) -> {
                     dialogInterface.cancel();
                 });
-        builder.setNeutralButton(getResources().getString(R.string.exit_discard),
+        builder.setNegativeButton(getResources().getString(R.string.exit_discard),
                 (dialogInterface, i) -> {
-                    //get check item from DB again
-                    dialogInterface.cancel();
+                    finish();
                 });
         builder.show();
     }

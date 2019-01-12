@@ -455,12 +455,12 @@ public class Imageutils  {
         alertdialog.setTitle("Add Image");
         alertdialog.setItems(items, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Camera"))
+            public void onClick(DialogInterface dialog, int topic) {
+                if (items[topic].equals("Camera"))
                 {
                     launchCamera(from);
                 }
-                else if (items[item].equals("Gallery"))
+                else if (items[topic].equals("Gallery"))
                 {
                     launchGallery(from);
                 }

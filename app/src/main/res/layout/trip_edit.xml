@@ -1,3 +1,252 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/two_button_toolbar"/>
+
+        <LinearLayout
+            android:id="@+id/trip_edit_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/card_padding"
+            >
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/trip_edit_port_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/dark_text_layout">
+
+                <EditText
+                    android:id="@+id/trip_edit_port"
+                    style="@android:style/Widget.Holo.Light.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_text_layout"
+                    android:focusable="false"
+                    android:hint="@string/trip_port"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/dark_text"
+                    android:textDirection="rtl" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/trip_edit_destination_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/dark_text_layout">
+
+                <EditText
+                    android:id="@+id/trip_edit_destination"
+                    style="@android:style/Widget.Holo.Light.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_text_layout"
+                    android:focusable="false"
+                    android:hint="@string/trip_destination"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/dark_text"
+                    android:textDirection="rtl" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/trip_edit_start_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/dark_text_layout">
+
+                <EditText
+                    android:id="@+id/trip_edit_start_date"
+                    style="@android:style/Widget.Holo.Light.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_text_layout"
+                    android:focusable="false"
+                    android:hint="@string/trip_start_date"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/dark_text"
+                    android:textDirection="rtl" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/trip_edit_start_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/dark_text_layout">
+
+                <EditText
+                    android:id="@+id/trip_edit_start_time"
+                    style="@android:style/Widget.Holo.Light.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_text_layout"
+                    android:focusable="false"
+                    android:hint="@string/trip_start_time"
+                    android:inputType="textNoSuggestions"
+                    android:textDirection="rtl"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/dark_text" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/trip_edit_end_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/dark_text_layout">
+
+                <EditText
+                    android:id="@+id/trip_edit_end_date"
+                    style="@android:style/Widget.Holo.Light.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_text_layout"
+                    android:focusable="false"
+                    android:hint="@string/trip_end_date"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/dark_text"
+                    android:textDirection="rtl" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/trip_edit_end_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/dark_text_layout">
+
+                <EditText
+                    android:id="@+id/trip_edit_end_time"
+                    style="@android:style/Widget.Holo.Light.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_text_layout"
+                    android:focusable="false"
+                    android:hint="@string/trip_end_time"
+                    android:inputType="textNoSuggestions"
+                    android:textDirection="rtl"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/dark_text" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/trip_edit_transport_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/dark_text_layout">
+
+                <EditText
+                    android:id="@+id/trip_edit_transport"
+                    style="@android:style/Widget.Holo.Light.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/dark_text_layout"
+                    android:focusable="false"
+                    android:hint="@string/trip_transport"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/dark_text"
+                    android:textDirection="rtl" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <!--<Switch
+                android:id="@+id/trip_edit_check_list_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layoutDirection="rtl"
+                android:showText="true"
+                android:text="@string/trip_show_check_list"
+                android:textColor="@color/dark_text"
+                android:textOff="@string/no"
+                android:textOn="@string/yes" />
+
+
+            <Switch
+                android:id="@+id/trip_edit_check_list_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layoutDirection="rtl"
+                android:showText="true"
+                android:text="@string/trip_edit_show_check_list"
+                android:textColor="@color/dark_text"
+                android:textOff="@string/no"
+                android:textOn="@string/yes" />-->
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/trip_edit_checklist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="@dimen/card_corner_radius"
+            card_view:cardElevation="@dimen/card_elevation"
+            card_view:cardUseCompatPadding="true"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/trip_edit_checklist_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/fab_add"
+        app:layout_anchor="@id/trip_edit_up"
+        app:layout_anchorGravity="bottom|left|start"/>
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/tools"
@@ -100,6 +349,29 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/trip_edit_start_time_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColorHint="@color/dark_text_layout">
+
+                        <EditText
+                            android:id="@+id/trip_edit_start_time"
+                            style="@android:style/Widget.Holo.Light.Spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/dark_text_layout"
+                            android:focusable="false"
+                            android:hint="@string/trip_start_time"
+                            android:inputType="textNoSuggestions"
+                            android:textDirection="rtl"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/dark_text" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:id="@+id/trip_edit_end_date_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -119,6 +391,29 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/dark_text"
                             android:textDirection="rtl" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/trip_edit_end_time_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColorHint="@color/dark_text_layout">
+
+                        <EditText
+                            android:id="@+id/trip_edit_end_time"
+                            style="@android:style/Widget.Holo.Light.Spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/dark_text_layout"
+                            android:focusable="false"
+                            android:hint="@string/trip_end_time"
+                            android:inputType="textNoSuggestions"
+                            android:textDirection="rtl"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/dark_text" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -172,7 +467,7 @@
                         android:textOn="@string/yes" />
 
 
-                    <!-- trip checklist -->
+                    &lt;!&ndash; trip checklist &ndash;&gt;
                     <android.support.v7.widget.CardView
                         xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -239,4 +534,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</LinearLayout>-->

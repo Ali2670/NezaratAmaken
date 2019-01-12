@@ -2,6 +2,7 @@ package com.ibm.hamsafar.activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
@@ -26,7 +27,11 @@ import com.ibm.hamsafar.utils.Tools;
 
 import java.util.Random;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class Splash extends AppCompatActivity {
+
+    private Context context = this;
     public static final int progress_bar_type = 0;
     private final static int TIMER_INTERVAL = 2000; // 2 sec
     private static SplashTimer timer;
@@ -45,6 +50,12 @@ public class Splash extends AppCompatActivity {
         super.onAttachedToWindow();
         Window window = getWindow();
         window.setFormat(PixelFormat.RGBA_8888);
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override
@@ -294,7 +305,8 @@ public class Splash extends AppCompatActivity {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                    Toast.makeText(Splash.this, "Permission denied !!!", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(context, "Permission denied !!!", Toast.LENGTH_SHORT).show();
                 }
                 canBeGoPerm = true;
 

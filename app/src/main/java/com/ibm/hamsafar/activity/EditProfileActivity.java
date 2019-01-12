@@ -8,12 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,12 +38,25 @@ import android.widget.Toast;
 import com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.hamsafar.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.ibm.hamsafar.R;
+import com.ibm.hamsafar.asyncTask.ListHttp;
+import com.ibm.hamsafar.asyncTask.TaskCallBack;
 import com.ibm.hamsafar.object.UserInfo;
+import com.ibm.hamsafar.utils.DateUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Date;
+import java.util.Map;
 
+import hamsafar.ws.common.ProfileDto;
+import hamsafar.ws.model.JsonCodec;
+import hamsafar.ws.request.GetProfileRequest;
+import hamsafar.ws.request.SubmitProfileRequest;
+import hamsafar.ws.response.GetProfileResponse;
+import hamsafar.ws.response.SubmitProfileResponse;
+import hamsafar.ws.util.service.ServiceNames;
+import ibm.ws.WsResult;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class EditProfileActivity extends Activity implements DatePickerDialog.OnDateSetListener {
@@ -60,6 +74,7 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
     private Button save = null;
     private Button toolbarBack = null;
     private TextView toolbarTitle = null;
+    private LinearLayout parent_layout = null;
     private UserInfo userInfo = new UserInfo();
     SharedPreferences sharedPreferences;
 
@@ -93,6 +108,7 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
         save = findViewById(R.id.enrol_save_btn);
         toolbarBack = findViewById(R.id.toolbar_back);
         toolbarTitle = findViewById(R.id.toolbar_text);
+        parent_layout = findViewById(R.id.enrol_parent);
 
         toolbarTitle.setText(getResources().getString(R.string.edit_title));
 
@@ -113,56 +129,54 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
                 new EditProfileActivity.GenericTextWatcher(birthDateLayout.getEditText(), birthDateLayout));
 
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setUserInfo();
-                boolean hasError = false;
-                //check id code
-                if (userInfo.getIdCode().equals("")) {
-                    idCodeLayout.setError(getResources().getString(R.string.Exc_700001));
-                    hasError = true;
-                }
-                else if (!ValidateCodeMeli.checkCocdeMeli(userInfo.getIdCode())) {
-                    idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
-                    hasError = true;
-                }
-                else if (userInfo.getIdCode().length() < 10) {
-                    idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
-                    hasError = true;
-                }
+        save.setOnClickListener(view -> {
+            setUserInfo();
+            boolean hasError = false;
+            //check id code
+            if (userInfo.getIdCode().equals("")) {
+                idCodeLayout.setError(getResources().getString(R.string.Exc_700001));
+                hasError = true;
+            }
+            else if (!ValidateCodeMeli.checkCocdeMeli(userInfo.getIdCode())) {
+                idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
+                hasError = true;
+            }
+            else if (userInfo.getIdCode().length() < 10) {
+                idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
+                hasError = true;
+            }
 
-                //check name
-                if( userInfo.getFirstName().equals("") ) {
-                    nameLayout.setError(getResources().getString(R.string.Exc_700003));
-                    hasError = true;
-                }
+            //check name
+            if( userInfo.getFirstName().equals("") ) {
+                nameLayout.setError(getResources().getString(R.string.Exc_700003));
+                hasError = true;
+            }
 
-                //check last name
-                if(userInfo.getLastName().equals("") ) {
-                    lastNameLayout.setError(getResources().getString(R.string.Exc_700004));
-                    hasError = true;
-                }
+            //check last name
+            if(userInfo.getLastName().equals("") ) {
+                lastNameLayout.setError(getResources().getString(R.string.Exc_700004));
+                hasError = true;
+            }
 
-                //check birth date
-                if( userInfo.getBirthDate().equals("") ) {
-                    birthDateLayout.setError(getResources().getString(R.string.Exc_700005));
-                    hasError = true;
-                }
-                if( hasError ) {
-                    Snackbar.make(view, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
-                }
-                else {
-                    if( checkInternetConnection() ) {
-                        clearError();
-                        updateUserInfo();
-                        Intent intent = new Intent(EditProfileActivity.this, UserProfileActivity.class);
-                        intent.putExtra("user", userInfo);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                    }
+            //check birth date
+            if( userInfo.getBirthDate().equals("") ) {
+                birthDateLayout.setError(getResources().getString(R.string.Exc_700005));
+                hasError = true;
+            }
+            if( invalidBirthDate() ) {
+                birthDateLayout.setError(getResources().getString(R.string.Exc_700008));
+                hasError = true;
+            }
+
+            if( hasError ) {
+                Snackbar.make(parent_layout, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
+            }
+            else {
+                if( checkInternetConnection() ) {
+                    clearError();
+                    updateUserInfo();
+                } else {
+                    Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -236,16 +250,50 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
         userInfo.setBirthDate( birthDate.getText().toString().trim() );
     }
 
+
+    //check birth date
+    private boolean invalidBirthDate() {
+        Date now = DateUtil.toDate( DateUtil.getCurrentDate() );
+        Date birth = DateUtil.toDate( birthDate.getText().toString().trim() );
+        return birth.after(now);
+    }
+
+    //update user info using its id
     private void updateUserInfo() {
-        //update user info using its id
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences( this );
+        int id = sharedPreferences.getInt("user_id", 0);
+
+        SubmitProfileRequest request = new SubmitProfileRequest();
+        request.setUserId( id );
+        request.setName( name.getText().toString().trim() );
+        request.setSurname( lastName.getText().toString().trim() );
+        request.setBirthDate( birthDate.getText().toString().trim() );
+        request.setNationalCode( idCode.getText().toString().trim() );
+        request.setImage( convertProfileImage( photo ));
+
+        TaskCallBack<Object> submitProfileResponse = result -> {
+            SubmitProfileResponse ress = JsonCodec.toObject((Map) result, SubmitProfileResponse.class);
+
+            boolean submit = ress.getSuccessful();
+            if( submit ) {
+                launchProfileView();
+                Toast.makeText( context, getResources().getString(R.string.welcome), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                //toast error
+                Toast.makeText(context, "result " + ress.getSuccessful(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        AsyncTask<Object, Void, WsResult> list = new ListHttp(submitProfileResponse, this, null, ServiceNames.SUBMIT_PROFILE, false);
+        list.execute(request);
 
         //save user info as shared preferences
         //savePreferences("user_id", id );
-        saveProfileImage( photo );
+        /*saveProfileImage( photo );
         savePreferences("user_id_code", userInfo.getIdCode());
         savePreferences("user_first_name", userInfo.getFirstName() );
         savePreferences("user_last_name", userInfo.getLastName() );
-        savePreferences("user_birth_date", userInfo.getBirthDate() );
+        savePreferences("user_birth_date", userInfo.getBirthDate() );*/
 
     }
 
@@ -310,15 +358,52 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
     }
 
     private void loadData() {
-        getImageFromCache();
+        GetProfileRequest request = new GetProfileRequest();
+        request.setUserId( sharedPreferences.getInt("user_id", 0));
+
+        TaskCallBack<Object> getProfileRequest = result -> {
+            GetProfileResponse ress = JsonCodec.toObject((Map) result, GetProfileResponse.class);
+            ProfileDto profileDto = ress.getProfileDto();
+            userInfo.setFirstName( profileDto.getName() );
+            userInfo.setLastName( profileDto.getSurname() );
+            userInfo.setIdCode( profileDto.getNationalCode() );
+            userInfo.setBirthDate( profileDto.getBirthDate() );
+
+
+            //get photo and convert to bitmap
+            byte[] imageAsBytes = Base64.decode(profileDto.getImage().getBytes(), Base64.DEFAULT);
+            //photo.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes,0, imageAsBytes.length) );
+            userInfo.setPhoto( imageAsBytes);
+            setInfo( userInfo );
+        };
+        AsyncTask<Object, Void, WsResult> list = new ListHttp(getProfileRequest, this, null, ServiceNames.GET_USER_PROFILE, false);
+        list.execute(request);
+
+
+
+
+        /*getImageFromCache();
         idCode.setText( sharedPreferences.getString("user_id_code", "") );
         name.setText( sharedPreferences.getString("user_first_name", "") );
         lastName.setText( sharedPreferences.getString("user_last_name", "") );
-        birthDate.setText( sharedPreferences.getString("user_birth_date", "") );
+        birthDate.setText( sharedPreferences.getString("user_birth_date", "") );*/
+    }
+
+
+    //show user info
+    private void setInfo( UserInfo info ) {
+        name.setText( info.getFirstName() );
+        lastName.setText( info.getLastName() );
+        idCode.setText( info.getIdCode() );
+        birthDate.setText( info.getBirthDate() );
+
+        if( info.getPhoto() != null ) {
+            photo.setImageBitmap(BitmapUtils.convertCompressedByteArrayToBitmap(info.getPhoto()));
+        }
     }
 
     //convert string to byte array
-    private void getImageFromCache() {
+    /*private void getImageFromCache() {
         String img_str = sharedPreferences.getString("user_photo", "");
         if (!img_str.equals("")){
             //decode string to image
@@ -326,31 +411,24 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
             byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
             photo.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length) );
         }
-    }
+    }*/
 
 
-    public void saveProfileImage(View view){
-        //code image to string
-        photo.buildDrawingCache();
-        Bitmap bitmap = photo.getDrawingCache();
-        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+    //get image of ImageView and convert to string
+    public String convertProfileImage(CircularImageView view){
+        Bitmap bitmap = ((BitmapDrawable)view.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
-        byte[] image=stream.toByteArray();
-        String img_str = Base64.encodeToString(image, 0);
-        //decode string to image
-        /*String base=img_str;
-        byte[] imageAsBytes = Base64.decode(base.getBytes(), Base64.DEFAULT);
-        photo.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes,0, imageAsBytes.length) );*/
-        //save in sharedpreferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences( this );
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("user_photo",img_str);
-        editor.commit();
+        byte[] image = stream.toByteArray();
+        String img_str = Base64.encodeToString(image, Base64.NO_WRAP);
+        return img_str;
     }
 
-
-
-
+    private void launchProfileView() {
+        Intent intent = new Intent(EditProfileActivity.this, UserProfileActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 
     /*
@@ -452,8 +530,6 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
             CropIntent.setDataAndType(uri, "image/*");
 
             CropIntent.putExtra("crop", "true");
-            CropIntent.putExtra("outputX", 180);
-            CropIntent.putExtra("outputY", 180);
             CropIntent.putExtra("aspectX", 4);
             CropIntent.putExtra("aspectY", 4);
             CropIntent.putExtra("scaleUpIfNeeded", true);

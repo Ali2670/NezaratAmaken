@@ -4,21 +4,34 @@
     android:gravity="right"
     android:layoutDirection="rtl">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/group1"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/main_nav_show_trips"
+            android:icon="@drawable/nav_trips"
+            android:title="@string/nav_menu_item_show_trip" />
+
+        <item
+            android:id="@+id/main_nav_show_checklists"
+            android:icon="@drawable/nav_checklists"
+            android:title="@string/nav_menu_item_show_checklist" />
 
         <item
             android:id="@+id/main_nav_trip"
-            android:icon="@drawable/fab_add"
+            android:icon="@drawable/nav_add_trip"
             android:title="@string/nav_menu_item_trip" />
 
         <item
             android:id="@+id/main_nav_checklist"
-            android:icon="@drawable/fab_add"
+            android:icon="@drawable/nav_add_checklist"
             android:title="@string/nav_menu_item_checklist" />
 
     </group>
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/main_nav_login"
@@ -42,7 +55,9 @@
 
     </group>
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/main_nav_map"
@@ -58,6 +73,22 @@
             android:id="@+id/main_nav_search"
             android:icon="@drawable/search"
             android:title="@string/nav_menu_item_search" />
+
+    </group>
+
+    <group
+        android:id="@+id/group4"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/main_nav_share"
+            android:icon="@drawable/nav_share"
+            android:title="@string/nav_menu_item_share" />
+
+        <item
+            android:id="@+id/main_nav_support"
+            android:icon="@drawable/nav_support"
+            android:title="@string/nav_menu_item_support" />
 
     </group>
 

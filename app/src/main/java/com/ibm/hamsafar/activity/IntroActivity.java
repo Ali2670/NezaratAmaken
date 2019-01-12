@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.ibm.hamsafar.R;
 import com.ibm.hamsafar.utils.Tools;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class IntroActivity extends Activity {
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
@@ -35,7 +37,7 @@ public class IntroActivity extends Activity {
             // changing the next button text 'NEXT' / 'GOT IT'
             if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
-                btnNext.setText(getString(R.string.start));
+                btnNext.setText(getString(R.string.startDate));
                 btnSkip.setVisibility(View.GONE);
             } else {
                 // still pages are left
@@ -69,6 +71,12 @@ public class IntroActivity extends Activity {
 
         }
     };
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

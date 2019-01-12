@@ -1,66 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorHeader"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarFilter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary">
+    <include layout="@layout/dialog_default_toolbar"/>
 
-        <RelativeLayout
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/listWithSearchInput"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:drawableLeft="@drawable/ic_search_white"
+            android:layout_margin="@dimen/_10sdp"
+            android:textColor="@color/dark_text"
+            android:textDirection="rtl"
+            android:backgroundTint="@color/white"
+            />
 
-            <EditText
-                android:id="@+id/inputSearchOfList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:textColor="@color/colorText"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:drawableLeft="@drawable/ic_search_white"
-                android:textSize="@dimen/normal_text"
-                android:layout_toLeftOf="@+id/backۤListWithSearchBtn"
-                android:layout_toStartOf="@+id/backۤListWithSearchBtn" />
 
-            <Button
-                android:id="@+id/backۤListWithSearchBtn"
-                android:layout_width="@dimen/header_button"
-                android:layout_height="@dimen/header_button"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginRight="@dimen/_11sdp"
-                android:background="@drawable/ic_arrow_forward"
-                android:foreground="@drawable/ripple" />
+        <!--<android.support.v7.widget.RecyclerView
+            android:id="@+id/listWithSearchList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardUseCompatPadding="true"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp"/>-->
 
-        </RelativeLayout>
+        <ListView
+            android:id="@+id/listWithSearchList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_view_rounded_border"
+            android:layoutDirection="rtl"
+            android:layout_margin="@dimen/_8sdp"
+            android:padding="@dimen/_8sdp"/>
 
-    </android.support.v7.widget.Toolbar>
-
-    <TextView
-        android:id="@+id/listWithSearchTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_margin="@dimen/_8sdp"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/normal_text"
-        android:textStyle="bold" />
-
-    <ListView
-        android:id="@+id/listWithSearchList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layoutDirection="rtl" />
+    </LinearLayout>
 
 </LinearLayout>
