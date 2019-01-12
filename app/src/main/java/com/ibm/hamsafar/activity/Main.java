@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,8 @@ public class Main extends AppCompatActivity
     private SliderLayout sliderLayout = null;
     private NavigationView navigationView = null;
     private FloatingActionButton addTrip = null;
+    private ImageButton toll = null;
+    private ImageButton no_exit = null;
     private SharedPreferences sharedPreferences;
 
     //recycler view
@@ -58,6 +61,8 @@ public class Main extends AppCompatActivity
     private LinearLayoutManager linearLayoutManager;
     private PosterAdapter adapter;
 
+
+    private Intent intent;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -78,6 +83,8 @@ public class Main extends AppCompatActivity
         first = findViewById(R.id.firstRecyclerView);
         second = findViewById(R.id.secondRecyclerView);
         addTrip = findViewById(R.id.home_add_trip);
+        toll = findViewById(R.id.main_toll_btn);
+        no_exit = findViewById(R.id.main_no_exit_btn);
 
         mainRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
                 getResources().getColor(R.color.colorPrimaryDark),
@@ -125,6 +132,19 @@ public class Main extends AppCompatActivity
             startActivity( intent );
         });
 
+        toll.setOnClickListener(view -> {
+            intent = new Intent(Main.this, WebPageActivity.class);
+            intent.putExtra("url", "https://tollpayment.sadadpsp.ir");
+            intent.putExtra("title", getResources().getString(R.string.nav_menu_item_toll));
+            startActivity( intent );
+        });
+
+        no_exit.setOnClickListener(view -> {
+            intent = new Intent(Main.this, WebPageActivity.class);
+            intent.putExtra("url", "http://exitban.ssaa.ir");
+            intent.putExtra("title", getResources().getString(R.string.nav_menu_item_no_exit));
+            startActivity( intent );
+        });
 
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -280,10 +300,16 @@ public class Main extends AppCompatActivity
                 Toast.makeText(context, "خروج از حساب کاربری", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_nav_toll:
-
+                intent = new Intent(Main.this, WebPageActivity.class);
+                intent.putExtra("url", "https://tollpayment.sadadpsp.ir");
+                intent.putExtra("title", getResources().getString(R.string.nav_menu_item_toll));
+                startActivity( intent );
                 break;
             case R.id.main_nav_no_exit:
-
+                intent = new Intent(Main.this, WebPageActivity.class);
+                intent.putExtra("url", "http://exitban.ssaa.ir");
+                intent.putExtra("title", getResources().getString(R.string.nav_menu_item_no_exit));
+                startActivity( intent );
                 break;
             case R.id.main_nav_share:
                 ApplicationInfo app = getApplicationContext().getApplicationInfo();
@@ -358,12 +384,14 @@ public class Main extends AppCompatActivity
                 nav_Menu.findItem(R.id.main_nav_edit).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_logout).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_friends).setVisible(true);
+                nav_Menu.findItem(R.id.group1).setVisible(true);
             }
             else {
                 nav_Menu.findItem(R.id.main_nav_login).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_edit).setVisible(false);
                 nav_Menu.findItem(R.id.main_nav_logout).setVisible(false);
                 nav_Menu.findItem(R.id.main_nav_friends).setVisible(false);
+                nav_Menu.findItem(R.id.group1).setVisible(false);
             }
         }
         else {
@@ -371,6 +399,7 @@ public class Main extends AppCompatActivity
             nav_Menu.findItem(R.id.main_nav_edit).setVisible(false);
             nav_Menu.findItem(R.id.main_nav_logout).setVisible(false);
             nav_Menu.findItem(R.id.main_nav_friends).setVisible(false);
+            nav_Menu.findItem(R.id.group1).setVisible(false);
         }
     }
 
