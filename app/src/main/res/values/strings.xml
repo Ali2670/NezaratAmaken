@@ -34,6 +34,8 @@
     <string name="nav_menu_item_friends">دوستان</string>
     <string name="nav_menu_item_search">جستجو</string>
     <string name="nav_menu_item_logout">خروج</string>
+    <string name="nav_menu_item_toll">پرداخت عوارض خروج از کشور</string>
+    <string name="nav_menu_item_no_exit">استعلام ممنوع الخروجی</string>
     <string name="nav_menu_item_show_trip">سفر ها</string>
     <string name="nav_menu_item_show_checklist">چک لیست ها</string>
     <string name="nav_menu_item_trip">افزودن سفر</string>
