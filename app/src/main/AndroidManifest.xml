@@ -114,10 +114,9 @@
         <activity android:name=".activity.ShowImageActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.Test"
-            android:screenOrientation="portrait"/>
-
         <activity android:name=".activity.WebPageActivity"/>
+
+        <activity android:name=".activity.TripFilterActivity"/>
 
 
         <receiver android:name="com.ibm.hamsafar.utils.SmsReceiver">
