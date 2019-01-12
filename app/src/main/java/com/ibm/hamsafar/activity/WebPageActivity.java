@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ibm.hamsafar.R;
 
@@ -41,9 +42,18 @@ public class WebPageActivity extends Activity {
 
         url = getIntent().getStringExtra("url");
 
-        page.getSettings().setJavaScriptEnabled( true );
-        page.loadUrl( url );
-        page.getSettings().setBuiltInZoomControls( true );
+        toolbar_back.setOnClickListener(view -> onBackPressed());
+
+        toolbar_title.setText(getIntent().getStringExtra("title"));
+
+        if( checkInternetConnection() ) {
+            page.getSettings().setJavaScriptEnabled(true);
+            page.loadUrl(url);
+            page.getSettings().setBuiltInZoomControls(true);
+        } else {
+            Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
 
