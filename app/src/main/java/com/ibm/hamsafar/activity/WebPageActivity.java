@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.ibm.hamsafar.R;
 
@@ -17,6 +19,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class WebPageActivity extends Activity {
 
     private Context context = this;
+    private Button toolbar_back = null;
+    private TextView toolbar_title = null;
     private WebView page = null;
     private String url = null;
 
@@ -32,6 +36,8 @@ public class WebPageActivity extends Activity {
         setContentView(R.layout.web_page);
 
         page = findViewById(R.id.web_view);
+        toolbar_back = findViewById(R.id.toolbar_back);
+        toolbar_title = findViewById(R.id.toolbar_text);
 
         url = getIntent().getStringExtra("url");
 
