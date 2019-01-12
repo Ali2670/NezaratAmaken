@@ -40,6 +40,7 @@ public class TripListActivity extends Activity {
     private Context context = this;
     private Button toolbarBack = null;
     private TextView toolbarTitle = null;
+    private Button toolbarFilter = null;
     private RecyclerView recyclerView = null;
     private FloatingActionButton add = null;
     private LinearLayoutManager linearLayoutManager = null;
@@ -58,8 +59,9 @@ public class TripListActivity extends Activity {
         super.onCreate(bundle);
         setContentView(R.layout.trip_list);
 
-        toolbarBack = findViewById(R.id.toolbar_back);
-        toolbarTitle = findViewById(R.id.toolbar_text);
+        toolbarBack = findViewById(R.id.trip_list_toolbar_back);
+        toolbarTitle = findViewById(R.id.trip_list_toolbar_text);
+        toolbarFilter = findViewById(R.id.trip_list_toolbar_filter);
         recyclerView = findViewById(R.id.trip_list_recycler_view);
         add = findViewById(R.id.trip_list_add);
 
