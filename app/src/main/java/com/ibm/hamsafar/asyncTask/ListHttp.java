@@ -1,6 +1,7 @@
 package com.ibm.hamsafar.asyncTask;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
     /*Boolean isResultList = false;*/
 
     Toast toast;
+    ProgressDialog dialog;
 
     public ListHttp(TaskCallBack taskCallBack , Context context, String loadMore, String methodName, Boolean refresh) {
         this.taskCallBack = taskCallBack;
@@ -91,7 +93,7 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
 
     @Override
     protected void onPostExecute(WsResult result) {
-
+        dialog.dismiss();
         try {
 
             if (result.getErr().equals(RESULT_IS_OK)) {
@@ -136,6 +138,12 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
 
     @Override
     protected void onPreExecute() {
+        super.onPreExecute();
+        dialog = new ProgressDialog(context);
+        dialog.setMessage("لطفا صبر کنید ...");
+        dialog.setIndeterminate(false);
+        dialog.setCancelable(true);
+        dialog.show();
 //            recordNotFoundTv.setVisibility(View.INVISIBLE);
           /*  if (loadMore == null) {
                 Toast.makeText(getActivity(), "err . drop down to refresh", Toast.LENGTH_SHORT).show();
