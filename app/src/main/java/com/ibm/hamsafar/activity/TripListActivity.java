@@ -69,11 +69,9 @@ public class TripListActivity extends Activity {
 
         toolbarTitle.setText(getResources().getString(R.string.trip_list_title));
 
-        /*linearLayoutManager = new LinearLayoutManager(TripListActivity.this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        getTripList();
-        adapter = new TripListAdapter(this, listData);
-        recyclerView.setAdapter(adapter);*/
+        toolbarFilter.setOnClickListener(view -> {
+            startActivity(new Intent(TripListActivity.this, TripFilterActivity.class));
+        });
 
         getTripList();
 
@@ -88,21 +86,55 @@ public class TripListActivity extends Activity {
         GetUserTripsRequest request = new GetUserTripsRequest();
         request.setUserId(user_id);
 
+        //filter trips
+        if (sharedPreferences.contains("trip_filter_exist")) {
+            if (sharedPreferences.getString("trip_filter_exist", "").equals("yes")) {
+                String topic = sharedPreferences.getString("trip_filter_topic", "");
+                if (!topic.equals("")) {
+                    request.setTitle(topic);
+                }
+                Integer port_id = sharedPreferences.getInt("trip_filter_port_id", -1);
+                if (port_id != -1) {
+                    request.setSourceId(port_id);
+                }
+                Integer des_id = sharedPreferences.getInt("trip_filter_destination_id", -1);
+                if (des_id != -1) {
+                    request.setDestinationId(des_id);
+                }
+                String start_date = sharedPreferences.getString("trip_filter_start", "");
+                if (!start_date.equals("")) {
+                    request.setStartDate(start_date);
+                }
+            }
+        }
+
         TaskCallBack<Object> getUserTripsResponse = result -> {
             GetUserTripsResponse ress = JsonCodec.toObject((Map) result, GetUserTripsResponse.class);
             if (ress.getTripDtoList().size() != 0) {
                 List<TripDto> trip_list;
                 trip_list = ress.getTripDtoList();
-                setTripList( trip_list );
+                setTripList(trip_list);
                 linearLayoutManager = new LinearLayoutManager(TripListActivity.this, LinearLayoutManager.VERTICAL, false);
                 recyclerView.setLayoutManager(linearLayoutManager);
                 adapter = new TripListAdapter(this, listData);
                 recyclerView.setAdapter(adapter);
             } else {
-                Toast.makeText(context, "no trip", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getResources().getString(R.string.trip_list_no_trip_message), Toast.LENGTH_SHORT).show();
             }
         };
-        AsyncTask<Object, Void, WsResult> list = new ListHttp(getUserTripsResponse, this, null, ServiceNames.GET_USER_TRIPS, false);
+        AsyncTask<Object, Void, WsResult> list = null;
+        if (sharedPreferences.contains("trip_filter_exist")) {
+            if (sharedPreferences.getString("trip_filter_exist", "").equals("yes")) {
+                list = new ListHttp(getUserTripsResponse, this, null, ServiceNames.FIND_USER_TRIPS, false);
+            }
+            else {
+                list = new ListHttp(getUserTripsResponse, this, null, ServiceNames.GET_USER_TRIPS, false);
+            }
+        }
+        if (!sharedPreferences.contains("trip_filter_exist")) {
+            list = new ListHttp(getUserTripsResponse, this, null, ServiceNames.GET_USER_TRIPS, false);
+        }
+
         list.execute(request);
     }
 
