@@ -94,6 +94,9 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
     private Button cancel = null;
     private RecyclerView checklist = null;
     private FloatingActionButton addItem = null;
+    private FloatingActionButton tourism_info = null;
+    private FloatingActionButton hotel_info = null;
+    private FloatingActionButton museum_info = null;
 
     private LinearLayoutManager linearLayoutManager = null;
     private List<CheckItem> listData = null;
@@ -143,6 +146,9 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         showChecklist = findViewById(R.id.trip_edit_check_list_show);*/
         checklist = findViewById(R.id.trip_edit_checklist);
         addItem = findViewById(R.id.trip_edit_checklist_add);
+        tourism_info = findViewById(R.id.trip_edit_tourism );
+        hotel_info = findViewById(R.id.trip_edit_hotel );
+        museum_info = findViewById(R.id.trip_edit_museum );
 
 
         clearError();
@@ -240,6 +246,20 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
             String title = getResources().getString(R.string.trip_trans_title);
             showListDialog(transText, title, extractTransportName(getTransport_list()));
         });
+
+
+        tourism_info.setOnClickListener(view -> {
+
+        });
+
+        hotel_info.setOnClickListener(view -> {
+
+        });
+
+        museum_info.setOnClickListener(view -> {
+
+        });
+
 
         /*showChecklist.setOnClickListener(view -> {
             if (showChecklist.isChecked()) {
