@@ -142,8 +142,8 @@
     <color name="colorSecondPrimary">#ECB0A6</color>
     <color name="colorPrimaryDark">#689679</color>
     <color name="colorAccent">#D6501B</color>
-    <color name="dark_text">#1C305C</color>
-    <color name="label_text">#306c73</color>
+    <color name="dark_text">#695740</color>
+    <color name="label_text">#415a3d</color>
     <color name="dark_text_layout">#44617B</color>
     <color name="light_text">#EAF4FC</color>
     <color name="light_text_layout">#ABCDE8</color>
@@ -154,6 +154,6 @@
     <color name="blur_layout_bg">#88223A70</color>
     <color name="checked_item">#618787</color>
     <color name="expired_trip">#be6c4e</color>
-    <color name="color_bg">#b2d2d2</color>
+    <color name="color_bg">#E7F2E4</color>
 
 </resources>
