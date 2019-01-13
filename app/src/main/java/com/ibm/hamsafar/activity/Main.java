@@ -52,6 +52,10 @@ public class Main extends AppCompatActivity
     private FloatingActionButton addTrip = null;
     private ImageButton toll = null;
     private ImageButton no_exit = null;
+    private ImageButton tourism_info = null;
+    private ImageButton police_10 = null;
+    private ImageButton hotel_info = null;
+    private ImageButton museum_info = null;
     private SharedPreferences sharedPreferences;
 
     //recycler view
@@ -85,6 +89,10 @@ public class Main extends AppCompatActivity
         addTrip = findViewById(R.id.home_add_trip);
         toll = findViewById(R.id.main_toll_btn);
         no_exit = findViewById(R.id.main_no_exit_btn);
+        tourism_info = findViewById(R.id.main_tourism_info_btn);
+        police_10 = findViewById(R.id.main_police_10_btn);
+        hotel_info = findViewById(R.id.main_hotel_info_btn);
+        museum_info = findViewById(R.id.main_museum_info_btn);
 
         mainRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
                 getResources().getColor(R.color.colorPrimaryDark),
@@ -143,6 +151,30 @@ public class Main extends AppCompatActivity
             intent = new Intent(Main.this, WebPageActivity.class);
             intent.putExtra("url", "http://exitban.ssaa.ir");
             intent.putExtra("title", getResources().getString(R.string.nav_menu_item_no_exit));
+            startActivity( intent );
+        });
+
+        tourism_info.setOnClickListener(view -> {
+            intent = new Intent( Main.this, PlaceInfoActivity.class );
+            intent.putExtra("type", "tourism");
+            startActivity( intent );
+        });
+
+        police_10.setOnClickListener(view -> {
+            intent = new Intent( Main.this, PlaceInfoActivity.class );
+            intent.putExtra("type", "police");
+            startActivity( intent );
+        });
+
+        hotel_info.setOnClickListener(view -> {
+            intent = new Intent( Main.this, PlaceInfoActivity.class );
+            intent.putExtra("type", "hotel");
+            startActivity( intent );
+        });
+
+        museum_info.setOnClickListener(view -> {
+            intent = new Intent( Main.this, PlaceInfoActivity.class );
+            intent.putExtra("type", "museum");
             startActivity( intent );
         });
 
@@ -384,14 +416,14 @@ public class Main extends AppCompatActivity
                 nav_Menu.findItem(R.id.main_nav_edit).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_logout).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_friends).setVisible(true);
-                nav_Menu.findItem(R.id.group1).setVisible(true);
+                //nav_Menu.findItem(R.id.group1).setVisible(true);
             }
             else {
                 nav_Menu.findItem(R.id.main_nav_login).setVisible(true);
                 nav_Menu.findItem(R.id.main_nav_edit).setVisible(false);
                 nav_Menu.findItem(R.id.main_nav_logout).setVisible(false);
                 nav_Menu.findItem(R.id.main_nav_friends).setVisible(false);
-                nav_Menu.findItem(R.id.group1).setVisible(false);
+                //nav_Menu.findItem(R.id.group1).setVisible(false);
             }
         }
         else {
@@ -399,7 +431,7 @@ public class Main extends AppCompatActivity
             nav_Menu.findItem(R.id.main_nav_edit).setVisible(false);
             nav_Menu.findItem(R.id.main_nav_logout).setVisible(false);
             nav_Menu.findItem(R.id.main_nav_friends).setVisible(false);
-            nav_Menu.findItem(R.id.group1).setVisible(false);
+            //nav_Menu.findItem(R.id.group1).setVisible(false);
         }
     }
 
