@@ -115,6 +115,7 @@
 
     <string name="trip_list_title">سفر ها</string>
     <string name="trip_list_expired">به پایان رسیده است</string>
+    <string name="trip_list_no_trip_message">سفری با این مشخصات یافت نشد</string>
 
     <string name="cl_list_title">چک لیست ها</string>
     <string name="cl_list_public">عمومی</string>
@@ -144,6 +145,41 @@
     <string name="save_failure_message">خطا در برقراری ارتباط با سرور</string>
 
     <string name="trip_filter_apply">اعمال</string>
+    <string name="trip_filter_title">فیلتر سفر ها</string>
+    <string name="trip_filter_clear">حذف فیلتر</string>
+    <string name="trip_filter_topic_text">عنوان</string>
+    <string name="trip_filter_success_clear">فیلترها حذف شدند</string>
+
+    <string name="main_toll_text">پرداخت عوارض خروج از کشور</string>
+    <string name="main_no_exit_text">استعلام ممنوع الخروجی</string>
+    <string name="main_tourism_info_text">اطلاعات توریستی</string>
+    <string name="main_police_10_text">آدرس دفاتر پلیس + 10</string>
+    <string name="main_hotel_info_text">اطلاعات هتل ها</string>
+    <string name="main_museum_info">اطلاعات موزه ها</string>
+
+    <string name="tourism_info_title">اطلاعات توریستی</string>
+
+    <string name="police_ten_title">آدرس دفاتر پلیس + 10</string>
+
+    <string name="hotel_info_title">اطلاعات هتل ها</string>
+
+    <string name="museum_info_title">اطلاعات موزه ها</string>
+
+    <string name="toolbar_search_hint">جستجو...</string>
+
+
+    <!--___________________________trip_filter_shared_preferences________________________________-->
+
+    <string name="trip_filter_exist">trip_filter_exist</string><!--yes and no-->
+    <string name="trip_filter_topic">trip_filter_topic</string>
+    <string name="trip_filter_port">trip_filter_port</string>
+    <string name="trip_filter_port_id">trip_filter_port_id</string>
+    <string name="trip_filter_destination">trip_filter_destination</string>
+    <string name="trip_filter_destination_id">trip_filter_destination_id</string>
+    <string name="trip_filter_start">trip_filter_start</string>
+    <string name="trip_filter_end">trip_filter_end</string>
+
+    <!--___________________________trip_filter_shared_preferences________________________________-->
 
     <!--adad*************-->
     <string name="sefr">۰</string>
