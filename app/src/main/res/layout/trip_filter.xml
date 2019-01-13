@@ -1,6 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/trip_filter_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/trip_filter_toolbar_back"
+                android:layout_width="@dimen/header_button"
+                android:layout_height="@dimen/header_button"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/ic_arrow_forward_white"
+                android:foreground="@drawable/ripple" />
+
+            <TextView
+                android:id="@+id/trip_filter_toolbar_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_toLeftOf="@+id/trip_filter_toolbar_back"
+                android:layout_toRightOf="@+id/trip_filter_toolbar_clear"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+
+            <Button
+                android:id="@+id/trip_filter_toolbar_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/trip_filter_clear"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@color/colorPrimary"
+                android:foreground="@drawable/ripple" />
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/trip_filter_main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/card_padding">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ImageButton
+                    android:id="@+id/trip_filter_topic_clr"
+                    android:layout_width="@dimen/text_clr_btn"
+                    android:layout_height="@dimen/text_clr_btn"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/text_clr_btn_margin"
+                    android:background="@drawable/ic_close_black" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/trip_filter_topic_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textColorHint="@color/dark_text_layout">
+
+                    <EditText
+                        android:id="@+id/trip_filter_topic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_with_clr_margin"
+                        android:layout_marginRight="@dimen/text_with_clr_margin"
+                        android:hint="@string/trip_filter_topic_text"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/dark_text"
+                        android:textDirection="rtl"
+                        android:backgroundTint="@color/dark_text_layout"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ImageButton
+                    android:id="@+id/trip_filter_port_clr"
+                    android:layout_width="@dimen/text_clr_btn"
+                    android:layout_height="@dimen/text_clr_btn"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/text_clr_btn_margin"
+                    android:background="@drawable/ic_close_black" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/trip_filter_port_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textColorHint="@color/dark_text_layout">
+
+                    <EditText
+                        android:id="@+id/trip_filter_port"
+                        style="@android:style/Widget.Holo.Light.Spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_with_clr_margin"
+                        android:layout_marginRight="@dimen/text_with_clr_margin"
+                        android:focusable="false"
+                        android:hint="@string/trip_port"
+                        android:inputType="textNoSuggestions"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/dark_text"
+                        android:textDirection="rtl"
+                        android:backgroundTint="@color/dark_text_layout"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ImageButton
+                    android:id="@+id/trip_filter_des_clr"
+                    android:layout_width="@dimen/text_clr_btn"
+                    android:layout_height="@dimen/text_clr_btn"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/text_clr_btn_margin"
+                    android:background="@drawable/ic_close_black" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/trip_filter_des_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textColorHint="@color/dark_text_layout">
+
+                    <EditText
+                        android:id="@+id/trip_filter_des"
+                        style="@android:style/Widget.Holo.Light.Spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_with_clr_margin"
+                        android:layout_marginRight="@dimen/text_with_clr_margin"
+                        android:focusable="false"
+                        android:hint="@string/trip_destination"
+                        android:inputType="textNoSuggestions"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/dark_text"
+                        android:textDirection="rtl"
+                        android:backgroundTint="@color/dark_text_layout" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ImageButton
+                    android:id="@+id/trip_filter_start_clr"
+                    android:layout_width="@dimen/text_clr_btn"
+                    android:layout_height="@dimen/text_clr_btn"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/text_clr_btn_margin"
+                    android:background="@drawable/ic_close_black" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/trip_filter_start_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    app:errorEnabled="true"
+                    android:textColorHint="@color/dark_text_layout">
+
+                    <EditText
+                        android:id="@+id/trip_filter_start"
+                        style="@android:style/Widget.Holo.Light.Spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_with_clr_margin"
+                        android:layout_marginRight="@dimen/text_with_clr_margin"
+                        android:focusable="false"
+                        android:hint="@string/trip_filter_from_date"
+                        android:inputType="textNoSuggestions"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/dark_text"
+                        android:textDirection="rtl"
+                        android:backgroundTint="@color/dark_text_layout" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ImageButton
+                    android:id="@+id/trip_filter_end_clr"
+                    android:layout_width="@dimen/text_clr_btn"
+                    android:layout_height="@dimen/text_clr_btn"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/text_clr_btn_margin"
+                    android:background="@drawable/ic_close_black" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/trip_filter_end_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    app:errorEnabled="true"
+                    android:textColorHint="@color/dark_text_layout">
+
+                    <EditText
+                        android:id="@+id/trip_filter_end"
+                        style="@android:style/Widget.Holo.Light.Spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_with_clr_margin"
+                        android:layout_marginRight="@dimen/text_with_clr_margin"
+                        android:focusable="false"
+                        android:hint="@string/trip_filter_to_date"
+                        android:inputType="textNoSuggestions"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/dark_text"
+                        android:textDirection="rtl"
+                        android:backgroundTint="@color/dark_text_layout" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/trip_filter_done"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/filled_button_bg"
+        android:text="@string/trip_filter_apply"
+        android:textColor="@color/dark_text" />
+
+</LinearLayout>
