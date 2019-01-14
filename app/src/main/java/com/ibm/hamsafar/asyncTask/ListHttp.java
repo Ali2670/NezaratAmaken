@@ -3,6 +3,8 @@ package com.ibm.hamsafar.asyncTask;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import ibm.ws.RestCaller;
 import ibm.ws.WsResult;
 
 import static hamsafar.ws.util.exception.ExceptionConstants.CONNECTION_TIMEOUT_EXCEPTION;
+import static hamsafar.ws.util.exception.ExceptionConstants.NO_INTERNET_CONNECTION;
 import static hamsafar.ws.util.exception.ExceptionConstants.NULL_VALUE_RETURN;
 import static hamsafar.ws.util.exception.ExceptionConstants.RESULT_IS_OK;
 import static hamsafar.ws.util.exception.ExceptionConstants.UNKNOWN_EXCEPTION;
@@ -58,34 +61,41 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
     @Override
     protected WsResult doInBackground(Object... params) {
 
-        WsResult result;
+        WsResult result = null;
 
-        try {
-            Object obj ;
-            /*if(isResultList)*/
+        if( checkInternetConnection() ) {
+
+            try {
+                Object obj;
+                /*if(isResultList)*/
                 obj = RestCaller.SingleObjectReturn(methodName, (Object[]) params);/*
             else
                 obj = RestCaller.SingleObjectReturn(methodName, (Object[]) params);*/
 
-            if (obj == null/* || obj.getAllPosts() == null || obj.getAllPosts().size() == 0*/) {
-                result = new WsResult(null, NULL_VALUE_RETURN);
-                loadMore = "endof";
-            } else {
-                loadMore = "false";
-                result = new WsResult(obj, RESULT_IS_OK);
+                if (obj == null/* || obj.getAllPosts() == null || obj.getAllPosts().size() == 0*/) {
+                    result = new WsResult(null, NULL_VALUE_RETURN);
+                    loadMore = "endof";
+                } else {
+                    loadMore = "false";
+                    result = new WsResult(obj, RESULT_IS_OK);
 //                    if (obj.getAllPosts().size() < 10) {
 //                        loadMore = "endof";
 //                    }
 
 
-            }
-        } catch (GenericBusinessException e) {
-            e.printStackTrace();
-            result = new WsResult(null, e.getErrCode());
+                }
+            } catch (GenericBusinessException e) {
+                e.printStackTrace();
+                result = new WsResult(null, e.getErrCode());
 
-        } catch (ConnectException e) {
-            e.printStackTrace();
-            result = new WsResult(null, CONNECTION_TIMEOUT_EXCEPTION);
+            } catch (ConnectException e) {
+                e.printStackTrace();
+                result = new WsResult(null, CONNECTION_TIMEOUT_EXCEPTION);
+            }
+        }
+        else {
+            //this.cancel( true );
+            result = new WsResult(null, NO_INTERNET_CONNECTION);
         }
         return result;
 
@@ -96,17 +106,23 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
         dialog.dismiss();
         try {
 
-            if (result.getErr().equals(RESULT_IS_OK)) {
-                if (refresh) {
-                    refresh = false;
-                }
-                Object obj = result.getObject();
-                taskCallBack.onResultReceived(obj);
+            if( result.getErr().equals(NO_INTERNET_CONNECTION)) {
+                Err(result.getErr());
+            }
+            else {
+
+                if (result.getErr().equals(RESULT_IS_OK)) {
+                    if (refresh) {
+                        refresh = false;
+                    }
+                    Object obj = result.getObject();
+                    taskCallBack.onResultReceived(obj);
 //                        list.addAll(obj.getAll());
 
-            } else {
-                if (loadMore == null || !loadMore.equals("endof")) {
-                    Err(result.getErr());
+                } else {
+                    if (loadMore == null || !loadMore.equals("endof")) {
+                        Err(result.getErr());
+                    }
                 }
             }
 
@@ -127,7 +143,8 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
         if (toast != null) {
             toast.cancel();
         }
-        Tools.ShowDialog(context, Tools.getStringByName("Error"), errStr);
+        //Tools.ShowDialog(context, Tools.getStringByName("Error"), errStr);
+        Toast.makeText( context, errStr, Toast.LENGTH_SHORT ).show();
 
         if (ExceptionConstants.REST_INVALID_SESSION_ID == i) {
 //                startActivity(new Intent(CategoryList.this, LoginActivity.class));
@@ -154,5 +171,16 @@ public class ListHttp extends AsyncTask<Object, Void, WsResult> {
 
     @Override
     protected void onProgressUpdate(Void... values) {
+    }
+
+
+    private boolean checkInternetConnection() {
+        //if connected return true
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+        if (info == null || !info.isAvailable() || !info.isConnected()) {
+            return false;
+        }
+        return true;
     }
 }
