@@ -15,6 +15,7 @@ public class CheckItem implements Serializable {
     private String time;
     private boolean checked;
     private Integer tripId;
+    private Integer list_index;
 
     private Byte reminderFlag;
     private ReminderDto reminderDto;
@@ -82,5 +83,13 @@ public class CheckItem implements Serializable {
 
     public void setReminderDto(ReminderDto reminderDto) {
         this.reminderDto = reminderDto;
+    }
+
+    public Integer getList_index() {
+        return list_index;
+    }
+
+    public void setList_index(Integer list_index) {
+        this.list_index = list_index;
     }
 }
