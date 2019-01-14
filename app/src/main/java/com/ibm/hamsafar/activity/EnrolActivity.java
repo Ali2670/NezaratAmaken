@@ -9,8 +9,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,7 +24,6 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -125,49 +122,45 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
             boolean hasError = false;
             //check id code
             if (userInfo.getIdCode().equals("")) {
-                idCodeLayout.setError(getResources().getString(R.string.Exc_700001));
+                idCodeLayout.setError(getResources().getString(R.string.enrol_id_code_empty_error));
                 hasError = true;
             }
             else if (!ValidateCodeMeli.checkCocdeMeli(userInfo.getIdCode())) {
-                idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
+                idCodeLayout.setError(getResources().getString(R.string.enrol_invalid_id_code_error));
                 hasError = true;
             }
             else if (userInfo.getIdCode().length() < 10) {
-                idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
+                idCodeLayout.setError(getResources().getString(R.string.enrol_invalid_id_code_error));
                 hasError = true;
             }
 
             //check name
             if (userInfo.getFirstName().equals("")) {
-                nameLayout.setError(getResources().getString(R.string.Exc_700003));
+                nameLayout.setError(getResources().getString(R.string.enrol_empty_name_error));
                 hasError = true;
             }
 
             //check last name
             if (userInfo.getLastName().equals("")) {
-                lastNameLayout.setError(getResources().getString(R.string.Exc_700004));
+                lastNameLayout.setError(getResources().getString(R.string.enrol_empty_last_name_error));
                 hasError = true;
             }
 
             //check birth date
             if (userInfo.getBirthDate().equals("")) {
-                birthDateLayout.setError(getResources().getString(R.string.Exc_700005));
+                birthDateLayout.setError(getResources().getString(R.string.enrol_empty_birth_error));
                 hasError = true;
             }
             if( invalidBirthDate() ) {
-                birthDateLayout.setError(getResources().getString(R.string.Exc_700008));
+                birthDateLayout.setError(getResources().getString(R.string.enrol_correct_birth_error));
                 hasError = true;
             }
 
             if (hasError) {
-                Snackbar.make(parent_layout, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(parent_layout, getResources().getString(R.string.enrol_correct_info_error), Snackbar.LENGTH_SHORT).show();
             } else {
-                if (checkInternetConnection()) {
                     clearError();
                     saveUserInfo();
-                } else {
-                    Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -295,7 +288,7 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
     public void onDateSet(com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         int moth = monthOfYear + 1;
         //check date validation
-        birthDate.setText(year + "/" + moth + "/" + dayOfMonth);
+        birthDate.setText(year + "/" + String.format("%02d", moth) + "/" + String.format("%02d", dayOfMonth));
     }
 
 
@@ -324,17 +317,6 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
         public void afterTextChanged(Editable s) {
             layout.setError(null);
         }
-    }
-
-
-    private boolean checkInternetConnection() {
-        //if connected return true
-        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info == null || !info.isAvailable() || !info.isConnected()) {
-            return false;
-        }
-        return true;
     }
 
     private void savePreferences(String key, String value) {
@@ -389,16 +371,13 @@ public class EnrolActivity extends AppCompatActivity implements DatePickerDialog
         listView.setAdapter(adapter);
         final AlertDialog dialog = builder.create();
         dialog.show();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedListItem = ((TextView) view).getText().toString();
-                dialog.dismiss();
-                if (selectedListItem.equals("دوربین")) {
-                    ClickImageFromCamera() ;
-                } else if (selectedListItem.equals("گالری")) {
-                    GetImageFromGallery();
-                }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedListItem = ((TextView) view).getText().toString();
+            dialog.dismiss();
+            if (selectedListItem.equals("دوربین")) {
+                ClickImageFromCamera() ;
+            } else if (selectedListItem.equals("گالری")) {
+                GetImageFromGallery();
             }
         });
     }
