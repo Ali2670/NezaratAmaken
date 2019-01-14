@@ -48,7 +48,7 @@ public class ChecklistListActivity extends Activity {
     private FloatingActionButton add = null;
     private LinearLayoutManager linearLayoutManager = null;
     private CheckItemAdapter adapter;
-    private List<CheckItem> listData;
+    public static List<CheckItem> listData;
 
 
     @Override
@@ -69,6 +69,7 @@ public class ChecklistListActivity extends Activity {
         recyclerView = findViewById(R.id.cl_view_recycler_view);
         add = findViewById(R.id.cl_view_add_item);
 
+        adapter = new CheckItemAdapter( this, listData );
 
         /*toolbarBack.setOnClickListener(view -> onBackPressed());
 
@@ -212,8 +213,8 @@ public class ChecklistListActivity extends Activity {
     @Override
     public void onResume(){
         super.onResume();
-
-        getChecklistList();
+        adapter.notifyDataSetChanged();
+        //getChecklistList();
     }
 
 
