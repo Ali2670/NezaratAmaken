@@ -302,7 +302,7 @@ public class Main extends AppCompatActivity
                 startActivity( new Intent(Main.this, TripActivity.class));
                 break;
             case R.id.main_nav_checklist:
-                startActivity( new Intent(Main.this, CheckListItemEditActivity.class));
+                startActivity( new Intent(Main.this, CheckListItemAddActivity.class));
                 break;
             case R.id.main_nav_login:
                 if( sharedPreferences.contains("user_id") && sharedPreferences.getInt("user_id", 0) != 0) {
