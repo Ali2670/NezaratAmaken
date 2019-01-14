@@ -149,8 +149,7 @@ public class UserProfileActivity extends AppCompatActivity {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
         byte[] image = stream.toByteArray();
-        String img_str = Base64.encodeToString(image, Base64.NO_WRAP);
-        return img_str;
+        return Base64.encodeToString(image, Base64.NO_WRAP);
     }
 
 }
