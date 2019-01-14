@@ -10,8 +10,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -134,90 +132,78 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
             boolean hasError = false;
             //check id code
             if (userInfo.getIdCode().equals("")) {
-                idCodeLayout.setError(getResources().getString(R.string.Exc_700001));
+                idCodeLayout.setError(getResources().getString(R.string.enrol_id_code_empty_error));
                 hasError = true;
             }
             else if (!ValidateCodeMeli.checkCocdeMeli(userInfo.getIdCode())) {
-                idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
+                idCodeLayout.setError(getResources().getString(R.string.enrol_invalid_id_code_error));
                 hasError = true;
             }
             else if (userInfo.getIdCode().length() < 10) {
-                idCodeLayout.setError(getResources().getString(R.string.Exc_700002));
+                idCodeLayout.setError(getResources().getString(R.string.enrol_invalid_id_code_error));
                 hasError = true;
             }
 
             //check name
-            if( userInfo.getFirstName().equals("") ) {
-                nameLayout.setError(getResources().getString(R.string.Exc_700003));
+            if (userInfo.getFirstName().equals("")) {
+                nameLayout.setError(getResources().getString(R.string.enrol_empty_name_error));
                 hasError = true;
             }
 
             //check last name
-            if(userInfo.getLastName().equals("") ) {
-                lastNameLayout.setError(getResources().getString(R.string.Exc_700004));
+            if (userInfo.getLastName().equals("")) {
+                lastNameLayout.setError(getResources().getString(R.string.enrol_empty_last_name_error));
                 hasError = true;
             }
 
             //check birth date
-            if( userInfo.getBirthDate().equals("") ) {
-                birthDateLayout.setError(getResources().getString(R.string.Exc_700005));
+            if (userInfo.getBirthDate().equals("")) {
+                birthDateLayout.setError(getResources().getString(R.string.enrol_empty_birth_error));
                 hasError = true;
             }
             if( invalidBirthDate() ) {
-                birthDateLayout.setError(getResources().getString(R.string.Exc_700008));
+                birthDateLayout.setError(getResources().getString(R.string.enrol_correct_birth_error));
                 hasError = true;
             }
 
             if( hasError ) {
-                Snackbar.make(parent_layout, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(parent_layout, getResources().getString(R.string.enrol_correct_info_error), Snackbar.LENGTH_SHORT).show();
             }
             else {
-                if( checkInternetConnection() ) {
                     clearError();
                     updateUserInfo();
-                } else {
-                    Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
-        photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imagePicker();
-            }
-        });
+        photo.setOnClickListener(view -> imagePicker());
 
-        photo.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setCancelable(true);
-                LayoutInflater inflater = getLayoutInflater();
-                View listViewDialog = inflater.inflate(R.layout.alertdialog_with_list, null);
-                builder.setView(listViewDialog);
-                TextView listTitle = listViewDialog.findViewById(R.id.listAlertDialogTitle);
-                ListView listView = listViewDialog.findViewById(R.id.dialogList);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_expandable_list_item,
-                        getResources().getStringArray(R.array.photo_menu_lc));
-                listView.setAdapter(adapter);
-                final AlertDialog dialog = builder.create();
-                dialog.show();
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String selectedListItem = ((TextView) view).getText().toString();
-                        dialog.dismiss();
-                        if (selectedListItem.equals("انتخاب تصویر")) {
-                            imagePicker();
-                        }
-                        else if (selectedListItem.equals("حذف تصویر")) {
-                            photo.setImageResource(R.drawable.default_profile);
-                        }
+        photo.setOnLongClickListener(view -> {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setCancelable(true);
+            LayoutInflater inflater = getLayoutInflater();
+            View listViewDialog = inflater.inflate(R.layout.alertdialog_with_list, null);
+            builder.setView(listViewDialog);
+            TextView listTitle = listViewDialog.findViewById(R.id.listAlertDialogTitle);
+            ListView listView = listViewDialog.findViewById(R.id.dialogList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.simple_expandable_list_item,
+                    getResources().getStringArray(R.array.photo_menu_lc));
+            listView.setAdapter(adapter);
+            final AlertDialog dialog = builder.create();
+            dialog.show();
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedListItem = ((TextView) view).getText().toString();
+                    dialog.dismiss();
+                    if (selectedListItem.equals("انتخاب تصویر")) {
+                        imagePicker();
                     }
-                });
-                return true;
-            }
+                    else if (selectedListItem.equals("حذف تصویر")) {
+                        photo.setImageResource(R.drawable.default_profile);
+                    }
+                }
+            });
+            return true;
         });
 
         birthDate.setOnClickListener(view -> {
@@ -330,16 +316,6 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
         public void afterTextChanged(Editable s) {
             layout.setError(null);
         }
-    }
-
-    private boolean checkInternetConnection() {
-        //if connected return true
-        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info == null || !info.isAvailable() || !info.isConnected()) {
-            return false;
-        }
-        return true;
     }
 
     private void savePreferences(String key, String value) {
@@ -583,7 +559,7 @@ public class EditProfileActivity extends Activity implements DatePickerDialog.On
     public void onDateSet(com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         int moth = monthOfYear + 1;
         //check date validation
-        birthDate.setText(year + "/" + moth + "/" + dayOfMonth);
+        birthDate.setText(year + "/" + String.format("%02d", moth) + "/" + String.format("%02d", dayOfMonth));
     }
 
 
