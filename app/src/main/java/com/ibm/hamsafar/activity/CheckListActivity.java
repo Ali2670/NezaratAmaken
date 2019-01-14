@@ -47,7 +47,7 @@ public class CheckListActivity extends Activity {
     private FloatingActionButton addItem = null;
     private LinearLayoutManager linearLayoutManager = null;
     private CheckItemAdapter adapter = null;
-    private List<CheckItem> listData;
+    public static List<CheckItem> listData;
     private CoordinatorLayout coordinatorLayout = null;
     private Button done = null;
     private Button cancel = null;
@@ -93,6 +93,8 @@ public class CheckListActivity extends Activity {
         tripCardEnd = findViewById(R.id.trip_card_end_date);
         tripCardEndTime = findViewById(R.id.trip_card_end_time);
         tripCardTrans = findViewById(R.id.trip_card_transport);
+
+        adapter = new CheckItemAdapter( this, listData );
 
         /*
          * set proper date for check items
@@ -322,8 +324,8 @@ public class CheckListActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-
-        getCheckList();
+        adapter.notifyDataSetChanged();
+        //getCheckList();
     }
 
     @Override
