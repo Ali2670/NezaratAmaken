@@ -33,7 +33,7 @@ public class EditChecklistActivity extends Activity {
     private FloatingActionButton addItem = null;
     private LinearLayoutManager linearLayoutManager = null;
     private CheckItemAdapter adapter = null;
-    private List<CheckItem> listData;
+    public static List<CheckItem> listData;
     private CoordinatorLayout coordinatorLayout = null;
     private Button save = null;
     private Button cancel = null;
@@ -76,6 +76,8 @@ public class EditChecklistActivity extends Activity {
         tripCardEnd = findViewById(R.id.trip_card_end_date);
         tripCardTrans = findViewById(R.id.trip_card_transport);
 
+
+        adapter = new CheckItemAdapter( this, listData );
 
         //get checklist id
         if( getIntent().hasExtra("checklist_id") ) {
@@ -164,6 +166,11 @@ public class EditChecklistActivity extends Activity {
     //----------------------------------------------------------------------------------------------
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onBackPressed() {
