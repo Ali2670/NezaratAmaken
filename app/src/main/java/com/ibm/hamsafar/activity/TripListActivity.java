@@ -105,6 +105,10 @@ public class TripListActivity extends Activity {
                 if (!start_date.equals("")) {
                     request.setStartDate(start_date);
                 }
+                String end_date = sharedPreferences.getString("trip_filter_end", "");
+                if (!end_date.equals("")) {
+                    request.setEndDate(end_date);
+                }
             }
         }
 
