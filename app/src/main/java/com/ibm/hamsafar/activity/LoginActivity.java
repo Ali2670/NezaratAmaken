@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -19,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ibm.hamsafar.R;
 import com.ibm.hamsafar.asyncTask.ListHttp;
@@ -89,29 +86,20 @@ public class LoginActivity extends Activity {
             if (!loggedIn) {
                 String mobileNumber = mobile.getText().toString().trim();
                 if (mobileNumber.equals("")) {
-                    mobileLayout.setError(getResources().getString(R.string.Exc_600001));
+                    mobileLayout.setError(getResources().getString(R.string.login_mobile_empty_error));
                 } else if (mobileNumber.length() < 11) {
-                    mobileLayout.setError(getResources().getString(R.string.Exc_600002));
+                    mobileLayout.setError(getResources().getString(R.string.login_mobile_correct_error));
                 } else {
-                    if (checkInternetConnection()) {
                         mobileLayout.setError(null);
                         phoneNum = mobile.getText().toString();
                         login(phoneNum);
-
-                    } else {
-                        Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                    }
                 }
             } else {
                 if (code.getText().toString().trim().equals("")) {
-                    codeLayout.setError(getResources().getString(R.string.Exc_600004));
+                    codeLayout.setError(getResources().getString(R.string.login_empty_activation_code_error));
                 } else {
-                    if (checkInternetConnection()) {
                         sendActivationCode(phoneNum, code.getText().toString().trim());
                         //checkActivationCode(Integer.parseInt(code.getText().toString().trim()));
-                    } else {
-                        Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
         });
@@ -209,16 +197,6 @@ public class LoginActivity extends Activity {
         Intent intent = new Intent(LoginActivity.this, EnrolActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    private boolean checkInternetConnection() {
-        //if connected return true
-        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info == null || !info.isAvailable() || !info.isConnected()) {
-            return false;
-        }
-        return true;
     }
 
     private void savePreferences(String key, Integer value) {
