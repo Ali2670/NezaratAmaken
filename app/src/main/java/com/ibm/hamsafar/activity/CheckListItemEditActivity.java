@@ -3,10 +3,7 @@ package com.ibm.hamsafar.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.animation.Animation;
@@ -22,22 +19,12 @@ import com.hamsafar.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.hamsafar.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.hamsafar.persianmaterialdatetimepicker.utils.PersianCalendar;
 import com.ibm.hamsafar.R;
-import com.ibm.hamsafar.asyncTask.ListHttp;
-import com.ibm.hamsafar.asyncTask.TaskCallBack;
 import com.ibm.hamsafar.object.CheckItem;
 import com.ibm.hamsafar.utils.DateUtil;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import hamsafar.ws.common.ChecklistItemDto;
 import hamsafar.ws.common.ReminderDto;
-import hamsafar.ws.model.JsonCodec;
-import hamsafar.ws.request.SubmitTripChecklistRequest;
-import hamsafar.ws.response.SubmitChecklistResponse;
-import hamsafar.ws.util.service.ServiceNames;
-import ibm.ws.WsResult;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -60,8 +47,9 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
     private TextView toolbarTitle = null;
     private Button save = null;
     private Button cancel = null;
-    private Integer item_id = 0;
     private Integer trip_id = 0;
+    private Integer item_id = 0;
+    private Integer item_index = -1;
     //private static boolean add = false;
 
 
@@ -92,16 +80,25 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
         animation_disappear = AnimationUtils.loadAnimation(CheckListItemEditActivity.this, R.anim.animation_fade_out);
 
 
+        save.setText( getResources().getString(R.string.cl_add ));
+
         //initialise
         checkItem = new CheckItem();
         if (getIntent().hasExtra("check_item")) {
             //add = false;
+            save.setText( getResources().getString(R.string.cl_edit ));
             checkItem = (CheckItem) getIntent().getSerializableExtra("check_item");
-            if( checkItem.getId() != null )
+            if( checkItem.getId() != null ) {
                 item_id = checkItem.getId();
+            }
+            if( checkItem.getList_index() != null ) {
+                item_index = checkItem.getList_index();
+            }
+
             if (checkItem.getTripId() == null) {
                 trip_id = 0;
-            } else {
+            }
+            if (checkItem.getTripId() != null) {
                 trip_id = checkItem.getTripId();
             }
 
@@ -177,12 +174,16 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
 
         //use add to check whether to update item or add new
         save.setOnClickListener(view -> {
-            saveChanges();
+            //saveChanges();
+            Toast.makeText(context, getResources().getString(R.string.save_success_message), Toast.LENGTH_SHORT).show();
+            //add item to list data to show in previous activity
+            addToListData();
+            finish();
         });
     }
 
     //save button action
-    private void saveChanges() {
+    /*private void saveChanges() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Integer user_id = sharedPreferences.getInt("user_id", 0);
 
@@ -209,7 +210,7 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
 
         String date_st = date.getText().toString().trim();
         String time_st = time.getText().toString().trim();
-        if( !date_st.equals("") && !time_st.equals("") ) {
+        if( checkBox.isChecked() && !date_st.equals("") && !time_st.equals("") ) {
 
             checklistItemDto.setReminderFlag((byte) 1);
 
@@ -236,15 +237,8 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
 
             if (ress.getSuccessful()) {
                 Toast.makeText(context, getResources().getString(R.string.save_success_message), Toast.LENGTH_SHORT).show();
-                /*Intent intent = null;
-                if( from.equals("edit_trip")) {
-                    intent = new Intent(this, EditTripActivity.class);
-                    startActivity( intent );
-                }
-                if( from.equals("checklist_list")) {
-                    intent = new Intent(this, ChecklistListActivity.class);
-                    startActivity( intent );
-                }*/
+                //add item to list data to show in previous activity
+                addToListData();
                 finish();
             } else {
                 Toast.makeText(context, getResources().getString(R.string.save_failure_message), Toast.LENGTH_SHORT).show();
@@ -253,8 +247,163 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
         };
         AsyncTask<Object, Void, WsResult> list = new ListHttp(submitChecklistResponse, this, null, ServiceNames.SUBMIT_CHECKLIST, false);
         list.execute(request);
+    }*/
+
+    //_________________________________add item  to listData list of previous activity______________________________________________________
+
+    private void addToListData() {
+        if( EditTripActivity.listData != null )
+            EditTripActivity.listData = updateItems( EditTripActivity.listData );
+        if( CheckListActivity.listData != null )
+            CheckListActivity.listData = updateItems( CheckListActivity.listData );
+        if( ChecklistListActivity.listData != null )
+            ChecklistListActivity.listData = updateItems( ChecklistListActivity.listData );
+        if( EditChecklistActivity.listData != null )
+            EditChecklistActivity.listData = updateItems( EditChecklistActivity.listData );
     }
 
+    private List<CheckItem> updateItems( List<CheckItem> temp ) {
+        if( item_index != -1 ) {
+            CheckItem item = checkItem;
+            item.setTopic( topic.getText().toString().trim() );
+            String date_st = date.getText().toString().trim();
+            String time_st = time.getText().toString().trim();
+            if( checkBox.isChecked() && !date_st.equals("") && !time_st.equals("") ) {
+
+                item.setReminderFlag((byte) 1);
+
+                //create reminder
+                ReminderDto reminderDto = new ReminderDto();
+                reminderDto.setStartDate(date_st);
+                reminderDto.setStartTime(time_st);
+                reminderDto.setReminderType((byte) 0);
+                reminderDto.setRemindDate(date_st);
+                reminderDto.setRemindTime(time_st);
+                reminderDto.setStatus((byte) 0);
+
+                item.setDate( date_st );
+                item.setTime( time_st );
+
+                item.setReminderDto(reminderDto);
+            }
+            else {
+                item.setReminderFlag((byte) 0);
+            }
+
+            if( item_index < temp.size() ) {
+                temp.set(item_index, item);
+            }
+        }
+        else {
+            CheckItem item = new CheckItem();
+            if (trip_id != 0) {
+                item.setTripId(trip_id);
+            }
+            item.setTopic( topic.getText().toString().trim() );
+            item.setDate("");
+            item.setTime("");
+            item.setChecked(false);
+            String date_st = date.getText().toString().trim();
+            String time_st = time.getText().toString().trim();
+            if( checkBox.isChecked() && !date_st.equals("") && !time_st.equals("") ) {
+
+                item.setReminderFlag((byte) 1);
+
+                //create reminder
+                ReminderDto reminderDto = new ReminderDto();
+                reminderDto.setStartDate(date_st);
+                reminderDto.setStartTime(time_st);
+                reminderDto.setReminderType((byte) 0);
+                reminderDto.setRemindDate(date_st);
+                reminderDto.setRemindTime(time_st);
+                reminderDto.setStatus((byte) 0);
+
+                item.setDate( date_st );
+                item.setTime( time_st );
+
+                item.setReminderDto(reminderDto);
+            }
+            else {
+                item.setReminderFlag((byte) 0);
+            }
+            temp.add( item );
+        }
+        /*if( checkItem.getId() != null ) {
+            boolean found = false;
+            int i = 0;
+            while( !found && i<temp.size() ) {
+                if(temp.get(i).getId().equals(checkItem.getId())) {
+                    found = true;
+                    CheckItem item = checkItem;
+                    item.setTopic( topic.getText().toString().trim() );
+                    String date_st = date.getText().toString().trim();
+                    String time_st = time.getText().toString().trim();
+                    if( checkBox.isChecked() && !date_st.equals("") && !time_st.equals("") ) {
+
+                        item.setReminderFlag((byte) 1);
+
+                        //create reminder
+                        ReminderDto reminderDto = new ReminderDto();
+                        reminderDto.setStartDate(date_st);
+                        reminderDto.setStartTime(time_st);
+                        reminderDto.setReminderType((byte) 0);
+                        reminderDto.setRemindDate(date_st);
+                        reminderDto.setRemindTime(time_st);
+                        reminderDto.setStatus((byte) 0);
+
+                        item.setDate( date_st );
+                        item.setTime( time_st );
+
+                        item.setReminderDto(reminderDto);
+                    }
+                    else {
+                        item.setReminderFlag((byte) 0);
+                    }
+
+                    temp.set(i, item);
+                } else {
+                    i++;
+                }
+            }
+        }
+        else {
+            CheckItem item = new CheckItem();
+            if (trip_id != 0) {
+                item.setTripId(trip_id);
+            }
+            item.setTopic( topic.getText().toString().trim() );
+            item.setDate("");
+            item.setTime("");
+            item.setChecked(false);
+            String date_st = date.getText().toString().trim();
+            String time_st = time.getText().toString().trim();
+            if( checkBox.isChecked() && !date_st.equals("") && !time_st.equals("") ) {
+
+                item.setReminderFlag((byte) 1);
+
+                //create reminder
+                ReminderDto reminderDto = new ReminderDto();
+                reminderDto.setStartDate(date_st);
+                reminderDto.setStartTime(time_st);
+                reminderDto.setReminderType((byte) 0);
+                reminderDto.setRemindDate(date_st);
+                reminderDto.setRemindTime(time_st);
+                reminderDto.setStatus((byte) 0);
+
+                item.setDate( date_st );
+                item.setTime( time_st );
+
+                item.setReminderDto(reminderDto);
+            }
+            else {
+                item.setReminderFlag((byte) 0);
+            }
+            temp.add( item );
+        }*/
+        return temp;
+    }
+
+    //__________________________________________________end_________________________________________________________________________________
 
     private void clearError() {
         topic_layout.setError(null);
@@ -267,7 +416,7 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
     public void onDateSet(com.hamsafar.persianmaterialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         int moth = monthOfYear + 1;
         //check date validation
-        date.setText(year + "/" + moth + "/" + dayOfMonth);
+        date.setText(year + "/" + String.format("%02d", moth) + "/" + String.format("%02d", dayOfMonth));
     }
 
     @Override
@@ -285,7 +434,8 @@ public class CheckListItemEditActivity extends Activity implements DatePickerDia
         builder.setMessage(getResources().getString(R.string.exit_message));
         builder.setPositiveButton(getResources().getString(R.string.exit_save_changes),
                 (dialogInterface, i) -> {
-                    saveChanges();
+                    //saveChanges();
+                    addToListData();
                     finish();
                 });
         builder.setNeutralButton(getResources().getString(R.string.exit_cancel),
