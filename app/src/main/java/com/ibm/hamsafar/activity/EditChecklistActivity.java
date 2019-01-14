@@ -33,7 +33,7 @@ public class EditChecklistActivity extends Activity {
     private FloatingActionButton addItem = null;
     private LinearLayoutManager linearLayoutManager = null;
     private CheckItemAdapter adapter = null;
-    public static List<CheckItem> listData;
+    public static List<CheckItem> listData = null;
     private CoordinatorLayout coordinatorLayout = null;
     private Button save = null;
     private Button cancel = null;
