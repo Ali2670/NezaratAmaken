@@ -172,8 +172,10 @@ public class CheckItemAdapter extends RecyclerView.Adapter<CheckItemAdapter.View
             String selectedListItem = ((TextView) view1).getText().toString();
 
             if (selectedListItem.equals("ویرایش")) {
+                CheckItem checkItem = items.get(position);
+                checkItem.setList_index( position );
                 Intent intent = new Intent(context, CheckListItemEditActivity.class);
-                intent.putExtra("check_item", items.get(position));
+                intent.putExtra("check_item", checkItem);
                 intent.putExtra("from", "list");
                 context.startActivity(intent);
             }
