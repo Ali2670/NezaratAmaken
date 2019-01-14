@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -148,21 +146,13 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
         initialise();
 
         portText.setOnClickListener(view -> {
-            if (checkInternetConnection()) {
                 String title = getResources().getString(R.string.trip_port_title);
                 showSearchListDialog(portText, title, getRegion_list());
-            } else {
-                Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-            }
         });
 
         desText.setOnClickListener(view -> {
-            if (checkInternetConnection()) {
                 String title = getResources().getString(R.string.trip_des_title);
                 showSearchListDialog(desText, title, getCountry_list());
-            } else {
-                Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-            }
         });
 
         startDateText.setOnClickListener(view -> {
@@ -222,25 +212,40 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
     private void saveAction(View view) {
         boolean hasError = false;
 
+        if (portText.getText().toString().trim().equals("")) {
+            portLayout.setError(getResources().getString(R.string.trip_empty_port_error));
+            hasError = true;
+        }
         if (desText.getText().toString().trim().equals("")) {
-            desLayout.setError(getResources().getString(R.string.Exc_800001));
+            desLayout.setError(getResources().getString(R.string.trip_empty_des_error));
+            hasError = true;
+        }
+
+        if (startDateText.getText().toString().trim().equals("")) {
+            startDateLayout.setError(getResources().getString(R.string.trip_empty_start_date_error));
+            hasError = true;
+        }
+
+        if (startTimeText.getText().toString().trim().equals("")) {
+            startTimeLayout.setError(getResources().getString(R.string.trip_empty_start_time_error));
             hasError = true;
         }
 
         if (endDateText.getText().toString().trim().equals("")) {
-            endDateLayout.setError(getResources().getString(R.string.Exc_800002));
+            endDateLayout.setError(getResources().getString(R.string.trip_empty_end_date_error));
+            hasError = true;
+        }
+
+        if (endTimeText.getText().toString().trim().equals("")) {
+            endTimeLayout.setError(getResources().getString(R.string.trip_empty_end_time_error));
             hasError = true;
         }
 
         if (hasError) {
-            Snackbar.make(view, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, getResources().getString(R.string.enrol_correct_info_error), Snackbar.LENGTH_SHORT).show();
         } else {
-            if (checkInternetConnection()) {
                 clearError();
                 insertTripIntoDB();
-            } else {
-                Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -391,17 +396,6 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
         transLayout.setError(null);
     }
 
-
-    private boolean checkInternetConnection() {
-        //if connected return true
-        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info == null || !info.isAvailable() || !info.isConnected()) {
-            return false;
-        }
-        return true;
-    }
-
     //open date picker dialog
     private void openDatePicker() {
         PersianCalendar persianCalendar = new PersianCalendar();
@@ -420,10 +414,10 @@ public class TripActivity extends Activity implements DatePickerDialog.OnDateSet
         int moth = monthOfYear + 1;
         //set date
         if (DATE_PICKER_CALLER.equals("start")) {
-            startDateText.setText(year + "/" + moth + "/" + dayOfMonth);
+            startDateText.setText(year + "/" + String.format("%02d", moth) + "/" + String.format("%02d", dayOfMonth));
         }
         if (DATE_PICKER_CALLER.equals("end")) {
-            endDateText.setText(year + "/" + moth + "/" + dayOfMonth);
+            endDateText.setText(year + "/" + String.format("%02d", moth) + "/" + String.format("%02d", dayOfMonth));
         }
 
         //check date validation
