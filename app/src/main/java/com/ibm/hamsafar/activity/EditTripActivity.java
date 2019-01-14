@@ -5,12 +5,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -93,13 +90,14 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
     private Button done = null;
     private Button cancel = null;
     private RecyclerView checklist = null;
-    private FloatingActionButton addItem = null;
-    private FloatingActionButton tourism_info = null;
-    private FloatingActionButton hotel_info = null;
-    private FloatingActionButton museum_info = null;
+    private android.support.design.widget.FloatingActionButton addItem = null;
+    private com.github.clans.fab.FloatingActionButton tourism_info = null;
+    private com.github.clans.fab.FloatingActionButton hotel_info = null;
+    private com.github.clans.fab.FloatingActionButton museum_info = null;
+    private com.github.clans.fab.FloatingActionMenu menu = null;
 
     private LinearLayoutManager linearLayoutManager = null;
-    private List<CheckItem> listData = null;
+    public static List<CheckItem> listData = null;
     //private UnEditableCheckListAdapter adapter = null;
     private CheckItemAdapter adapter = null;
 
@@ -146,27 +144,31 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         showChecklist = findViewById(R.id.trip_edit_check_list_show);*/
         checklist = findViewById(R.id.trip_edit_checklist);
         addItem = findViewById(R.id.trip_edit_checklist_add);
-        tourism_info = findViewById(R.id.trip_edit_tourism );
-        hotel_info = findViewById(R.id.trip_edit_hotel );
-        museum_info = findViewById(R.id.trip_edit_museum );
+        tourism_info = findViewById(R.id.trip_edit_tourism);
+        hotel_info = findViewById(R.id.trip_edit_hotel);
+        museum_info = findViewById(R.id.trip_edit_museum);
+        menu = findViewById(R.id.trip_edit_menu);
 
 
         clearError();
 
+
+        adapter = new CheckItemAdapter( this, listData );
+
         portLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(portLayout.getEditText(), portLayout));
+                new EditTripActivity.GenericTextWatcher(portLayout.getEditText(), portLayout));
         desLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(desLayout.getEditText(), desLayout));
+                new EditTripActivity.GenericTextWatcher(desLayout.getEditText(), desLayout));
         startDateLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(startDateLayout.getEditText(), startDateLayout));
+                new EditTripActivity.GenericTextWatcher(startDateLayout.getEditText(), startDateLayout));
         startTimeLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(startTimeLayout.getEditText(), startTimeLayout));
+                new EditTripActivity.GenericTextWatcher(startTimeLayout.getEditText(), startTimeLayout));
         endDateLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(endDateLayout.getEditText(), endDateLayout));
+                new EditTripActivity.GenericTextWatcher(endDateLayout.getEditText(), endDateLayout));
         endTimeLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(endTimeLayout.getEditText(), endTimeLayout));
+                new EditTripActivity.GenericTextWatcher(endTimeLayout.getEditText(), endTimeLayout));
         transLayout.getEditText().addTextChangedListener(
-                new EnrolActivity.GenericTextWatcher(transLayout.getEditText(), transLayout));
+                new EditTripActivity.GenericTextWatcher(transLayout.getEditText(), transLayout));
 
 
         getCityList();
@@ -202,22 +204,16 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
             addChecklist.setVisibility(View.VISIBLE);
         }*/
 
+        menu.getMenuIconView().setImageResource(R.drawable.ic_menu_white);
+
         portText.setOnClickListener(view -> {
-            if (checkInternetConnection()) {
                 String title = getResources().getString(R.string.trip_port_title);
                 showSearchListDialog(portText, title, getRegion_list());
-            } else {
-                Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-            }
         });
 
         desText.setOnClickListener(view -> {
-            if (checkInternetConnection()) {
                 String title = getResources().getString(R.string.trip_des_title);
                 showSearchListDialog(desText, title, getCountry_list());
-            } else {
-                Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-            }
         });
 
         startDateText.setOnClickListener(view -> {
@@ -249,15 +245,24 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
 
 
         tourism_info.setOnClickListener(view -> {
-
+            Intent intent = new Intent(this, SimplePlaceInfoActivity.class);
+            intent.putExtra("type", "tourism");
+            intent.putExtra("region_id", getRegionId(country_list, desText.getText().toString().trim()));
+            startActivity(intent);
         });
 
         hotel_info.setOnClickListener(view -> {
-
+            Intent intent = new Intent(this, SimplePlaceInfoActivity.class);
+            intent.putExtra("type", "hotel");
+            intent.putExtra("region_id", getRegionId(country_list, desText.getText().toString().trim()));
+            startActivity(intent);
         });
 
         museum_info.setOnClickListener(view -> {
-
+            Intent intent = new Intent(this, SimplePlaceInfoActivity.class);
+            intent.putExtra("type", "museum");
+            intent.putExtra("region_id", getRegionId(country_list, desText.getText().toString().trim()));
+            startActivity(intent);
         });
 
 
@@ -279,35 +284,40 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         done.setOnClickListener(view -> {
             boolean hasError = false;
 
+            if (portText.getText().toString().trim().equals("")) {
+                portLayout.setError(getResources().getString(R.string.trip_empty_port_error));
+                hasError = true;
+            }
             if (desText.getText().toString().trim().equals("")) {
-                desLayout.setError(getResources().getString(R.string.Exc_800001));
+                desLayout.setError(getResources().getString(R.string.trip_empty_des_error));
                 hasError = true;
             }
 
-            if (endDateText.getText().toString().trim().equals("")) {
-                endDateLayout.setError(getResources().getString(R.string.Exc_800002));
-                hasError = true;
-            }
-
-            if (endTimeText.getText().toString().trim().equals("")) {
-                endTimeLayout.setError(getResources().getString(R.string.Exc_800003));
+            if (startDateText.getText().toString().trim().equals("")) {
+                startDateLayout.setError(getResources().getString(R.string.trip_empty_start_date_error));
                 hasError = true;
             }
 
             if (startTimeText.getText().toString().trim().equals("")) {
-                startTimeLayout.setError(getResources().getString(R.string.Exc_800004));
+                startTimeLayout.setError(getResources().getString(R.string.trip_empty_start_time_error));
+                hasError = true;
+            }
+
+            if (endDateText.getText().toString().trim().equals("")) {
+                endDateLayout.setError(getResources().getString(R.string.trip_empty_end_date_error));
+                hasError = true;
+            }
+
+            if (endTimeText.getText().toString().trim().equals("")) {
+                endTimeLayout.setError(getResources().getString(R.string.trip_empty_end_time_error));
                 hasError = true;
             }
 
             if (hasError) {
-                Snackbar.make(view, getResources().getString(R.string.Exc_700007), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(view, getResources().getString(R.string.enrol_correct_info_error), Snackbar.LENGTH_SHORT).show();
             } else {
-                if (checkInternetConnection()) {
                     clearError();
                     insertTripIntoDB();
-                } else {
-                    Toast.makeText(context, getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -315,7 +325,7 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
 
         addItem.setOnClickListener(view -> {
             Intent intent = new Intent(EditTripActivity.this, CheckListItemEditActivity.class);
-            intent.putExtra("trip_id", trip_id );
+            intent.putExtra("trip_id", trip_id);
             startActivity(intent);
         });
 
@@ -439,8 +449,8 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         TextView listTitle = listViewDialog.findViewById(R.id.listAlertDialogTitle);
         listTitle.setText(title);
         ListView listView = listViewDialog.findViewById(R.id.dialogList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_expandable_list_item, items);
-        listView.setAdapter(adapter);
+        ArrayAdapter<String> array_adapter = new ArrayAdapter<>(this, R.layout.simple_expandable_list_item, items);
+        listView.setAdapter(array_adapter);
         final AlertDialog dialog = builder.create();
         dialog.show();
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -537,9 +547,8 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
             ChecklistItemDto checklistItemDto = new ChecklistItemDto();
             checklistItemDto.setUserId(user_id);
             checklistItemDto.setTripId(trip_id);
-            int item_id = checkItem.getId();
-            if (item_id != 0) {
-                checklistItemDto.setId(item_id);
+            if (checkItem.getId() != null ) {
+                checklistItemDto.setId(checkItem.getId());
             }
             checklistItemDto.setTitle(checkItem.getTopic());
             checklistItemDto.setFixedTitle(checkItem.getTopic());
@@ -587,14 +596,14 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
     }
 
     private void updateTripInfo() {
-        tripInfo.setId( trip_id );
-        tripInfo.setPort( portText.getText().toString().trim() );
-        tripInfo.setDes( desText.getText().toString().trim() );
-        tripInfo.setStartDate( startDateText.getText().toString().trim() );
-        tripInfo.setStartTime( startTimeText.getText().toString().trim() );
-        tripInfo.setEndDate( endDateText.getText().toString().trim() );
-        tripInfo.setEndTime( endTimeText.getText().toString().trim() );
-        tripInfo.setTrans( transText.getText().toString().trim() );
+        tripInfo.setId(trip_id);
+        tripInfo.setPort(portText.getText().toString().trim());
+        tripInfo.setDes(desText.getText().toString().trim());
+        tripInfo.setStartDate(startDateText.getText().toString().trim());
+        tripInfo.setStartTime(startTimeText.getText().toString().trim());
+        tripInfo.setEndDate(endDateText.getText().toString().trim());
+        tripInfo.setEndTime(endTimeText.getText().toString().trim());
+        tripInfo.setTrans(transText.getText().toString().trim());
     }
 
 
@@ -680,17 +689,6 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         transLayout.setError(null);
     }
 
-
-    private boolean checkInternetConnection() {
-        //if connected return true
-        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info == null || !info.isAvailable() || !info.isConnected()) {
-            return false;
-        }
-        return true;
-    }
-
     private TripInfo getTripInfo() {
         TripInfo trip = new TripInfo();
         trip.setPort(portText.getText().toString().trim());
@@ -732,10 +730,10 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         int moth = monthOfYear + 1;
         //set date
         if (DATE_PICKER_CALLER.equals("start")) {
-            startDateText.setText(year + "/" + moth + "/" + dayOfMonth);
+            startDateText.setText(year + "/" + String.format("%02d", moth) + "/" + String.format("%02d", dayOfMonth));
         }
         if (DATE_PICKER_CALLER.equals("end")) {
-            endDateText.setText(year + "/" + moth + "/" + dayOfMonth);
+            endDateText.setText(year + "/" + String.format("%02d", moth) + "/" + String.format("%02d", dayOfMonth));
         }
 
         //check date validation
@@ -780,8 +778,8 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         EditText searchInput = listViewDialog.findViewById(R.id.listWithSearchInput);
         listTitle.setText(title);
         String[] items = extractRegionName(regions);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.simple_expandable_list_item, items);
-        listView.setAdapter(adapter);
+        ArrayAdapter<String> array_adapter = new ArrayAdapter<>(this, R.layout.simple_expandable_list_item, items);
+        listView.setAdapter(array_adapter);
         //adding search functionality to ListView using inputSearch
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -791,7 +789,7 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                array_adapter.getFilter().filter(s);
             }
 
             @Override
@@ -914,6 +912,7 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
         list.execute();
     }
 
+
     @Override
     public void onBackPressed() {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(EditTripActivity.this);
@@ -935,10 +934,9 @@ public class EditTripActivity extends Activity implements DatePickerDialog.OnDat
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-
-        loadChecklist();
+        adapter.notifyDataSetChanged();
     }
 
 }
