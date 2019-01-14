@@ -26,7 +26,7 @@
             card_view:cardUseCompatPadding="true"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="0dp"
-            android:layout_marginBottom="@dimen/_60sdp"/>
+            android:layout_marginBottom="@dimen/_50sdp"/>
 
     </LinearLayout>
 
