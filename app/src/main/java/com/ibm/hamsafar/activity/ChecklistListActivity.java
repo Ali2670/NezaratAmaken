@@ -48,7 +48,7 @@ public class ChecklistListActivity extends Activity {
     private FloatingActionButton add = null;
     private LinearLayoutManager linearLayoutManager = null;
     private CheckItemAdapter adapter;
-    public static List<CheckItem> listData;
+    public static List<CheckItem> listData = null;
 
 
     @Override
@@ -68,6 +68,7 @@ public class ChecklistListActivity extends Activity {
         toolbarCancel = findViewById(R.id.toolbar_cancel);
         recyclerView = findViewById(R.id.cl_view_recycler_view);
         add = findViewById(R.id.cl_view_add_item);
+
 
         adapter = new CheckItemAdapter( this, listData );
 
