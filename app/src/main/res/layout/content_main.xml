@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/color_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main">
 
@@ -41,7 +42,7 @@
 
                     <LinearLayout
                         android:id="@+id/main_toll_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
@@ -62,6 +63,7 @@
                             android:text="@string/main_toll_text"
                             android:textSize="@dimen/main_menu_text_size"
                             android:textColor="@color/dark_text"
+                            android:gravity="center"
                             />
 
                     </LinearLayout>
@@ -70,7 +72,7 @@
 
                     <LinearLayout
                         android:id="@+id/main_no_exit_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
@@ -91,6 +93,7 @@
                             android:text="@string/main_no_exit_text"
                             android:textSize="@dimen/main_menu_text_size"
                             android:textColor="@color/dark_text"
+                            android:gravity="center"
                             />
 
                     </LinearLayout>
@@ -99,7 +102,7 @@
 
                     <LinearLayout
                         android:id="@+id/main_tourism_info_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
@@ -120,6 +123,7 @@
                             android:text="@string/main_tourism_info_text"
                             android:textSize="@dimen/main_menu_text_size"
                             android:textColor="@color/dark_text"
+                            android:gravity="center"
                             />
 
                     </LinearLayout>
@@ -138,7 +142,7 @@
 
                     <LinearLayout
                         android:id="@+id/main_police_10_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
@@ -159,6 +163,7 @@
                             android:text="@string/main_police_10_text"
                             android:textSize="@dimen/main_menu_text_size"
                             android:textColor="@color/dark_text"
+                            android:gravity="center"
                             />
 
                     </LinearLayout>
@@ -167,7 +172,7 @@
 
                     <LinearLayout
                         android:id="@+id/main_hotel_info_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
@@ -188,6 +193,7 @@
                             android:text="@string/main_hotel_info_text"
                             android:textSize="@dimen/main_menu_text_size"
                             android:textColor="@color/dark_text"
+                            android:gravity="center"
                             />
 
                     </LinearLayout>
@@ -196,7 +202,7 @@
 
                     <LinearLayout
                         android:id="@+id/main_museum_info_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
@@ -217,6 +223,7 @@
                             android:text="@string/main_museum_info"
                             android:textSize="@dimen/main_menu_text_size"
                             android:textColor="@color/dark_text"
+                            android:gravity="center"
                             />
 
                     </LinearLayout>
