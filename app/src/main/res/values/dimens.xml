@@ -79,12 +79,12 @@
     <dimen name="appbar_padding_top">8dp</dimen>
 
 
-    <dimen name="home_icon_size">@dimen/_50sdp</dimen>
+    <dimen name="home_icon_size">@dimen/_40sdp</dimen>
     <dimen name="home_icon_height">@dimen/_40sdp</dimen>
     <dimen name="card_corner_radius">@dimen/_3sdp</dimen>
     <dimen name="card_elevation">@dimen/_2sdp</dimen>
     <dimen name="card_margin">@dimen/_3sdp</dimen>
-    <dimen name="header_button">@dimen/_21sdp</dimen>
+    <dimen name="header_button">@dimen/_15sdp</dimen>
     <dimen name="dialog_header">@dimen/_23sdp</dimen>
 
 
@@ -108,6 +108,6 @@
     <dimen name="text_clr_btn_margin">@dimen/_10sdp</dimen>
     <dimen name="text_with_clr_margin">@dimen/_28sdp</dimen>
 
-    <dimen name="main_menu_text_size">15sp</dimen>
+    <dimen name="main_menu_text_size">10sp</dimen>
 
 </resources>

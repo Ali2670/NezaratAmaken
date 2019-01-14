@@ -110,6 +110,8 @@
     <string name="cl_time">ساعت</string>
     <string name="cl_alarm">تنظیم آلارم</string>
     <string name="cl_save">ثبت چک لیست</string>
+    <string name="cl_add">افزودن</string>
+    <string name="cl_edit">ویرایش</string>
     <string name="cl_cancel">انصراف</string>
     <string name="cl_edit_title">ویرایش</string>
 
@@ -136,7 +138,7 @@
     <string name="save">ثبت</string>
     <string name="cancel_button">انصراف</string>
 
-    <string name="exit_message">آیا مایل به ثبت تغییرات هستید ؟</string>
+    <string name="exit_message">تغییرات ثبت شوند ؟</string>
     <string name="exit_save_changes">ثبت تغییرات</string>
     <string name="exit_discard">حذف تغیبرات</string>
     <string name="exit_cancel">انصراف</string>
@@ -149,6 +151,8 @@
     <string name="trip_filter_clear">حذف فیلتر</string>
     <string name="trip_filter_topic_text">عنوان</string>
     <string name="trip_filter_success_clear">فیلترها حذف شدند</string>
+    <string name="trip_filter_from_date">از تاریخ</string>
+    <string name="trip_filter_to_date">تا تاریخ</string>
 
     <string name="main_toll_text">پرداخت عوارض خروج از کشور</string>
     <string name="main_no_exit_text">استعلام ممنوع الخروجی</string>
@@ -166,6 +170,37 @@
     <string name="museum_info_title">اطلاعات موزه ها</string>
 
     <string name="toolbar_search_hint">جستجو...</string>
+
+    <string name="place_card_name">نام :</string>
+    <string name="place_card_phone">شماره تماس :</string>
+    <string name="place_card_address">آدرس :</string>
+
+    <string name="place_info_city_title">انتخاب شهر</string>
+    <string name="place_info_country_title">انتخاب کشور</string>
+
+    <string name="internet_error">عدم اتصال به اینترنت</string>
+
+    <!-- LoginActivity Exc -->
+    <string name="login_mobile_empty_error">شماره همراه را وارد نمایید</string>
+    <string name="login_mobile_correct_error">شماره همراه را به صورت صحیح وارد نمایید</string>
+    <string name="login_empty_activation_code_error">کد فعالسازی را وارد نمایید</string>
+
+    <!-- EnrolActivity Exc -->
+    <string name="enrol_id_code_empty_error">کد ملی را وارد نمایید</string>
+    <string name="enrol_invalid_id_code_error">کد ملی نامعتبر است</string>
+    <string name="enrol_empty_name_error">نام خود وارد نمایید</string>
+    <string name="enrol_empty_last_name_error">نام خانوادگی خود را وارد نمایید</string>
+    <string name="enrol_empty_birth_error">تارخ تولد را وارد نمایید</string>
+    <string name="enrol_correct_info_error">اطلاعات را به صورت صحیح وارد کنید</string>
+    <string name="enrol_correct_birth_error">تاریخ تولد را به صورت صحیح وارد کنید</string>
+
+    <!-- TripActivity Exc -->
+    <string name="trip_empty_port_error">مبدا را وارد نمایید</string>
+    <string name="trip_empty_des_error">مقصد را وارد نمایید</string>
+    <string name="trip_empty_start_date_error">تاریخ شروع را وارد نمایید</string>
+    <string name="trip_empty_start_time_error">زمان شروع را وارد نمایید</string>
+    <string name="trip_empty_end_date_error">تاریخ پایان را وارد نمایید</string>
+    <string name="trip_empty_end_time_error">زمان پایان را وارد نمایید</string>
 
 
     <!--___________________________trip_filter_shared_preferences________________________________-->
@@ -220,6 +255,7 @@
     <string name="Exc.100">برنامه نیاز به روزرسانی دارد . لطفا از برنامه خارج شده و مجددا وارد شوید</string>
     <string name="Exc.1">ارتباط با موفقیت برقرار شد</string>
     <string name="Exc.2">نتیجه ای یافت نشد</string>
+    <string name="Exc.3">عدم اتصال به اینترنت</string>
     <string name="Exc.200050">خطا در ثبت تصاویر در سرور . مجددا تلاش کنید</string>
     <string name="Exc.100003">پاسخی از سرور دریافت نشد. مجددا تلاش کنید</string>
 
@@ -240,30 +276,6 @@
     <string name="Exc.300013">آدرس فیزیکی دستگاه در پایگاه داده ثبت نشده</string>
     <string name="Exc.111111">این نام کاربری با دستگاه دیگری وارد سامانه شده است.مجددا وارد شوید و کلمه عبور خود را تغییر دهید.</string>
     <string name="Exc.">نامشخص</string>
-
-    <string name="internet_error">عدم اتصال به اینترنت</string>
-
-    <!-- LoginActivity Exc -->
-    <string name="Exc.600001">شماره همراه را وارد نمایید</string>
-    <string name="Exc.600002">شماره همراه را به صورت صحیح وارد نمایید</string>
-    <string name="Exc.600003">کد نامعتبر</string>
-    <string name="Exc.600004">کد فعالسازی را وارد نمایید</string>
-
-    <!-- EnrolActivity Exc -->
-    <string name="Exc.700001">کد ملی را وارد نمایید</string>
-    <string name="Exc.700002">کد ملی نامعتبر است</string>
-    <string name="Exc.700003">نام خود وارد نمایید</string>
-    <string name="Exc.700004">نام خانوادگی خود را وارد نمایید</string>
-    <string name="Exc.700005">تارخ تولد را وارد نمایید</string>
-    <string name="Exc.700006">جهت ثبت اطلاعات، تأیید این مجوز الزامی است.</string>
-    <string name="Exc.700007">اطلاعات را به صورت صحیح وارد کنید</string>
-    <string name="Exc.700008">تاریخ تولد را به صورت صحیح وارد کنید</string>
-
-    <!-- TripActivity Exc -->
-    <string name="Exc.800001">مقصد را وارد نمایید</string>
-    <string name="Exc.800002">تاریخ پایان را وارد نمایید</string>
-    <string name="Exc.800003">زمان پایان را وارد نمایید</string>
-    <string name="Exc.800004">زمان شروع را وارد نمایید</string>
 
 
 </resources>
