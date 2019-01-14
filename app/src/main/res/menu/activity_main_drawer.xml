@@ -62,12 +62,12 @@
         <item
             android:id="@+id/main_nav_no_exit"
             android:icon="@drawable/map"
-            android:title="@string/nav_menu_item_map" />
+            android:title="@string/nav_menu_item_no_exit" />
 
         <item
             android:id="@+id/main_nav_toll"
             android:icon="@drawable/map"
-            android:title="@string/nav_menu_item_map" />
+            android:title="@string/nav_menu_item_toll" />
 
     </group>
 
