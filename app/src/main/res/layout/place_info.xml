@@ -12,7 +12,7 @@
     <include layout="@layout/default_search_toolbar"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/hotel_info_recycler"
+        android:id="@+id/place_info_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="@dimen/card_corner_radios"

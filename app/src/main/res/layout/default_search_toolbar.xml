@@ -4,15 +4,24 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
-    android:padding="@dimen/_20sdp"
+    android:background="@color/colorSecondPrimary"
+    android:padding="@dimen/_10sdp"
     >
 
 
     <EditText
         android:id="@+id/toolbar_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:background="@drawable/toolbar_search_bg"
+        android:drawableEnd="@drawable/ic_search_dark"
+        android:textColor="@color/dark_text"
+        android:hint="@string/toolbar_search_hint"
+        android:maxLines="1"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        android:padding="@dimen/_2sdp"
+        />
 
 
 </android.support.v7.widget.Toolbar>

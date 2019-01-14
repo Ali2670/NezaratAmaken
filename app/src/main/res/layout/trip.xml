@@ -211,7 +211,7 @@
                         android:textOff="@string/no"
                         android:textOn="@string/yes" />
 
-                    <com.ibm.hamsafar.utils.layouts.FontButton
+                    <Button
                         android:id="@+id/trip_save_btn"
                         android:layout_width="@dimen/_100sdp"
                         android:layout_height="wrap_content"
